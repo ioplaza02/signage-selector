@@ -46,7 +46,8 @@ function screenIcon(d, portrait) {
   const size = d.sizeInch || 50;
   let w = Math.round(size * 1.35), h = Math.round((w * 9) / 16);
   if (portrait) [w, h] = [h, w];
-  return `<div class="screen-icon ${d.dustproof ? "is-dust" : ""}" style="width:${w}px;height:${h}px">${size}型</div>`;
+  const tone = size >= 75 ? "s75" : size >= 65 ? "s65" : size >= 55 ? "s55" : size >= 50 ? "s50" : "s43";
+  return `<div class="screen-icon ${tone}" style="width:${w}px;height:${h}px">${size}型</div>`;
 }
 const statusBadge = (st) =>
   ({ eol: `<span class="badge badge-gray">生産終了</span>`, limited: `<span class="badge badge-warn">店頭在庫限り</span>`, paused: `<span class="badge badge-warn">一時受注停止</span>` }[st] || "");
@@ -170,7 +171,7 @@ function renderMain() {
           <div class="tags">
             <span class="tag ${tr.port ? "tag-teal" : "tag-no"}">${tr.port ? (tr.land ? "縦置きOK" : "縦置きのみ") : "横置きのみ"}</span>
             <span class="tag ${tr.noTilt ? "tag-no" : "tag-teal"}">${tr.noTilt ? "傾けて設置できない" : tr.tiltRange ? `上下${tr.tiltRange}°まで傾けOK` : "傾けて設置OK"}</span>
-            ${tr.noCeiling ? `<span class="tag tag-no">天吊り不可</span>` : ""}
+            ${tr.noCeiling ? `<span class="tag tag-no">天吊り不可</span>` : tr.tiltRange && !tr.noTilt ? `<span class="tag tag-teal">天吊り可※</span>` : ""}
             ${x.hours ? `<span class="tag tag-teal">${x.hours}時間連続稼働</span>` : ""}
             ${x.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
             ${x.mediaPlayer ? `<span class="tag tag-amber">プレーヤー内蔵</span>` : ""}
@@ -351,6 +352,7 @@ function renderMain() {
     </section>` : ""}
 
     <section class="footnotes">
+      <p>※「天吊り可」：仕様に天吊り不可の記載がなく、傾斜角度の範囲（例：上下20°）が示されている機種です。天吊りには、ディスプレイのVESA規格と質量に適合した市販の天吊り金具が必要です（このセレクターでご案内している金具は壁掛け・床置き用です）。傾斜角度の範囲内で、専門業者が安全に配慮して設置してください。</p>
       <p>※ Android STBは表示を回転できるため、縦に設置する場合も、横向きのコンテンツを倒して作る必要はなく、9:16の縦コンテンツをそのまま使えます。</p>
       <p>※ I-O DATA Device Management（IDM）で、離れた場所から機器の状態確認や再起動の指示ができます。<a href="${esc(S.links.idm)}" target="_blank" rel="noopener">詳しくはこちら</a></p>
     </section>`;
@@ -378,6 +380,7 @@ function renderWants() {
   const dispPicked = W.display.filter((c) => state.wants.has(c.id));
 
   $("#view-wants").innerHTML = `
+    <div class="back-bar"><button type="button" class="back-btn" data-nav="main">← セットで選ぶ（1台で設置）に戻る</button></div>
     <section class="panel">
       <h1 class="h-page">サイネージでやりたいことを選んでください（いくつでも）</h1>
       <div class="fgroup"><strong class="muted">再生のしかた</strong><div class="chips">${W.play.map(chip).join("")}</div></div>
@@ -474,6 +477,7 @@ function renderWall() {
   const small = S.wallSmall.map((s) => `<div class="wall-chip small-chip ${total > s.max ? "is-dim" : ""}"><span class="screen-icon" style="width:44px;height:25px"></span><div><strong class="sku">${esc(s.sku)}</strong><div class="tags"><span class="tag tag-gray">${esc(s.size)}</span><span class="tag tag-teal">最大${s.max}画面</span></div>${prodLink(s.url)}</div></div>`).join("");
 
   $("#view-wall").innerHTML = `
+    <div class="back-bar"><button type="button" class="back-btn" data-nav="main">← セットで選ぶ（1台で設置）に戻る</button></div>
     <section class="panel">
       <h1 class="h-page">複数の画面をつなげて、大きく見せる</h1>
       <p>再生機から入ってきた1つの映像を、複数のディスプレイに分けて映します。最大25画面（5×5）まで組めます。</p>
@@ -571,6 +575,11 @@ function fallbackCopy(text, done) {
 function go(view) {
   state.view = view;
   for (const v of ["main", "wants", "wall"]) $(`#view-${v}`).hidden = v !== view;
+  document.querySelectorAll(".nav-tab").forEach((a) => {
+    const on = a.dataset.nav === view;
+    a.classList.toggle("is-active", on);
+    if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
   if (view === "main") renderMain();
   if (view === "wants") renderWants();
   if (view === "wall") renderWall();

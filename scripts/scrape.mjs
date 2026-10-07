@@ -231,9 +231,10 @@ export function parseProductPage(html, sku) {
   // 言葉が出てくるだけでは対応とみなさない
   const wallNo = /ディスプレイウォール[^。]{0,20}(対応しておりません|対応していません|非対応)/.test(flat);
   const wallSpec = flat.match(/ディスプレイウォール[^。]{0,20}最大\s*(\d)\s*[×xX]\s*(\d)/);
-  const wallScreens = flat.match(/最大\s*(\d+)\s*画面/);
-  out.displayWall = !wallNo && (!!wallSpec || (!!wallScreens && /ディスプレイウォール/.test(flat)));
-  out.wallMax = out.displayWall ? (wallSpec ? Number(wallSpec[1]) * Number(wallSpec[2]) : wallScreens ? Number(wallScreens[1]) : null) : null;
+  // 「最大◯画面」は別の機能（2画面表示など）の説明にも出てくるので、ディスプレイウォールの近くにあるものだけを使う
+  const ws = flat.match(/ディスプレイウォール[^。]{0,60}?最大\s*(\d+)\s*画面/) || flat.match(/最大\s*(\d+)\s*画面[^。]{0,40}ディスプレイウォール/);
+  out.displayWall = !wallNo && (!!wallSpec || !!ws);
+  out.wallMax = out.displayWall ? (wallSpec ? Number(wallSpec[1]) * Number(wallSpec[2]) : ws ? Number(ws[1]) : null) : null;
   // 設置の制約：「縦置き／上下逆さ設置／傾斜設置／天吊り設置は不可」のように並べて書かれる
   const ngClause = (word) => new RegExp(`${word}[^。※]{0,40}不可`).test(flat);
   out.tiltNG = ngClause("傾斜設置");
