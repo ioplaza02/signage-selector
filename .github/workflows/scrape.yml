@@ -1,0 +1,59 @@
+name: データ自動更新
+
+on:
+  schedule:
+    - cron: "0 18 * * *"   # 毎日 深夜3:00（日本時間）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 前回のデータを退避
+        run: cp data/displays.json /tmp/prev.json || echo '{}' > /tmp/prev.json
+
+      - name: データ取得
+        run: node scripts/scrape.mjs
+
+      - name: 健全性チェック
+        id: check
+        continue-on-error: true
+        run: node scripts/health-check.mjs /tmp/prev.json data/displays.json | tee /tmp/check.txt
+
+      - name: 問題なし → そのまま本番に反映
+        if: steps.check.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/displays.json
+          git diff --cached --quiet && echo "変更なし" && exit 0
+          git commit -m "データ自動更新 $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: 問題あり → PRとIssueで知らせて止める
+        if: steps.check.outcome != 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BR="auto/data-$(date -u +%Y%m%d%H%M)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BR"
+          git add data/displays.json
+          git commit -m "データ自動更新（要確認）" || true
+          git push origin "$BR"
+          BODY="$(cat /tmp/check.txt)"
+          gh pr create --title "【要確認】サイネージセレクターのデータ更新" --body "$BODY" --head "$BR" --base main || true
+          gh issue create --title "【要確認】サイネージセレクターのデータ取得で異常を検出" --body "$BODY" || true
+          exit 1
