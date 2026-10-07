@@ -147,7 +147,8 @@ function filteredDisplays() {
       const b = s >= 65 ? "65" : s >= 50 ? "50" : "40";
       if (!f.size.has(b)) return false;
     }
-    if (f.hours.size && !f.hours.has(String(d.hours))) return false;
+    // 稼働時間は「必要な時間以上に対応しているか」で絞る（24時間対応機は18時間以内の運用にも使える）
+    if (f.hours.size) { const need = Math.min(...[...f.hours].map(Number)); if (!(d.hours >= need)) return false; }
     if (f.dust && !d.dustproof) return false;
     if (f.player && !d.mediaPlayer) return false;
     if (f.wall && !d.displayWall) return false;
@@ -301,7 +302,7 @@ function renderMain() {
         <div class="fgroup"><strong>画面サイズ</strong>
           ${chk("size", "40", "40〜49型", f.size.has("40"))}${chk("size", "50", "50〜55型", f.size.has("50"))}${chk("size", "65", "65型以上", f.size.has("65"))}</div>
         <div class="fgroup"><strong>連続稼働時間</strong>
-          ${chk("hours", "18", "18時間まで", f.hours.has("18"))}${chk("hours", "24", "24時間（つけっぱなし）", f.hours.has("24"))}</div>
+          ${chk("hours", "18", "1日18時間以内で使う", f.hours.has("18"))}${chk("hours", "24", "24時間つけっぱなしで使う", f.hours.has("24"))}<small class="muted">24時間対応の機種は、18時間以内の運用でも表示します。</small></div>
         ${state.mount === "wall" ? `<div class="fgroup"><strong>設置向き</strong>${chk("portrait", "1", "縦に設置したい", f.portrait)}</div>` : ""}
         <div class="fgroup"><strong>設置環境</strong>
           ${chk("dust", "1", "防塵（IP5X）・強化ガラス", f.dust)}${chk("outdoor", "1", "屋外で使いたい", f.outdoor)}
