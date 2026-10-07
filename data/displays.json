@@ -1,270 +1,1214 @@
 {
-  "updatedAt": "2026-10-07T01:49:07.361Z",
-  "sample": true,
+  "updatedAt": "2026-10-07T02:31:16.229Z",
+  "source": "https://www.iodata.jp/pio/io/lcd/stand.htm",
   "displays": [
     {
+      "sku": "LCD-U751D-P",
       "aliases": [],
       "url": "https://www.iodata.jp/product/lcd/4k/lcd-u751d-p/",
-      "widthMm": null,
-      "heightMm": null,
-      "weightKg": null,
-      "dustproof": true,
-      "mediaPlayer": true,
-      "displayWall": true,
-      "wallMax": 25,
-      "tiltNG": true,
-      "status": "current",
-      "sku": "LCD-U751D-P",
+      "section": "液晶ディスプレイ（65型以上）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "下背面部",
       "sizeInch": 75,
+      "weightKg": 50.1,
       "hours": 24,
-      "mounts": {
-        "DA-WM2": {
-          "sym": "x",
-          "screw": null,
-          "notes": []
-        },
-        "DA-WML2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-ES1": {
-          "sym": "x",
-          "screw": null,
-          "notes": []
-        }
-      }
-    },
-    {
-      "aliases": [],
-      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u651d/",
-      "widthMm": null,
-      "heightMm": null,
-      "weightKg": null,
-      "dustproof": false,
-      "mediaPlayer": true,
-      "displayWall": true,
-      "wallMax": 25,
-      "tiltNG": false,
-      "status": "current",
-      "sku": "LCD-U651D",
-      "sizeInch": 65,
-      "hours": 18,
-      "mounts": {
-        "DA-WM2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-WML2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-ES1": {
-          "sym": "x",
-          "screw": null,
-          "notes": []
-        }
-      }
-    },
-    {
-      "aliases": [],
-      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u551d/",
-      "widthMm": 1240,
-      "heightMm": 710,
-      "weightKg": 15,
-      "dustproof": false,
-      "mediaPlayer": true,
-      "displayWall": true,
-      "wallMax": 25,
-      "tiltNG": false,
-      "status": "paused",
-      "sku": "LCD-U551D",
-      "sizeInch": 55,
-      "hours": 18,
-      "mounts": {
-        "DA-WM2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-WML2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-ES1": {
-          "sym": "o",
-          "screw": "M6×15",
-          "notes": []
-        }
-      }
-    },
-    {
-      "aliases": [],
-      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u551d-p/",
-      "widthMm": 1250,
-      "heightMm": 730,
-      "weightKg": 22.2,
       "dustproof": true,
+      "temperedGlass": true,
       "mediaPlayer": true,
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": true,
-      "status": "paused",
-      "sku": "LCD-U551D-P",
-      "sizeInch": 55,
-      "hours": 24,
-      "mounts": {
-        "DA-WM2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-WML2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-ES1": {
-          "sym": "x",
-          "screw": null,
-          "notes": []
-        }
-      }
+      "vesa": null,
+      "status": "current"
     },
     {
+      "sku": "LCD-U751DX",
       "aliases": [],
-      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u501v/",
-      "widthMm": null,
-      "heightMm": null,
-      "weightKg": null,
-      "dustproof": false,
-      "mediaPlayer": false,
-      "displayWall": false,
-      "wallMax": null,
-      "tiltNG": false,
-      "status": "current",
-      "sku": "LCD-U501V",
-      "sizeInch": 50,
-      "hours": 18,
-      "mounts": {
-        "DA-WM2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-WML2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-ES1": {
-          "sym": "o",
-          "screw": "M6×15",
-          "notes": []
-        }
-      }
-    },
-    {
-      "aliases": [],
-      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u501vx/",
-      "widthMm": null,
-      "heightMm": null,
-      "weightKg": null,
-      "dustproof": false,
-      "mediaPlayer": false,
-      "displayWall": false,
-      "wallMax": null,
-      "tiltNG": false,
-      "status": "current",
-      "sku": "LCD-U501VX",
-      "sizeInch": 50,
-      "hours": 18,
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u751dx/",
+      "section": "液晶ディスプレイ（65型以上）",
       "mounts": {
         "DA-WM2": {
           "sym": "h",
-          "screw": "M6×25",
-          "notes": []
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
         },
         "DA-WML2": {
-          "sym": "x",
-          "screw": null,
-          "notes": []
+          "sym": "h",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
         },
         "DA-ES1": {
-          "sym": "x",
+          "sym": null,
           "screw": null,
           "notes": []
         }
-      }
-    },
-    {
-      "aliases": [],
-      "url": "https://www.iodata.jp/product/lcd/4k/lcd-hu431db/",
-      "widthMm": null,
-      "heightMm": null,
-      "weightKg": null,
-      "dustproof": false,
-      "mediaPlayer": false,
-      "displayWall": false,
-      "wallMax": null,
-      "tiltNG": false,
-      "status": "current",
-      "sku": "LCD-HU431DB",
-      "sizeInch": 43,
-      "hours": 24,
-      "mounts": {
-        "DA-WM2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-WML2": {
-          "sym": "o",
-          "screw": "M6×25",
-          "notes": []
-        },
-        "DA-ES1": {
-          "sym": "o",
-          "screw": "M6×15",
-          "notes": []
-        }
-      }
-    },
-    {
-      "aliases": [],
-      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u431d/",
-      "widthMm": null,
-      "heightMm": null,
-      "weightKg": null,
-      "dustproof": false,
-      "mediaPlayer": false,
-      "displayWall": false,
-      "wallMax": null,
-      "tiltNG": false,
-      "status": "current",
-      "sku": "LCD-U431D",
-      "sizeInch": 43,
+      },
+      "portraitPowerButton": "&times;",
+      "sizeInch": 75,
+      "weightKg": 21.8,
       "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": null,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-M4K751XDB",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k751xdb/",
+      "section": "液晶ディスプレイ（65型以上）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "h",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "h",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "&times;",
+      "sizeInch": 75,
+      "weightKg": 40,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": true,
+      "wallMax": 2,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-U651D-P",
+      "aliases": [
+        "EX-U651D-P"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u651d-p/",
+      "section": "液晶ディスプレイ（65型以上）",
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6×25",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 65,
+      "weightKg": 31,
+      "hours": 24,
+      "dustproof": true,
+      "temperedGlass": true,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": true,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-U651D",
+      "aliases": [
+        "EX-U651D"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u651d/",
+      "section": "液晶ディスプレイ（65型以上）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 65,
+      "weightKg": 21.9,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-U651DX",
+      "aliases": [
+        "EX-U651DX",
+        "DI-U651DX"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u651dx/",
+      "section": "液晶ディスプレイ（65型以上）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "h",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "h",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "&times;",
+      "sizeInch": 65,
+      "weightKg": 16.7,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": null,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-M4K652XDB",
+      "aliases": [
+        "EX-LD4K652DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k652xdb/",
+      "section": "液晶ディスプレイ（65型以上）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M8&times;20",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M8&times;20",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "左背面",
+      "sizeInch": 65,
+      "weightKg": 30,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": true,
+      "wallMax": 2,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K651XDB",
+      "aliases": [
+        "EX-LD4K651DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k651xdb/",
+      "section": "液晶ディスプレイ（65型以上）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "左側面",
+      "sizeInch": 65,
+      "weightKg": 23,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-U551D-P",
+      "aliases": [
+        "EX-U551D-P"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u551d-p/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 55,
+      "weightKg": 22.2,
+      "hours": 24,
+      "dustproof": true,
+      "temperedGlass": true,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": true,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-U551D",
+      "aliases": [
+        "EX-U551D"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u551d/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 55,
+      "weightKg": 15,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-U551DX",
+      "aliases": [
+        "EX-U551DX",
+        "DI-U551DX"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u551dx/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "h",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "スタンドに添付のスペーサーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "h",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "&times;",
+      "sizeInch": 55,
+      "weightKg": 10.5,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": null,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-M4K552XDB2",
+      "aliases": [
+        "EX-M4K552XDB2"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k552xdb2/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "左側面",
+      "sizeInch": 55,
+      "weightKg": 14.2,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": true,
+      "wallMax": 2,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-SU551EPB",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-su551epb/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。",
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 55,
+      "weightKg": 15.3,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K551EQB",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k551eqb/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "h",
+          "screw": "M6&times;25",
+          "notes": [
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "上面",
+      "sizeInch": 55,
+      "weightKg": 17.2,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K552XDB",
+      "aliases": [
+        "EX-LD4K552DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k552xdb/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "左側面",
+      "sizeInch": 55,
+      "weightKg": 14.2,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K551XDB2",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/wide/lcd-m4k551xdb2/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "左側面",
+      "sizeInch": 55,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol",
+      "weightKg": 14.2
+    },
+    {
+      "sku": "LCD-M4K551XDB",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/wide/lcd-m4k551xdb/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "左側面",
+      "sizeInch": 55,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol",
+      "weightKg": 14.2
+    },
+    {
+      "sku": "LCD-U501V",
+      "aliases": [
+        "EX-U501V"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u501v/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;25",
+          "notes": [
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 50,
+      "weightKg": 13,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-U501VX",
+      "aliases": [
+        "EX-U501VX",
+        "DI-U501VX"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u501vx/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "h",
+          "screw": "M6&times;25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "&times;",
+      "sizeInch": 50,
+      "weightKg": 11.1,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": null,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-M4K493XDB",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k493xdb/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "右側面",
+      "sizeInch": 49,
+      "weightKg": 11.8,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K492XDB",
+      "aliases": [
+        "EX-LD4K492DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k492xdb/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "右側面",
+      "sizeInch": 49,
+      "weightKg": 11.7,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K491XDB",
+      "aliases": [
+        "EX-LD4K491DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k491xdb/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": [
+            "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
+          ]
+        }
+      },
+      "portraitPowerButton": "右側面",
+      "sizeInch": 49,
+      "weightKg": 11.9,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-U431D",
+      "aliases": [
+        "EX-U431D"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u431d/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
           "notes": []
         },
         "DA-WML2": {
-          "sym": "x",
+          "sym": null,
           "screw": null,
           "notes": []
         },
         "DA-ES1": {
           "sym": "v",
-          "screw": "M6×15",
+          "screw": "M6&times;15",
           "notes": []
         }
-      }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 43,
+      "weightKg": 9.2,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-U431DX",
+      "aliases": [
+        "EX-U431DX",
+        "DI-U431DX"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u431dx/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "h",
+          "screw": "M6&times;15",
+          "notes": [
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": null,
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "&times;",
+      "sizeInch": 43,
+      "weightKg": 7.2,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": null,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-HU431DB",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-hu431db/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 43,
+      "weightKg": 11,
+      "hours": 24,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "current"
+    },
+    {
+      "sku": "LCD-AHU431XDB",
+      "aliases": [
+        "EX-LDHU431DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-ahu431xdb/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 43,
+      "weightKg": 11,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K432XDB",
+      "aliases": [
+        "EX-LD4K432DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k432xdb/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "右側面",
+      "sizeInch": 43,
+      "weightKg": 8.7,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": "200x200",
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K431XDB",
+      "aliases": [
+        "EX-LD4K431DB"
+      ],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-m4k431xdb/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "右側面",
+      "sizeInch": 43,
+      "weightKg": 8.8,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol"
+    },
+    {
+      "sku": "LCD-M4K401XVB",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/wide/lcd-m4k401xvb/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6&times;15",
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "左側面",
+      "sizeInch": 40,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "tiltNG": false,
+      "vesa": null,
+      "status": "eol",
+      "weightKg": 12.1
     }
   ]
 }
