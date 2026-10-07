@@ -91,9 +91,15 @@ function evalMount(d, sku, portrait) {
   // 正面から見た横幅：縦置きならディスプレイの高さが横幅になる
   const fs = faceSize(d);
   const faceW = fs ? (want === "portrait" ? fs.h : fs.w) : null;
-  // 金具本体はディスプレイの中央、収納ユニットはその片側に付く想定で、片側のはみ出し量を出す
-  const overMm = !floor && faceW != null ? Math.round(m.bodyWidthMm / 2 + m.unitWidthMm - faceW / 2) : 0;
+  // 金具本体は画面のほぼ中央、収納ユニットはその片側に付く想定で、片側のはみ出し量を出す。
+  // ただし金具の中心と画面の中心はもともと少しずれる（対応表※2）ため、
+  // 1cm以内の差は誤差としてはみ出さない扱いにする
+  const totalW = m.totalWidthMm ?? (m.bodyWidthMm + m.unitWidthMm);
+  const centerOver = !floor && faceW != null ? Math.round(m.bodyWidthMm / 2 + m.unitWidthMm - faceW / 2) : 0;
+  const TOLERANCE_MM = 10;
+  const overMm = floor || centerOver <= TOLERANCE_MM ? 0 : centerOver;
   const over = !floor && ok && overMm > 0;
+  const margin = !floor && faceW != null && !over ? Math.round(faceW - totalW) : null;
   const estimated = !!fs?.est;
   const inRange = d.sizeInch != null && d.sizeInch >= m.guideMin && d.sizeInch <= m.guideMax;
   const notes = [];
@@ -109,7 +115,7 @@ function evalMount(d, sku, portrait) {
   const angle = floor ? "傾き：画面が約18°後ろに傾いた状態で固定"
     : m.tilt ? (noTilt ? "傾き：壁と平行のみ（このディスプレイは傾けて設置できません）" : `傾き：下向きに${m.tilt}`)
     : "傾き：壁と平行（この金具に角度調整はありません）";
-  return { m, t, ok: ok && !heavy, over, overMm, estimated, inRange, notes, angle, okLand, okPort, floor };
+  return { m, t, ok: ok && !heavy, over, overMm, estimated, inRange, notes, angle, okLand, okPort, floor, totalW, faceW, margin };
 }
 
 function mountCandidates() { return S.mounts.filter((m) => m.type === state.mount); }
@@ -219,7 +225,8 @@ function renderMain() {
               <span>耐荷重：${m.loadKg}kg${e.t.screw ? `　ネジ：${esc(fixText(e.t.screw))}` : ""}</span>
             </div>
           </div>
-          ${e.over ? `<div class="alert alert-bad">設置はできますが、STB収納ユニットを取り付けたままだと片側に約${Math.max(1, Math.round(e.overMm / 10))}cmはみ出します${e.estimated ? "（画面サイズからの目安）" : ""}</div>` : ""}
+          ${e.over ? `<div class="alert alert-bad">設置はできますが、金具全体の横幅（約${Math.round(e.totalW / 10)}cm）が画面の${portraitView ? "設置幅" : "幅"}（約${Math.round(e.faceW / 10)}cm）より広いため、STB収納ユニットを取り付けたままだとはみ出します（片側に約${Math.max(1, Math.round(e.overMm / 10))}cm${e.estimated ? "・画面サイズからの目安" : ""}）</div>`
+            : e.ok && e.margin != null && e.margin >= 0 ? `<div class="alert alert-good">金具全体の横幅（約${Math.round(e.totalW / 10)}cm）は画面の${portraitView ? "設置幅" : "幅"}（約${Math.round(e.faceW / 10)}cm）に収まります${e.estimated ? "（画面サイズからの目安）" : ""}</div>` : ""}
           <div class="pills">
             ${e.floor ? "" : `<span class="pill ${e.okLand ? "is-yes" : "is-no"}"><i class="o-land"></i>横 ${e.okLand ? "✓" : "✗"}</span>`}
             <span class="pill ${e.okPort ? "is-yes" : "is-no"}"><i class="o-port"></i>縦 ${e.okPort ? "✓" : "✗"}</span>
@@ -465,15 +472,20 @@ function renderWall() {
     const over = d.wallMax && total > d.wallMax;
     const fs = faceSize(d);
     const size = fs ? `約${(fs.w * cols / 1000).toFixed(1)}m × ${(fs.h * rows / 1000).toFixed(1)}m${fs.est ? "（目安）" : ""}` : "—";
-    return `<div class="wall-chip ${over ? "is-dim" : ""}">
-      <strong class="sku">${esc(d.sku)}</strong>
-      <div class="tags">
-        <span class="tag tag-teal">最大${d.wallMax || "—"}画面</span>
-        ${d.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
-        ${statusBadge(d.status)}
+    return `<div class="wall-chip wc ${over ? "is-dim" : ""}">
+      <div class="wc-main">
+        <strong class="sku">${esc(d.sku)}</strong>
+        <div class="tags">
+          <span class="tag tag-teal">最大${d.wallMax || "—"}画面</span>
+          ${d.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
+          ${statusBadge(d.status)}
+        </div>
       </div>
-      <small class="muted">全体サイズ：${size}</small>
-      ${prodLink(d.url)}
+      <div class="wc-side">
+        <small class="muted">全体サイズ</small>
+        <span class="wc-size">${size}</span>
+        ${prodLink(d.url)}
+      </div>
     </div>`;
   };
   const list = wd.length ? `

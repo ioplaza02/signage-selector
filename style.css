@@ -243,3 +243,14 @@ section[id] { scroll-margin-top: 70px; }
 .price-line strong { font-size: 15px; color: var(--ink); }
 .price-line small { color: var(--muted); }
 .jan { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+/* ディスプレイウォール対応表：カード内を左右2列にして高さを詰める */
+.wall-table .wt-size { padding: 4px; }
+.wall-table .wt-cell { padding: 6px; }
+.wall-chip.wc { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; padding: 8px 12px; }
+.wc-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.wc-side { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right; }
+.wc-side .muted { font-size: 11px; }
+.wc-size { font-size: 15px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+@media (max-width: 640px) { .wc-side { align-items: flex-start; text-align: left; } }
+.alert-good { background: #E3F1EE; color: var(--teal, #0F5E57); }
