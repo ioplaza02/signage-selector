@@ -206,15 +206,19 @@ export function parseProductPage(html, sku) {
 
   // 外形寸法（スタンドなし）：「約124×6×71cm」。ページ全体から「スタンドなし」の寸法を探し、
   // 無ければ「外形寸法」の後ろにある最初の寸法を使う
-  const DIM = String.raw`約?\s*([\d.]+)\s*[×xX]\s*([\d.]+)\s*[×xX]\s*([\d.]+)\s*(cm|mm)`;
+  // 表記ゆれ対応：「約973×64×561（mm）」「W973×D64×H561mm」「約1,234×…」など
+  const N = String.raw`[WDHＷＤＨ]?\s*([\d.,]+)`;
+  const X = String.raw`\s*[×xXｘ✕]\s*`;
+  const DIM = String.raw`約?\s*${N}${X}${N}${X}${N}\s*[（(]?\s*(cm|mm|ｃｍ|ｍｍ)`;
   const di = flat.lastIndexOf("外形寸法");
   const dimM = flat.match(new RegExp(String.raw`スタンドなし[）)]?\s*` + DIM))
-            || (di >= 0 ? flat.slice(di, di + 200).match(new RegExp(DIM)) : null);
+            || (di >= 0 ? flat.slice(di, di + 300).match(new RegExp(DIM)) : null);
   if (dimM) {
-    const k = dimM[4] === "cm" ? 10 : 1;
-    out.widthMm = Math.round(Number(dimM[1]) * k);
-    out.depthMm = Math.round(Number(dimM[2]) * k);
-    out.heightMm = Math.round(Number(dimM[3]) * k);
+    const k = /c|ｃ/.test(dimM[4]) ? 10 : 1;
+    const num = (s) => Number(s.replace(/,/g, ""));
+    out.widthMm = Math.round(num(dimM[1]) * k);
+    out.depthMm = Math.round(num(dimM[2]) * k);
+    out.heightMm = Math.round(num(dimM[3]) * k);
   }
   // 質量（スタンドなし）
   const qi = flat.search(/質量\s/);
@@ -251,7 +255,41 @@ export function parseProductPage(html, sku) {
   out.status = /生産終了|icon_close/.test(rowHtml) ? "eol"
              : /店頭在庫限り|icon_limit/.test(rowHtml) ? "limited"
              : /一時受注停止/.test(rowHtml) ? "paused" : "current";
+  Object.assign(out, parsePriceRow(rowHtml === priceTable ? "" : rowHtml));
   return out;
+}
+
+// 型番の行から JANコード と価格を読む。価格は「￥18,150（税抜￥16,500）」または「オープン価格」
+export function parsePriceRow(rowHtml) {
+  if (!rowHtml) return { jan: null, price: null, priceExTax: null, openPrice: false };
+  const t = oneLine(rowHtml);
+  const jan = (t.match(/\b(49\d{11}|45\d{11})\b/) || t.match(/\b(\d{13})\b/) || [])[1] || null;
+  const num = (s) => (s ? Number(s.replace(/,/g, "")) : null);
+  const inc = t.match(/[￥¥]\s*([\d,]+)/);
+  const ex = t.match(/税抜\s*[￥¥]?\s*([\d,]+)/);
+  return { jan, price: num(inc?.[1]), priceExTax: num(ex?.[1]), openPrice: /オープン価格/.test(t) };
+}
+
+// 金具・再生機・アプリなど（data/static.json に載っているもの）の JAN と価格を集める
+async function scrapeAccessories() {
+  const st = JSON.parse(await readFile(new URL("../data/static.json", import.meta.url), "utf8"));
+  const items = [
+    ...st.mounts.map((m) => ({ sku: m.sku, url: m.url })),
+    ...st.players.flatMap((p) => (p.devices || []).map((d) => ({ sku: d.sku, url: d.url }))),
+    ...st.players.filter((p) => p.app?.sku).map((p) => ({ sku: p.app.sku, url: p.app.url })),
+  ];
+  const acc = {};
+  for (const it of items) {
+    try {
+      const html = await fetchText(it.url);
+      const p = parseProductPage(html, it.sku);
+      acc[it.sku] = { jan: p.jan, price: p.price, priceExTax: p.priceExTax, openPrice: p.openPrice, status: p.status };
+      console.log(`  ${it.sku}  JAN:${p.jan ?? "?"}  ${p.openPrice ? "オープン価格" : p.price ? "￥" + p.price.toLocaleString() : "?"}  ${p.status}`);
+    } catch (e) {
+      console.warn("  取得失敗:", it.sku, e.message);
+    }
+  }
+  return acc;
 }
 
 // ---------- メイン ----------
@@ -283,9 +321,12 @@ async function main() {
     console.log(`  ${d.sku}  ${d.sizeInch ?? "?"}型 幅${d.widthMm ?? "?"}mm ${d.weightKg ?? "?"}kg ${d.hours ?? "?"}h  WM2:${d.mounts["DA-WM2"].sym} WML2:${d.mounts["DA-WML2"].sym} ES1:${d.mounts["DA-ES1"].sym}  ${d.status ?? ""}`);
   }
 
+  console.log("\n金具・再生機・アプリの JAN と価格を取得");
+  const accessories = await scrapeAccessories();
+
   let prev = null;
   try { prev = JSON.parse(await readFile(OUT, "utf8")); } catch {}
-  const data = { updatedAt: started.toISOString(), source: STAND_URL, displays };
+  const data = { updatedAt: started.toISOString(), source: STAND_URL, displays, accessories };
   await writeFile(OUT, JSON.stringify(data, null, 2) + "\n");
   console.log(`\n保存しました: data/displays.json（${displays.length}機種、前回 ${prev?.displays?.length ?? "-"}機種）`);
   if (missing.length) {

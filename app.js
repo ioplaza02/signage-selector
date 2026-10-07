@@ -49,6 +49,15 @@ function screenIcon(d, portrait) {
   const tone = size >= 75 ? "s75" : size >= 65 ? "s65" : size >= 55 ? "s55" : size >= 50 ? "s50" : "s43";
   return `<div class="screen-icon ${tone}" style="width:${w}px;height:${h}px">${size}型</div>`;
 }
+// 価格とJANコード（NASセレクターと同じく税込を主に、税抜を小さく）
+const accOf = (sku) => (META.accessories || {})[sku] || null;
+function priceLine(o) {
+  if (!o) return "";
+  const price = o.openPrice ? `<strong>オープン価格</strong>`
+    : o.price ? `<strong>￥${o.price.toLocaleString()}</strong>${o.priceExTax ? `<small>（税抜￥${o.priceExTax.toLocaleString()}）</small>` : ""}` : "";
+  const jan = o.jan ? `<span class="jan">JAN ${esc(o.jan)}</span>` : "";
+  return price || jan ? `<div class="price-line">${price}${jan}</div>` : "";
+}
 const statusBadge = (st) =>
   ({ eol: `<span class="badge badge-gray">生産終了</span>`, limited: `<span class="badge badge-warn">店頭在庫限り</span>`, paused: `<span class="badge badge-warn">一時受注停止</span>` }[st] || "");
 
@@ -166,8 +175,9 @@ function renderMain() {
         <button type="button" class="card-hit" data-disp="${esc(x.sku)}" aria-pressed="${x.sku === state.sel}">
           <div class="disp-head">
             <div class="icon-slot">${screenIcon(x, portraitView)}</div>
-            <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">幅 ${fmtCm(x.widthMm)} ・ ${fmtKg(x.weightKg)}</small></div>
+            <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">${portraitView ? `設置幅 ${fmtCm(x.heightMm)}（縦置き）` : `幅 ${fmtCm(x.widthMm)}`} ・ ${fmtKg(x.weightKg)}</small></div>
           </div>
+          ${priceLine(x)}
           <div class="tags">
             <span class="tag ${tr.port ? "tag-teal" : "tag-no"}">${tr.port ? (tr.land ? "縦置きOK" : "縦置きのみ") : "横置きのみ"}</span>
             <span class="tag ${tr.noTilt ? "tag-no" : "tag-teal"}">${tr.noTilt ? "傾けて設置できない" : tr.tiltRange ? `上下${tr.tiltRange}°まで傾けOK` : "傾けて設置OK"}</span>
@@ -205,6 +215,7 @@ function renderMain() {
             <div class="mount-spec">
               <span>目安：${esc(m.guideSize)}</span>
               <span>横幅：${m.totalWidthMm}mm${m.unitWidthMm ? `（金具本体${m.bodyWidthMm}mm＋STB収納ユニット${m.unitWidthMm}mm）` : ""}</span>
+              ${priceLine(accOf(m.sku))}
               <span>耐荷重：${m.loadKg}kg${e.t.screw ? `　ネジ：${esc(fixText(e.t.screw))}` : ""}</span>
             </div>
           </div>
@@ -239,6 +250,7 @@ function renderMain() {
         <button type="button" class="card-hit" data-device="${esc(x.sku)}" aria-pressed="${x.sku === state.device[P.id]}">
           <div class="disp-head"><div class="icon-slot small">${ICON[x.icon]}</div>
           <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">${esc(x.desc)}</small></div></div>
+          ${priceLine(accOf(x.sku))}
           ${statusBadge(x.status)}
         </button>
         ${prodLink(x.url)}
@@ -252,14 +264,14 @@ function renderMain() {
 
   // 選んだセット（次のアクションにつなげる）
   const setItems = d ? [
-    { role: "映す", icon: screenIcon(d, portraitView), name: d.sku, sub: `${d.sizeInch ?? "?"}型ディスプレイ`, url: d.url },
-    chosenMount ? { role: "取り付ける", icon: `<img src="${esc(chosenMount.m.image)}" alt="" class="set-photo">`, name: chosenMount.m.sku, sub: chosenMount.m.type === "wall" ? "壁掛け金具" : "イーゼルスタンド", url: chosenMount.m.url } : null,
-    dev ? { role: "再生させる", icon: ICON[dev.icon], name: dev.sku, sub: "再生機", url: dev.url } : { role: "再生させる", icon: ICON.builtin, name: "内蔵メディアプレーヤー", sub: "ディスプレイに搭載", url: d.url },
-    P.app ? { role: "再生アプリ", icon: ICON.app, name: P.app.name, sub: "必ず必要です", url: P.app.url } : null,
+    { role: "映す", icon: screenIcon(d, portraitView), name: d.sku, sub: `${d.sizeInch ?? "?"}型ディスプレイ`, url: d.url, p: d },
+    chosenMount ? { role: "取り付ける", icon: `<img src="${esc(chosenMount.m.image)}" alt="" class="set-photo">`, name: chosenMount.m.sku, sub: chosenMount.m.type === "wall" ? "壁掛け金具" : "イーゼルスタンド", url: chosenMount.m.url, p: accOf(chosenMount.m.sku) } : null,
+    dev ? { role: "再生させる", icon: ICON[dev.icon], name: dev.sku, sub: "再生機", url: dev.url, p: accOf(dev.sku) } : { role: "再生させる", icon: ICON.builtin, name: "内蔵メディアプレーヤー", sub: "ディスプレイに搭載", url: d.url },
+    P.app ? { role: "再生アプリ", icon: ICON.app, name: P.app.name, sub: P.app.sku ? `型番 ${P.app.sku}（パッケージ版）` : "必ず必要です", url: P.app.url, p: P.app.sku ? accOf(P.app.sku) : null } : null,
     { role: "保存用", icon: ICON.usb, name: P.id === "stb" ? "USBメモリー／microSDカード" : "USBメモリー", sub: "市販品をご用意ください", url: null, hide: P.id === "win" },
     { role: "保守", icon: ICON.iss, name: "ISS 保守サービス", sub: "購入から60日以内にお申込み", url: S.links.issLcd },
   ].filter((x) => x && !x.hide) : [];
-  state._copyText = setItems.map((x) => `${x.role}：${x.name}`).join("\n");
+  state._copyText = setItems.map((x) => `${x.role}：${x.p?.sku || (x.role === "再生アプリ" && P.app?.sku) || x.name}${x.p?.jan ? `（JAN ${x.p.jan}）` : ""}`).join("\n");
 
   const done = { place: true, disp: !!d, mount: !!chosenMount, play: true, iss: !!d, set: !!d };
   const steps = [["s-place", "設置場所"], ["s-disp", "映す"], ["s-mount", "取り付ける"], ["s-play", "再生させる"], ["s-iss", "保守"], ["s-set", "選んだセット"]];
@@ -345,6 +357,7 @@ function renderMain() {
             <div class="set-icon">${x.icon}</div>
             <strong class="sku">${esc(x.name)}</strong>
             <small class="muted">${esc(x.sub)}</small>
+            ${priceLine(x.p)}
             ${prodLink(x.url, x.role === "保守" ? "保守サービスを見る" : "商品ページへ")}
           </div>`).join("")}
       </div>
