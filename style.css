@@ -210,3 +210,13 @@ section[id] { scroll-margin-top: 70px; }
 .set-icon { height: 80px; display: flex; align-items: center; }
 .set-photo { max-height: 76px; max-width: 140px; object-fit: contain; }
 @media (max-width: 640px) { .stepper { position: static; } }
+
+/* ---- ディスプレイウォール対応機種：サイズ × 連続稼働時間の表 ---- */
+.wall-table { display: grid; grid-template-columns: 90px repeat(var(--cols), minmax(0, 1fr)); gap: 8px; align-items: stretch; }
+.wt-head { display: flex; align-items: center; justify-content: center; padding: 4px; font-size: 13px; }
+.wt-size { display: flex; align-items: center; justify-content: center; background: var(--bg); border-radius: 8px; padding: 6px; }
+.wt-cell { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; background: var(--bg); border-radius: 8px; padding: 8px; }
+.wt-none { color: #A9B6C4; margin: auto; }
+.wall-chip { flex: 1 1 220px; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.small-chip { flex: 0 1 300px; flex-direction: row; align-items: center; gap: 12px; }
+@media (max-width: 640px) { .wall-table { grid-template-columns: 56px repeat(var(--cols), minmax(0, 1fr)); } .wt-size .screen-icon { transform: scale(.7); } }

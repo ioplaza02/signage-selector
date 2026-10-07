@@ -38,7 +38,12 @@ async function fetchText(url) {
 // （以前はこれが無く、寸法「約124×6×71cm」が読めず幅が空になっていた）
 const ENT = { nbsp: " ", lt: "<", gt: ">", quot: '"', apos: "'", times: "×", divide: "÷", yen: "¥", minus: "−",
   ndash: "–", mdash: "—", hellip: "…", deg: "°", plusmn: "±", middot: "·", laquo: "«", raquo: "»", copy: "©", reg: "®", trade: "™" };
-const decode = (s) =>
+const decode = (s) => {
+  // 二重にエンコードされている場合（&amp;times;）にも備えて、変化がなくなるまで繰り返す
+  for (let i = 0; i < 3; i++) { const n = decodeOnce(s); if (n === s) break; s = n; }
+  return s;
+};
+const decodeOnce = (s) =>
   s.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
    .replace(/&([a-z]+);/gi, (m, name) => (name.toLowerCase() === "amp" ? m : ENT[name.toLowerCase()] ?? m))
@@ -199,10 +204,12 @@ export function parseProductPage(html, sku) {
   const size = (oneLine(title).match(/(\d{2,3})型/) || flat.match(/(\d{2,3})型/) || [])[1];
   if (size) out.sizeInch = Number(size);
 
-  // 外形寸法（スタンドなし）：「約124×6×71cm」
-  const dimArea = flat.slice(Math.max(0, flat.indexOf("外形寸法")), flat.indexOf("外形寸法") + 200);
-  const dimM = dimArea.match(/スタンドなし\s*約?\s*([\d.]+)\s*[×x]\s*([\d.]+)\s*[×x]\s*([\d.]+)\s*(cm|mm)/)
-            || (flat.indexOf("外形寸法") >= 0 ? dimArea.match(/約?\s*([\d.]+)\s*[×x]\s*([\d.]+)\s*[×x]\s*([\d.]+)\s*(cm|mm)/) : null);
+  // 外形寸法（スタンドなし）：「約124×6×71cm」。ページ全体から「スタンドなし」の寸法を探し、
+  // 無ければ「外形寸法」の後ろにある最初の寸法を使う
+  const DIM = String.raw`約?\s*([\d.]+)\s*[×xX]\s*([\d.]+)\s*[×xX]\s*([\d.]+)\s*(cm|mm)`;
+  const di = flat.lastIndexOf("外形寸法");
+  const dimM = flat.match(new RegExp(String.raw`スタンドなし[）)]?\s*` + DIM))
+            || (di >= 0 ? flat.slice(di, di + 200).match(new RegExp(DIM)) : null);
   if (dimM) {
     const k = dimM[4] === "cm" ? 10 : 1;
     out.widthMm = Math.round(Number(dimM[1]) * k);
@@ -220,12 +227,20 @@ export function parseProductPage(html, sku) {
   out.dustproof = /IP5X/.test(flat);
   out.temperedGlass = /強化ガラス/.test(flat);
   out.mediaPlayer = /メディアプレー?ヤー機能/.test(flat);
-  out.displayWall = /ディスプレイウォール/.test(flat);
-  if (out.displayWall) {
-    const g = flat.match(/ディスプレイウォール[^。]{0,20}最大\s*(\d)\s*[×x]\s*(\d)/) || flat.match(/最大\s*(\d+)\s*画面/);
-    out.wallMax = g ? (g[2] ? Number(g[1]) * Number(g[2]) : Number(g[1])) : null;
-  }
-  out.tiltNG = /傾斜設置(は|も)?不可/.test(flat);
+  // ディスプレイウォール：「ディスプレイウォール機能には対応しておりません」という否定文があるので、
+  // 言葉が出てくるだけでは対応とみなさない
+  const wallNo = /ディスプレイウォール[^。]{0,20}(対応しておりません|対応していません|非対応)/.test(flat);
+  const wallSpec = flat.match(/ディスプレイウォール[^。]{0,20}最大\s*(\d)\s*[×xX]\s*(\d)/);
+  const wallScreens = flat.match(/最大\s*(\d+)\s*画面/);
+  out.displayWall = !wallNo && (!!wallSpec || (!!wallScreens && /ディスプレイウォール/.test(flat)));
+  out.wallMax = out.displayWall ? (wallSpec ? Number(wallSpec[1]) * Number(wallSpec[2]) : wallScreens ? Number(wallScreens[1]) : null) : null;
+  // 設置の制約：「縦置き／上下逆さ設置／傾斜設置／天吊り設置は不可」のように並べて書かれる
+  const ngClause = (word) => new RegExp(`${word}[^。※]{0,40}不可`).test(flat);
+  out.tiltNG = ngClause("傾斜設置");
+  out.portraitNG = ngClause("縦置き");
+  out.ceilingNG = ngClause("天吊り");
+  const tr = flat.match(/傾斜角度可能範囲\s*[：:]?\s*上下\s*(\d+)\s*°/);
+  out.tiltRange = tr ? Number(tr[1]) : null;
   out.vesa = (flat.match(/VESAマウントインターフェイス\s*○?\s*[（(]\s*(\d+\s*[×x]\s*\d+)\s*mm/) || [])[1]?.replace(/\s/g, "") || null;
   // 販売状況：型番・JANコードの表の中から、この型番の行だけを見る（-AG 等の別行に引っ張られないように）
   const priceTable = (html.match(/<table[\s\S]*?JANコード[\s\S]*?<\/table>/i) || [""])[0];

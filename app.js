@@ -54,11 +54,19 @@ const statusBadge = (st) =>
 /* ---------- ディスプレイの特徴（同じサイズでも違いが分かるように） ---------- */
 function traits(d) {
   const syms = ["DA-WM2", "DA-WML2", "DA-ES1"].map((k) => d.mounts?.[k]?.sym).filter(Boolean);
-  const port = syms.some((s) => s === "o" || s === "v");
+  const port = !d.portraitNG && syms.some((s) => s === "o" || s === "v");
   const land = syms.some((s) => s === "o" || s === "h");
   const noTilt = !!d.tiltNG || ["DA-WM2", "DA-WML2"].some((k) => (d.mounts?.[k]?.notes || []).some((n) => /傾けない/.test(n)));
-  return { port, land, noTilt };
+  return { port, land, noTilt, noCeiling: !!d.ceilingNG, tiltRange: d.tiltRange };
 }
+// 寸法が取れていない機種は、画面サイズ（16:9）から目安を計算する
+function faceSize(d) {
+  if (d.widthMm && d.heightMm) return { w: d.widthMm, h: d.heightMm, est: false };
+  if (!d.sizeInch) return null;
+  const diag = d.sizeInch * 25.4;
+  return { w: Math.round(diag * 0.8716 + 30), h: Math.round(diag * 0.4903 + 30), est: true };
+}
+const fixText = (s) => String(s ?? "").replace(/&times;/g, "×").replace(/&amp;/g, "&");
 
 /* ---------- 金具の判定 ---------- */
 function evalMount(d, sku, portrait) {
@@ -71,8 +79,12 @@ function evalMount(d, sku, portrait) {
   const ok = want === "portrait" ? okPort : okLand;
   const heavy = d.weightKg != null && d.weightKg > m.loadKg;
   // 正面から見た横幅：縦置きならディスプレイの高さが横幅になる
-  const faceW = want === "portrait" ? d.heightMm : d.widthMm;
-  const over = !floor && ok && faceW != null && m.totalWidthMm > faceW;
+  const fs = faceSize(d);
+  const faceW = fs ? (want === "portrait" ? fs.h : fs.w) : null;
+  // 金具本体はディスプレイの中央、収納ユニットはその片側に付く想定で、片側のはみ出し量を出す
+  const overMm = !floor && faceW != null ? Math.round(m.bodyWidthMm / 2 + m.unitWidthMm - faceW / 2) : 0;
+  const over = !floor && ok && overMm > 0;
+  const estimated = !!fs?.est;
   const inRange = d.sizeInch != null && d.sizeInch >= m.guideMin && d.sizeInch <= m.guideMax;
   const notes = [];
   if (!ok) notes.push(t.sym === "x" ? "対応表で非対応の組み合わせです。" : want === "portrait" ? "この組み合わせは横向きのみ対応です。" : "この組み合わせは縦向きのみ対応です。");
@@ -87,22 +99,26 @@ function evalMount(d, sku, portrait) {
   const angle = floor ? "傾き：画面が約18°後ろに傾いた状態で固定"
     : m.tilt ? (noTilt ? "傾き：壁と平行のみ（このディスプレイは傾けて設置できません）" : `傾き：下向きに${m.tilt}`)
     : "傾き：壁と平行（この金具に角度調整はありません）";
-  return { m, t, ok: ok && !heavy, over, inRange, notes, angle, okLand, okPort, floor };
+  return { m, t, ok: ok && !heavy, over, overMm, estimated, inRange, notes, angle, okLand, okPort, floor };
 }
 
 function mountCandidates() { return S.mounts.filter((m) => m.type === state.mount); }
 function displayFits(d) { return mountCandidates().some((m) => evalMount(d, m.sku, state.f.portrait).ok); }
 
-// 取り付けられる金具の中から「おすすめ」を1つ決める：目安サイズ内＆はみ出し無し → 目安サイズ内 → はみ出し無し → 先頭
+// 取り付けられる金具の中から「おすすめ」を1つ決める。
+// 見た目を優先：はみ出さないもの（目安サイズ内を優先）→ どれもはみ出すなら、はみ出しが一番少ないもの
 function rankMounts(d) {
   const list = mountCandidates().map((m) => ({ m, e: evalMount(d, m.sku, state.f.portrait) }));
   const ok = list.filter((x) => x.e.ok);
-  const best = ok.find((x) => x.e.inRange && !x.e.over) || ok.find((x) => x.e.inRange) || ok.find((x) => !x.e.over) || ok[0];
+  const clean = ok.filter((x) => !x.e.over);
+  const best = clean.find((x) => x.e.inRange) || clean[0]
+    || ok.slice().sort((a, b) => a.e.overMm - b.e.overMm)[0];
+  const allOver = ok.length > 0 && clean.length === 0;
   for (const x of list) {
-    x.verdict = !x.e.ok ? "取り付け不可" : x === best ? "おすすめ" : x.e.over ? "取付可・はみ出し注意" : "取付可";
+    x.verdict = !x.e.ok ? "取り付け不可" : x === best ? (x.e.over ? "おすすめ（はみ出し最小）" : "おすすめ") : x.e.over ? "取付可・はみ出します" : "取付可";
     x.tone = !x.e.ok ? "bad" : x === best ? "good" : x.e.over ? "warn" : "plain";
   }
-  return { list, best };
+  return { list, best, allOver };
 }
 
 function filteredDisplays() {
@@ -153,7 +169,8 @@ function renderMain() {
           </div>
           <div class="tags">
             <span class="tag ${tr.port ? "tag-teal" : "tag-no"}">${tr.port ? (tr.land ? "縦置きOK" : "縦置きのみ") : "横置きのみ"}</span>
-            <span class="tag ${tr.noTilt ? "tag-no" : "tag-teal"}">${tr.noTilt ? "傾けて設置できない" : "傾けて設置OK"}</span>
+            <span class="tag ${tr.noTilt ? "tag-no" : "tag-teal"}">${tr.noTilt ? "傾けて設置できない" : tr.tiltRange ? `上下${tr.tiltRange}°まで傾けOK` : "傾けて設置OK"}</span>
+            ${tr.noCeiling ? `<span class="tag tag-no">天吊り不可</span>` : ""}
             ${x.hours ? `<span class="tag tag-teal">${x.hours}時間連続稼働</span>` : ""}
             ${x.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
             ${x.mediaPlayer ? `<span class="tag tag-amber">プレーヤー内蔵</span>` : ""}
@@ -167,9 +184,9 @@ function renderMain() {
     : `<div class="empty">${f.outdoor ? "屋外に対応した商品は現在ありません。防塵（IP5X）モデルも屋内専用で、防水ではありません。" : "条件に合うディスプレイがありません。条件を減らしてみてください。"}</div>`;
 
   // 金具
-  let mountHtml = "", chosenMount = null;
+  let mountHtml = "", chosenMount = null, allOver = false;
   if (d) {
-    const { list: ranked, best } = rankMounts(d);
+    const r = rankMounts(d); const ranked = r.list, best = r.best; allOver = r.allOver;
     if (!ranked.find((x) => x.m.sku === state.mountSel && x.e.ok)) state.mountSel = best?.m.sku || null;
     chosenMount = ranked.find((x) => x.m.sku === state.mountSel) || null;
     mountHtml = ranked.map((x) => {
@@ -187,17 +204,17 @@ function renderMain() {
             <div class="mount-spec">
               <span>目安：${esc(m.guideSize)}</span>
               <span>横幅：${m.totalWidthMm}mm${m.unitWidthMm ? `（金具本体${m.bodyWidthMm}mm＋STB収納ユニット${m.unitWidthMm}mm）` : ""}</span>
-              <span>耐荷重：${m.loadKg}kg${e.t.screw ? `　ネジ：${esc(e.t.screw)}` : ""}</span>
+              <span>耐荷重：${m.loadKg}kg${e.t.screw ? `　ネジ：${esc(fixText(e.t.screw))}` : ""}</span>
             </div>
           </div>
-          ${e.over ? `<div class="alert alert-bad">STB収納ユニットを取り付けたままだと、横からはみ出す場合があります</div>` : ""}
+          ${e.over ? `<div class="alert alert-bad">設置はできますが、STB収納ユニットを取り付けたままだと片側に約${Math.max(1, Math.round(e.overMm / 10))}cmはみ出します${e.estimated ? "（画面サイズからの目安）" : ""}</div>` : ""}
           <div class="pills">
             ${e.floor ? "" : `<span class="pill ${e.okLand ? "is-yes" : "is-no"}"><i class="o-land"></i>横 ${e.okLand ? "✓" : "✗"}</span>`}
             <span class="pill ${e.okPort ? "is-yes" : "is-no"}"><i class="o-port"></i>縦 ${e.okPort ? "✓" : "✗"}</span>
             <span class="pill">${esc(e.angle)}</span>
           </div>
           ${e.floor ? "" : `<p class="unit-note">STB収納ユニットは左右どちらにも付け替えられます。</p>`}
-          <ul class="notes">${e.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
+          <ul class="notes">${e.notes.map((n) => `<li>${esc(fixText(n))}</li>`).join("")}</ul>
         </button>
         ${prodLink(m.url)}
       </div>`;
@@ -284,6 +301,7 @@ function renderMain() {
     <section class="panel" id="s-mount">
       <h2>③ 取り付ける：${state.mount === "wall" ? "壁掛け金具を選ぶ" : "イーゼルスタンド"}</h2>
       ${state.mount === "floor" ? `<p class="muted">イーゼルスタンドは、ディスプレイを縦向きにして設置する前提でご案内しています。</p>` : ""}
+      ${allOver ? `<div class="alert alert-warn">どの金具も設置はできますが、STB収納ユニットがディスプレイの横からはみ出します。はみ出しが一番少ない金具を「おすすめ」にしています。</div>` : ""}
       <div class="grid-mounts">${mountHtml}</div>
       ${nextBtn("s-play", "④ 再生させる")}
     </section>
@@ -423,17 +441,37 @@ function renderWall() {
   for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++)
     cells += `<button type="button" class="cell ${c < cols && r < rows ? "is-on" : ""}" data-cell="${c + 1},${r + 1}" aria-label="横${c + 1}×縦${r + 1}を選ぶ"></button>`;
 
+  // 対応ディスプレイは「サイズ × 連続稼働時間」の表にまとめる
   const wd = D.filter((d) => d.displayWall && (state.showEol || d.status !== "eol"));
-  const list = wd.length ? wd.map((d) => {
+  const sizes = [...new Set(wd.map((d) => d.sizeInch))].sort((a, b) => b - a);
+  const hoursCols = [18, 24];
+  const wallChip = (d) => {
     const over = d.wallMax && total > d.wallMax;
-    const size = d.widthMm && d.heightMm ? `約${(d.widthMm * cols / 1000).toFixed(1)}m × ${(d.heightMm * rows / 1000).toFixed(1)}m` : "—";
-    return `<a class="card wall-card ${over ? "is-dim" : ""}" href="${esc(d.url)}" target="_blank" rel="noopener">
-      ${screenIcon(d, false)}<strong>${esc(d.sku)}</strong>
-      <small class="muted">最大${d.wallMax || "?"}画面・${d.hours ? d.hours + "時間連続稼働" : ""}${d.dustproof ? "・防塵IP5X" : ""}</small>
-      <small>全体サイズ目安：${size}</small>${statusBadge(d.status)}</a>`;
-  }).join("") : `<div class="empty">対応機種のデータがありません。</div>`;
+    const fs = faceSize(d);
+    const size = fs ? `約${(fs.w * cols / 1000).toFixed(1)}m × ${(fs.h * rows / 1000).toFixed(1)}m${fs.est ? "（目安）" : ""}` : "—";
+    return `<div class="wall-chip ${over ? "is-dim" : ""}">
+      <strong class="sku">${esc(d.sku)}</strong>
+      <div class="tags">
+        <span class="tag tag-teal">最大${d.wallMax || "—"}画面</span>
+        ${d.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
+        ${statusBadge(d.status)}
+      </div>
+      <small class="muted">全体サイズ：${size}</small>
+      ${prodLink(d.url)}
+    </div>`;
+  };
+  const list = wd.length ? `
+    <div class="wall-table" style="--cols:${hoursCols.length}">
+      <div class="wt-head"></div>${hoursCols.map((h) => `<div class="wt-head"><span class="tag tag-teal">${h}時間連続稼働</span></div>`).join("")}
+      ${sizes.map((s) => `
+        <div class="wt-size">${screenIcon({ sizeInch: s }, false)}</div>
+        ${hoursCols.map((h) => {
+          const items = wd.filter((d) => d.sizeInch === s && d.hours === h);
+          return `<div class="wt-cell">${items.length ? items.map(wallChip).join("") : `<span class="wt-none">—</span>`}</div>`;
+        }).join("")}`).join("")}
+    </div>` : `<div class="empty">対応機種のデータがありません。</div>`;
 
-  const small = S.wallSmall.map((s) => `<a class="card small-card ${total > s.max ? "is-dim" : ""}" href="${esc(s.url)}" target="_blank" rel="noopener"><span class="screen-icon" style="width:44px;height:25px"></span><span><strong>${esc(s.sku)}</strong><br><small class="muted">${esc(s.size)}・最大${s.max}画面</small></span></a>`).join("");
+  const small = S.wallSmall.map((s) => `<div class="wall-chip small-chip ${total > s.max ? "is-dim" : ""}"><span class="screen-icon" style="width:44px;height:25px"></span><div><strong class="sku">${esc(s.sku)}</strong><div class="tags"><span class="tag tag-gray">${esc(s.size)}</span><span class="tag tag-teal">最大${s.max}画面</span></div>${prodLink(s.url)}</div></div>`).join("");
 
   $("#view-wall").innerHTML = `
     <section class="panel">
@@ -470,6 +508,9 @@ function renderWall() {
         <div class="kv"><span>再生機（STB・PCなど）</span><strong>1 台</strong></div>
         <div class="kv"><span>HDMI分配器（4ポート）</span><strong>${total <= 4 ? "1 台" : "要相談"}</strong></div>
         <div class="kv"><span>HDMIケーブル</span><strong>${total + 1} 本</strong></div>
+        <div class="kv"><span>電源コンセント（目安）</span><strong>${total + 2} 口</strong></div>
+        <p class="small muted">コンセントの内訳：ディスプレイ${total}台＋再生機1台＋分配器1台。設置場所に十分な数のコンセントがあるかご確認ください。</p>
+        <p class="small muted">HDMIケーブルは、ディスプレイや再生機に同梱されている本数・長さで足りるかご確認ください。並べ方によっては長いケーブルが必要です。</p>
         <p class="small">※再生機にAndroid STB（デジタルポスター）を使う場合は、動画・画像を入れる<strong>USBメモリーまたはmicroSDカード</strong>も必要です。</p>
         ${total > 4 ? `<div class="alert alert-warn small">5画面以上は分配器を複数組み合わせる構成になります。販売店・当社へご相談ください。</div>` : ""}
         <p class="muted small">おすすめ分配器：<a href="${esc(S.links.splitter1)}" target="_blank" rel="noopener">GP-HDSP14H460</a>、<a href="${esc(S.links.splitter2)}" target="_blank" rel="noopener">DA-4HD/4K</a>　※ディスプレイ1台ごとに保守サービス（ISS）の対象です。</p>
@@ -495,7 +536,7 @@ function renderWall() {
     <section class="panel">
       <h2>③ 対応ディスプレイ</h2>
       <p class="muted">仕様に「ディスプレイウォール」の記載がある機種を表示しています</p>
-      <div class="grid-cards">${list}</div>
+      ${list}
       <div class="sub-block">
         <strong>例外：小さめのモデルにも対応機種があります（最大4画面）</strong>
         <div class="choices">${small}</div>
