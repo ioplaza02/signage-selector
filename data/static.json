@@ -154,7 +154,8 @@
       ],
       "app": {
         "name": "時間割看板2（有料・1台1ライセンス）",
-        "url": "https://www.iodata.jp/product/pc/signage/jikanwari2/"
+        "url": "https://www.iodata.jp/product/pc/signage/jikanwari2/",
+        "sku": "JIKANWARI2"
       }
     }
   ],
@@ -239,6 +240,38 @@
           "o",
           "時間割看板2のみ（無償版は不可）"
         ]
+      },
+      {
+        "id": "remote",
+        "label": "離れたところから映像コンテンツを入れ替えたい",
+        "builtin": [
+          "x",
+          "USBメモリーを挿し替えて入れ替えます"
+        ],
+        "stb": [
+          "x",
+          "コンテンツはUSBメモリー／microSDカードから再生（IDMで状態確認・再起動は遠隔で可能）"
+        ],
+        "win": [
+          "o",
+          "同じネットワーク内のNASに置いたコンテンツを再生できます（インターネット越しの入れ替えはできません）"
+        ]
+      },
+      {
+        "id": "acpower",
+        "label": "通電したら再生スタート、電源を切ったらストップさせたい",
+        "builtin": [
+          "o",
+          "主電源スイッチを「入」のままにしておけば、コンセントがつながるだけで起動し、自動再生できます"
+        ],
+        "stb": [
+          "o",
+          "コンセントがつながるだけで起動。「起動時アプリ設定」でデジタルポスターを自動起動します"
+        ],
+        "win": [
+          "p",
+          "PC側で通電時に起動する設定が必要。電源を切ると強制終了になるため、時間割看板2で先にシャットダウンを"
+        ]
       }
     ],
     "display": [
@@ -261,6 +294,21 @@
         "id": "outdoor",
         "label": "屋外に置きたい",
         "effect": "屋外に対応した商品は現在ありません"
+      },
+      {
+        "id": "ceiling",
+        "label": "天吊りで設置したい",
+        "effect": "仕様に「天吊り不可」の記載がなく、傾斜角度の範囲が書かれている機種に絞ります。天吊り金具は市販品を使い、取り付けは工事専門業者へご依頼ください"
+      }
+    ],
+    "multi": [
+      {
+        "id": "wall2",
+        "label": "2台以上をつなげて、1つの大きな映像を表示したい"
+      },
+      {
+        "id": "same",
+        "label": "複数のディスプレイに同じ映像を表示したい"
       }
     ]
   },
@@ -286,6 +334,8 @@
     "digitalPoster": "https://www.iodata.jp/lib/manual/digitalposter/index.html",
     "astbx5Manual": "https://www.iodata.jp/lib/product/d/8611.htm",
     "splitter1": "https://www.iodata.jp/product/goppa/splitter/gp-hdsph460/",
-    "splitter2": "https://www.iodata.jp/product/av/graphicsboard/da-4hd4k/"
+    "splitter2": "https://www.iodata.jp/product/av/graphicsboard/da-4hd4k/",
+    "splitterNote": "GOPPA社製品のアイ・オー・データ取り扱い商品",
+    "lcdManualPower": "https://www.iodata.jp/lib/manual/u551d/index.html#init_epname_back"
   }
 }

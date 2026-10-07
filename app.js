@@ -9,7 +9,7 @@ const STALE_DAYS = 40;
 const state = {
   view: "main",
   mount: "wall",            // wall | floor
-  f: { size: new Set(), hours: new Set(), portrait: false, dust: false, outdoor: false, player: false, wall: false },
+  f: { size: new Set(), hours: new Set(), portrait: false, ceiling: false, dust: false, outdoor: false, player: false, wall: false },
   showEol: false,
   sel: null,                // 選択中ディスプレイの型番
   mountSel: null,           // 選択中の金具
@@ -150,6 +150,7 @@ function filteredDisplays() {
     // 稼働時間は「必要な時間以上に対応しているか」で絞る（24時間対応機は18時間以内の運用にも使える）
     if (f.hours.size) { const need = Math.min(...[...f.hours].map(Number)); if (!(d.hours >= need)) return false; }
     if (f.dust && !d.dustproof) return false;
+    if (f.ceiling && (d.ceilingNG || !d.tiltRange)) return false;
     if (f.player && !d.mediaPlayer) return false;
     if (f.wall && !d.displayWall) return false;
     return displayFits(d);
@@ -303,7 +304,7 @@ function renderMain() {
           ${chk("size", "40", "40〜49型", f.size.has("40"))}${chk("size", "50", "50〜55型", f.size.has("50"))}${chk("size", "65", "65型以上", f.size.has("65"))}</div>
         <div class="fgroup"><strong>連続稼働時間</strong>
           ${chk("hours", "18", "1日18時間以内で使う", f.hours.has("18"))}${chk("hours", "24", "24時間つけっぱなしで使う", f.hours.has("24"))}<small class="muted">24時間対応の機種は、18時間以内の運用でも表示します。</small></div>
-        ${state.mount === "wall" ? `<div class="fgroup"><strong>設置向き</strong>${chk("portrait", "1", "縦に設置したい", f.portrait)}</div>` : ""}
+        ${state.mount === "wall" ? `<div class="fgroup"><strong>設置向き</strong>${chk("portrait", "1", "縦に設置したい", f.portrait)}${chk("ceiling", "1", "天吊りで設置したい", f.ceiling)}${f.ceiling ? `<small class="muted">天吊り金具は市販品です。取り付けは工事専門業者へご依頼ください。</small>` : ""}</div>` : ""}
         <div class="fgroup"><strong>設置環境</strong>
           ${chk("dust", "1", "防塵（IP5X）・強化ガラス", f.dust)}${chk("outdoor", "1", "屋外で使いたい", f.outdoor)}
           <small class="muted">屋外に対応した商品は現在ありません。防塵モデルも屋内専用・防水ではありません。</small></div>
@@ -406,7 +407,28 @@ function renderWants() {
       <h1 class="h-page">サイネージでやりたいことを選んでください（いくつでも）</h1>
       <div class="fgroup"><strong class="muted">再生のしかた</strong><div class="chips">${W.play.map(chip).join("")}</div></div>
       <div class="fgroup"><strong class="muted">ディスプレイ・設置</strong><div class="chips">${W.display.map(chip).join("")}</div></div>
+      <div class="fgroup"><strong class="muted">複数のディスプレイで</strong><div class="chips">${(W.multi || []).map(chip).join("")}</div></div>
     </section>
+    ${state.wants.has("wall2") ? `
+    <section class="panel">
+      <h2>2台以上をつなげて1つの映像に：ディスプレイウォールで実現します</h2>
+      <p>ディスプレイウォール対応の機種を並べ、HDMI分配器で同じ映像を全台に送ります。各ディスプレイが自分の位置の部分だけを拡大して表示するので、全体で1つの大きな映像になります（内蔵プレーヤーは使いません）。</p>
+      <div class="go-row">
+        <button type="button" class="go-btn" data-wallgo="2,1">横に2台で見る →</button>
+        <button type="button" class="go-btn" data-wallgo="1,2">縦に2台で見る →</button>
+        <button type="button" class="go-btn" data-wallgo="2,2">田の字（4台）で見る →</button>
+      </div>
+    </section>` : ""}
+    ${state.wants.has("same") ? `
+    <section class="panel">
+      <h2>複数のディスプレイに同じ映像を表示する方法</h2>
+      <div class="grid-mounts">
+        <div class="soft"><strong>A. 1台のプレーヤー＋HDMI分配器（おすすめ）</strong><br>プレーヤー1台の映像を分配器で各ディスプレイへ送ります。全台がぴったり同じタイミングで表示され、入れ替えも1か所で済みます。<br>
+          ${prodLink(S.links.splitter1, "HDMI分配器 GP-HDSPH460シリーズ（2分配／4分配）")}<br><small class="muted">※ GOPPA社製品のアイ・オー・データ取り扱い商品です。4分配モデルは、つないだディスプレイに共通の解像度で出力します。</small></div>
+        <div class="soft"><strong>B. ディスプレイごとにプレーヤーを用意</strong><br>各ディスプレイの内蔵プレーヤーやSTBに同じコンテンツを入れて再生します。配線は簡単ですが、再生のタイミングはそろわず、入れ替えも台数分必要です。<br><small class="muted">離れた場所に置く場合や、ケーブルを長く引き回せない場合に向いています。</small></div>
+      </div>
+      <p class="muted small">ディスプレイ間のHDMIケーブルは、長さに合わせて市販品をご用意ください（付属ケーブルの有無は各商品ページでご確認ください）。</p>
+    </section>` : ""}
     <section class="panel">
       <h2>再生のしかたごとの対応</h2>
       ${picked.length ? "" : `<p class="muted">「再生のしかた」を選ぶと、3つの方法でできる・できないを比べられます。</p>`}
@@ -429,6 +451,16 @@ function renderWants() {
         </ol>
       </div>
     </section>` : ""}
+    ${state.wants.has("acpower") ? `
+    <section class="panel">
+      <h2>通電したら再生スタート、電源を切ったらストップ</h2>
+      <div class="grid-mounts">
+        <div class="soft"><strong>内蔵プレーヤー</strong><br>ディスプレイの主電源スイッチを「入」のままにしておくと、コンセントがつながるだけで起動します。電源ON後に自動再生する設定にしておきます。<br>${prodLink(S.links.lcdManualPower, "主電源スイッチの説明（LCD-U551D マニュアル）")}</div>
+        <div class="soft"><strong>Android STB＋デジタルポスター</strong><br>コンセントがつながるだけでSTBが起動します。STBの「起動時アプリ設定」でデジタルポスターを自動起動させます。ディスプレイも主電源スイッチを「入」のままにしておきます。</div>
+        <div class="soft"><strong>Windows＋時間割看板2</strong><br>PC側で通電時に起動する設定と、時間割看板2の自動実行の設定が必要です。電源を切ると強制終了になるため、時間割看板2のスケジュールで先にシャットダウンさせてから電源を切ってください。</div>
+      </div>
+      <p class="muted small">※ 市販のコンセントタイマー等で電源を入り切りする場合も同じ考え方です。機種によって主電源スイッチの位置や有無が異なるため、各商品のマニュアルでご確認ください。</p>
+    </section>` : ""}
     ${dispPicked.length ? `
     <section class="panel">
       <h2>ディスプレイの絞り込みに反映されます</h2>
@@ -441,6 +473,7 @@ function applyWants() {
   const w = state.wants;
   if (w.has("h24")) state.f.hours = new Set(["24"]);
   if (w.has("dust")) state.f.dust = true;
+  if (w.has("ceiling")) { state.mount = "wall"; state.f.ceiling = true; }
   if (w.has("outdoor")) state.f.outdoor = true;
   if (w.has("portrait")) { if (state.mount === "wall") state.f.portrait = true; }
   // すべて対応できる再生方法があれば、それを選んでおく
@@ -622,9 +655,10 @@ function refresh() { // スクロール位置を保ったまま描き直す
 }
 
 document.addEventListener("click", (ev) => {
-  const t = ev.target.closest("[data-nav],[data-mount],[data-disp],[data-mountsel],[data-device],[data-play],[data-want],[data-preset],[data-cell],[data-scroll],#apply-wants,#copy-set");
+  const t = ev.target.closest("[data-wallgo],[data-nav],[data-mount],[data-disp],[data-mountsel],[data-device],[data-play],[data-want],[data-preset],[data-cell],[data-scroll],#apply-wants,#copy-set");
   if (!t) return;
   if (t.dataset.nav) { ev.preventDefault(); go(t.dataset.nav); return; }
+  if (t.dataset.wallgo) { const [c, r] = t.dataset.wallgo.split(",").map(Number); state.wallCols = c; state.wallRows = r; go("wall"); return; }
   if (t.dataset.scroll) { document.getElementById(t.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
   if (t.id === "copy-set") { copySet(); return; }
   if (t.dataset.mount) { state.mount = t.dataset.mount; state.mountSel = null; if (state.mount === "floor") state.f.portrait = false; }

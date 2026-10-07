@@ -254,3 +254,6 @@ section[id] { scroll-margin-top: 70px; }
 .wc-size { font-size: 15px; font-weight: 700; color: var(--ink); white-space: nowrap; }
 @media (max-width: 640px) { .wc-side { align-items: flex-start; text-align: left; } }
 .alert-good { background: #E3F1EE; color: var(--teal, #0F5E57); }
+.go-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.go-btn { border: 1.5px solid var(--teal); color: var(--teal); background: #fff; border-radius: 999px; padding: 8px 16px; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.go-btn:hover { background: var(--teal-soft); }
