@@ -52,7 +52,7 @@ h2 { font-size: 18px; }
 .view { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; display: flex; flex-direction: column; gap: 20px; }
 .panel { background: var(--card); border-radius: 10px; padding: 22px; }
 .split { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
-.sidebar { flex: 1 1 230px; max-width: 290px; font-size: 14px; display: flex; flex-direction: column; gap: 14px; }
+.sidebar { flex: 1 1 262px; max-width: 300px; font-size: 14px; display: flex; flex-direction: column; gap: 14px; }
 .main-col { flex: 999 1 560px; min-width: 0; }
 .grow { flex: 1 1 380px; min-width: 0; }
 .fgroup { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
@@ -237,3 +237,9 @@ section[id] { scroll-margin-top: 70px; }
 .screen-icon.s55 { background: #FDEBC8; border-color: #B7791F; color: #7A4F0F; }
 .screen-icon.s65 { background: #ECE1F6; border-color: #7B4F9E; color: #553570; }
 .screen-icon.s75 { background: #FBDDE3; border-color: #B83250; color: #82223A; }
+
+/* ---- 価格・JAN ---- */
+.price-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 13px; }
+.price-line strong { font-size: 15px; color: var(--ink); }
+.price-line small { color: var(--muted); }
+.jan { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
