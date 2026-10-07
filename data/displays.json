@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-07T04:47:18.082Z",
+  "updatedAt": "2026-10-07T05:07:23.436Z",
   "source": "https://www.iodata.jp/pio/io/lcd/stand.htm",
   "displays": [
     {
@@ -44,7 +44,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": null,
-      "status": "current"
+      "status": "current",
+      "jan": "4957180181776",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U751DX",
@@ -92,7 +96,11 @@
       "ceilingNG": true,
       "tiltRange": null,
       "vesa": null,
-      "status": "current"
+      "status": "current",
+      "jan": "4957180179575",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K751XDB",
@@ -124,19 +132,26 @@
       },
       "portraitPowerButton": null,
       "sizeInch": 75,
+      "widthMm": 1672,
+      "depthMm": 82,
+      "heightMm": 955,
       "weightKg": 40,
       "hours": null,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": false,
-      "displayWall": true,
-      "wallMax": 2,
+      "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
       "portraitNG": false,
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": null,
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180148731",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U651D-P",
@@ -186,7 +201,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "400×400",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180181738",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U651D",
@@ -235,7 +254,11 @@
       "ceilingNG": false,
       "tiltRange": 20,
       "vesa": "400×400",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180176789",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U651DX",
@@ -286,7 +309,11 @@
       "ceilingNG": true,
       "tiltRange": null,
       "vesa": null,
-      "status": "current"
+      "status": "current",
+      "jan": "4957180176840",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K652XDB",
@@ -321,19 +348,26 @@
       },
       "portraitPowerButton": "左背面",
       "sizeInch": 65,
+      "widthMm": 1451,
+      "depthMm": 85,
+      "heightMm": 828,
       "weightKg": 30,
       "hours": null,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": false,
-      "displayWall": true,
-      "wallMax": 2,
+      "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
       "portraitNG": false,
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": null,
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180147710",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K651XDB",
@@ -368,6 +402,9 @@
       },
       "portraitPowerButton": "左側面",
       "sizeInch": 65,
+      "widthMm": 1461,
+      "depthMm": 88,
+      "heightMm": 840,
       "weightKg": 23,
       "hours": null,
       "dustproof": false,
@@ -380,7 +417,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "400×200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180134932",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U551D-P",
@@ -430,7 +471,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "300×300",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180181752",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U551D",
@@ -481,7 +526,11 @@
       "ceilingNG": false,
       "tiltRange": 20,
       "vesa": "300×300",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180176758",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U551DX",
@@ -532,7 +581,11 @@
       "ceilingNG": true,
       "tiltRange": null,
       "vesa": null,
-      "status": "current"
+      "status": "current",
+      "jan": "4957180176819",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K552XDB2",
@@ -575,14 +628,18 @@
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": false,
-      "displayWall": true,
-      "wallMax": 2,
+      "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
       "portraitNG": false,
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "400×200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180169422",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-SU551EPB",
@@ -618,6 +675,9 @@
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 55,
+      "widthMm": 1246,
+      "depthMm": 83,
+      "heightMm": 727,
       "weightKg": 15.3,
       "hours": null,
       "dustproof": false,
@@ -630,7 +690,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": null,
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180149011",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K551EQB",
@@ -680,7 +744,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": null,
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180137490",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K552XDB",
@@ -718,6 +786,9 @@
       },
       "portraitPowerButton": "左側面",
       "sizeInch": 55,
+      "widthMm": 1242,
+      "depthMm": 70,
+      "heightMm": 724,
       "weightKg": 14.2,
       "hours": null,
       "dustproof": false,
@@ -730,7 +801,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "400×200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180132983",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K551XDB2",
@@ -778,6 +853,13 @@
       "tiltRange": null,
       "vesa": "200×400",
       "status": "eol",
+      "jan": "4957180132884",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "widthMm": 1242,
+      "depthMm": 70,
+      "heightMm": 724,
       "weightKg": 14.2
     },
     {
@@ -826,6 +908,13 @@
       "tiltRange": null,
       "vesa": "200×400",
       "status": "eol",
+      "jan": "4957180129907",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "widthMm": 1242,
+      "depthMm": 70,
+      "heightMm": 724,
       "weightKg": 14.2
     },
     {
@@ -877,7 +966,11 @@
       "ceilingNG": false,
       "tiltRange": 20,
       "vesa": "200×200",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180175027",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U501VX",
@@ -925,7 +1018,11 @@
       "ceilingNG": true,
       "tiltRange": null,
       "vesa": "100×200",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180175089",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K493XDB",
@@ -957,6 +1054,9 @@
       },
       "portraitPowerButton": "右側面",
       "sizeInch": 49,
+      "widthMm": 1109,
+      "depthMm": 80,
+      "heightMm": 641,
       "weightKg": 11.8,
       "hours": null,
       "dustproof": false,
@@ -969,7 +1069,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "400×200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180149530",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K492XDB",
@@ -1003,6 +1107,9 @@
       },
       "portraitPowerButton": "右側面",
       "sizeInch": 49,
+      "widthMm": 1109,
+      "depthMm": 80,
+      "heightMm": 641,
       "weightKg": 11.7,
       "hours": null,
       "dustproof": false,
@@ -1015,7 +1122,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "400×200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180135625",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K491XDB",
@@ -1049,6 +1160,9 @@
       },
       "portraitPowerButton": "右側面",
       "sizeInch": 49,
+      "widthMm": 1109,
+      "depthMm": 81,
+      "heightMm": 644,
       "weightKg": 11.9,
       "hours": null,
       "dustproof": false,
@@ -1061,7 +1175,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "400×200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180126678",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U431D",
@@ -1104,7 +1222,11 @@
       "ceilingNG": false,
       "tiltRange": 20,
       "vesa": "100×200",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180174990",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U431DX",
@@ -1150,7 +1272,11 @@
       "ceilingNG": true,
       "tiltRange": null,
       "vesa": "100×200",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180175058",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-HU431DB",
@@ -1176,6 +1302,9 @@
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 43,
+      "widthMm": 973,
+      "depthMm": 64,
+      "heightMm": 561,
       "weightKg": 11,
       "hours": 24,
       "dustproof": false,
@@ -1188,7 +1317,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "200×200",
-      "status": "current"
+      "status": "current",
+      "jan": "4957180156279",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-AHU431XDB",
@@ -1216,6 +1349,9 @@
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 43,
+      "widthMm": 973,
+      "depthMm": 64,
+      "heightMm": 561,
       "weightKg": 11,
       "hours": null,
       "dustproof": false,
@@ -1228,7 +1364,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "200×200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180156781",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K432XDB",
@@ -1256,6 +1396,9 @@
       },
       "portraitPowerButton": "右側面",
       "sizeInch": 43,
+      "widthMm": 970,
+      "depthMm": 90,
+      "heightMm": 563,
       "weightKg": 8.7,
       "hours": null,
       "dustproof": false,
@@ -1268,7 +1411,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": "200x200",
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180135649",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K431XDB",
@@ -1296,6 +1443,9 @@
       },
       "portraitPowerButton": "右側面",
       "sizeInch": 43,
+      "widthMm": 970,
+      "depthMm": 90,
+      "heightMm": 565,
       "weightKg": 8.8,
       "hours": null,
       "dustproof": false,
@@ -1308,7 +1458,11 @@
       "ceilingNG": false,
       "tiltRange": null,
       "vesa": null,
-      "status": "eol"
+      "status": "eol",
+      "jan": "4957180128269",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-M4K401XVB",
@@ -1346,7 +1500,79 @@
       "tiltRange": null,
       "vesa": null,
       "status": "eol",
+      "jan": "4957180120638",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "widthMm": 906,
+      "depthMm": 65,
+      "heightMm": 523,
       "weightKg": 12.1
     }
-  ]
+  ],
+  "accessories": {
+    "DA-WM2": {
+      "jan": "4957180163871",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    },
+    "DA-WML2": {
+      "jan": "4957180161136",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    },
+    "DA-ES1": {
+      "jan": "4957180129211",
+      "price": 35200,
+      "priceExTax": 32000,
+      "openPrice": false,
+      "status": "current"
+    },
+    "DS-ASTBX5": {
+      "jan": "4957180181639",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    },
+    "DS-ASTB2": {
+      "jan": "4957180156200",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    },
+    "MPC-NCI3W2": {
+      "jan": "4957180188904",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    },
+    "MPC-NCI3W2/PRO": {
+      "jan": "4957180191256",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    },
+    "MPC-N150W1FL/WG": {
+      "jan": "4957180186771",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    },
+    "MPC-NCI3W1": {
+      "jan": "4957180171852",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true,
+      "status": "current"
+    }
+  }
 }
