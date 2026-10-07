@@ -12,7 +12,9 @@ const state = {
   f: { size: new Set(), hours: new Set(), portrait: false, dust: false, outdoor: false, player: false, wall: false },
   showEol: false,
   sel: null,                // 選択中ディスプレイの型番
+  mountSel: null,           // 選択中の金具
   play: "stb",
+  device: { stb: null, win: null }, // 選択中の再生機
   wants: new Set(),
   wallCols: 2, wallRows: 2,
 };
@@ -34,6 +36,9 @@ const ICON = {
   stb: `<svg width="60" height="48" viewBox="0 0 60 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="8" y="16" width="44" height="18" rx="4"/><circle cx="44" cy="25" r="2" fill="#0F5E57" stroke="none"/><line x1="14" y1="25" x2="30" y2="25"/></svg>`,
   win: `<svg width="60" height="48" viewBox="0 0 60 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="26" height="26" rx="4"/><line x1="10" y1="30" x2="24" y2="30"/><rect x="32" y="6" width="26" height="20" rx="2"/><line x1="32" y1="12" x2="58" y2="12"/><rect x="36" y="15" width="8" height="7" fill="#0F5E57" stroke="none"/></svg>`,
 };
+ICON.app = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="6" width="44" height="34" rx="3"/><line x1="6" y1="14" x2="50" y2="14"/><rect x="12" y="20" width="14" height="14" fill="#0F5E57" stroke="none"/><line x1="30" y1="22" x2="44" y2="22"/><line x1="30" y1="28" x2="40" y2="28"/></svg>`;
+ICON.usb = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="14" y="16" width="30" height="16" rx="3"/><rect x="44" y="19" width="8" height="10" rx="1"/><line x1="20" y1="24" x2="34" y2="24"/></svg>`;
+ICON.iss = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M28 4 L46 10 V24 C46 34 38 41 28 44 C18 41 10 34 10 24 V10 Z"/><path d="M20 24 L26 30 L37 18" stroke="#0F5E57" stroke-width="3"/></svg>`;
 // 工具アイコン（images/tool.png を置くと表示。無ければ何も出さない）
 const TOOL_IMG = `<img src="images/tool.png" alt="" class="tool-icon" onerror="this.remove()">`;
 
@@ -46,12 +51,21 @@ function screenIcon(d, portrait) {
 const statusBadge = (st) =>
   ({ eol: `<span class="badge badge-gray">生産終了</span>`, limited: `<span class="badge badge-warn">店頭在庫限り</span>`, paused: `<span class="badge badge-warn">一時受注停止</span>` }[st] || "");
 
+/* ---------- ディスプレイの特徴（同じサイズでも違いが分かるように） ---------- */
+function traits(d) {
+  const syms = ["DA-WM2", "DA-WML2", "DA-ES1"].map((k) => d.mounts?.[k]?.sym).filter(Boolean);
+  const port = syms.some((s) => s === "o" || s === "v");
+  const land = syms.some((s) => s === "o" || s === "h");
+  const noTilt = !!d.tiltNG || ["DA-WM2", "DA-WML2"].some((k) => (d.mounts?.[k]?.notes || []).some((n) => /傾けない/.test(n)));
+  return { port, land, noTilt };
+}
+
 /* ---------- 金具の判定 ---------- */
 function evalMount(d, sku, portrait) {
   const m = mountOf(sku);
   const t = d.mounts?.[sku] || { sym: "x", notes: [] };
   const floor = m.type === "floor";
-  const want = floor ? "portrait" : portrait ? "portrait" : "landscape";
+  const want = floor || portrait ? "portrait" : "landscape";
   const okLand = t.sym === "o" || t.sym === "h";
   const okPort = t.sym === "o" || t.sym === "v";
   const ok = want === "portrait" ? okPort : okLand;
@@ -59,25 +73,36 @@ function evalMount(d, sku, portrait) {
   // 正面から見た横幅：縦置きならディスプレイの高さが横幅になる
   const faceW = want === "portrait" ? d.heightMm : d.widthMm;
   const over = !floor && ok && faceW != null && m.totalWidthMm > faceW;
+  const inRange = d.sizeInch != null && d.sizeInch >= m.guideMin && d.sizeInch <= m.guideMax;
   const notes = [];
   if (!ok) notes.push(t.sym === "x" ? "対応表で非対応の組み合わせです。" : want === "portrait" ? "この組み合わせは横向きのみ対応です。" : "この組み合わせは縦向きのみ対応です。");
   if (heavy) notes.push(`ディスプレイの質量（${d.weightKg}kg）が耐荷重（${m.loadKg}kg）を超えます。`);
   if (d.weightKg == null) notes.push("ディスプレイの質量が取得できていません。仕様ページでご確認ください。");
-  if (over) notes.push("収納ユニットは左右付け替え可能です。");
+  if (ok && !inRange) notes.push(`この金具の目安サイズ（${m.guideSize}）の範囲外です。`);
   for (const n of t.notes || []) if (!notes.includes(n)) notes.push(n);
   if (!floor) notes.push("壁面への設置は工事専門業者へご依頼ください。");
   if (floor && m.storage) notes.push(m.storage);
   const noTilt = d.tiltNG || (t.notes || []).some((n) => /傾けない/.test(n));
-  const angle = floor ? m.tilt : m.tilt ? (noTilt ? "0°のみ（このディスプレイは傾け不可）" : m.tilt) : "角度調整なし";
-  let verdict = "おすすめ", tone = "good";
-  if (!ok || heavy) { verdict = "取り付け不可"; tone = "bad"; }
-  else if (over) { verdict = "取付可・注意あり"; tone = "warn"; }
-  return { m, t, ok: ok && !heavy, over, notes, angle, verdict, tone, okLand, okPort, floor };
+  // 傾きの表記は「傾き：」で始めてそろえる
+  const angle = floor ? "傾き：画面が約18°後ろに傾いた状態で固定"
+    : m.tilt ? (noTilt ? "傾き：壁と平行のみ（このディスプレイは傾けて設置できません）" : `傾き：下向きに${m.tilt}`)
+    : "傾き：壁と平行（この金具に角度調整はありません）";
+  return { m, t, ok: ok && !heavy, over, inRange, notes, angle, okLand, okPort, floor };
 }
 
 function mountCandidates() { return S.mounts.filter((m) => m.type === state.mount); }
-function displayFits(d) {
-  return mountCandidates().some((m) => evalMount(d, m.sku, state.f.portrait).ok);
+function displayFits(d) { return mountCandidates().some((m) => evalMount(d, m.sku, state.f.portrait).ok); }
+
+// 取り付けられる金具の中から「おすすめ」を1つ決める：目安サイズ内＆はみ出し無し → 目安サイズ内 → はみ出し無し → 先頭
+function rankMounts(d) {
+  const list = mountCandidates().map((m) => ({ m, e: evalMount(d, m.sku, state.f.portrait) }));
+  const ok = list.filter((x) => x.e.ok);
+  const best = ok.find((x) => x.e.inRange && !x.e.over) || ok.find((x) => x.e.inRange) || ok.find((x) => !x.e.over) || ok[0];
+  for (const x of list) {
+    x.verdict = !x.e.ok ? "取り付け不可" : x === best ? "おすすめ" : x.e.over ? "取付可・はみ出し注意" : "取付可";
+    x.tone = !x.e.ok ? "bad" : x === best ? "good" : x.e.over ? "warn" : "plain";
+  }
+  return { list, best };
 }
 
 function filteredDisplays() {
@@ -98,12 +123,17 @@ function filteredDisplays() {
   }).sort((a, b) => (a.sizeInch || 0) - (b.sizeInch || 0) || a.sku.localeCompare(b.sku));
 }
 
+const prodLink = (url, label = "商品ページへ") =>
+  url ? `<a class="prod-link" href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>` : "";
+const nextBtn = (id, label) => `<div class="next-wrap"><button type="button" class="next-btn" data-scroll="${id}">次へ：${label} ↓</button></div>`;
+
 /* ---------- メインの流れ ---------- */
 function renderMain() {
   const list = filteredDisplays();
   if (!list.find((d) => d.sku === state.sel)) state.sel = list[0]?.sku || null;
   const d = D.find((x) => x.sku === state.sel);
   const f = state.f;
+  const portraitView = state.mount === "floor" || f.portrait;
   const chk = (name, val, label, on) => `<label class="chk"><input type="checkbox" data-filter="${name}" value="${val}" ${on ? "checked" : ""}> ${label}</label>`;
 
   const mountBtns = [
@@ -112,67 +142,123 @@ function renderMain() {
   ].map((m) => `<button type="button" class="choice ${state.mount === m.id ? "is-on" : ""}" data-mount="${m.id}">${ICON[m.id]}<span><strong>${m.name}</strong><small>${m.sub}</small></span></button>`).join("");
 
   const cards = list.length
-    ? list.map((x) => `
-      <button type="button" class="card disp-card ${x.sku === state.sel ? "is-on" : ""}" data-disp="${esc(x.sku)}">
-        <div class="disp-head">
-          <div class="icon-slot">${screenIcon(x, state.mount === "floor" || f.portrait)}</div>
-          <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">幅 ${fmtCm(x.widthMm)} ・ ${fmtKg(x.weightKg)}</small></div>
-        </div>
-        <div class="tags">
-          ${x.hours ? `<span class="tag tag-teal">${x.hours}時間連続稼働</span>` : ""}
-          ${x.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
-          ${x.mediaPlayer ? `<span class="tag tag-amber">プレーヤー内蔵</span>` : ""}
-          ${x.displayWall ? `<span class="tag tag-gray">ディスプレイウォール対応</span>` : ""}
-          ${statusBadge(x.status)}
-        </div>
-      </button>`).join("")
+    ? list.map((x) => {
+      const tr = traits(x);
+      return `
+      <div class="card disp-card ${x.sku === state.sel ? "is-on" : ""}">
+        <button type="button" class="card-hit" data-disp="${esc(x.sku)}" aria-pressed="${x.sku === state.sel}">
+          <div class="disp-head">
+            <div class="icon-slot">${screenIcon(x, portraitView)}</div>
+            <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">幅 ${fmtCm(x.widthMm)} ・ ${fmtKg(x.weightKg)}</small></div>
+          </div>
+          <div class="tags">
+            <span class="tag ${tr.port ? "tag-teal" : "tag-no"}">${tr.port ? (tr.land ? "縦置きOK" : "縦置きのみ") : "横置きのみ"}</span>
+            <span class="tag ${tr.noTilt ? "tag-no" : "tag-teal"}">${tr.noTilt ? "傾けて設置できない" : "傾けて設置OK"}</span>
+            ${x.hours ? `<span class="tag tag-teal">${x.hours}時間連続稼働</span>` : ""}
+            ${x.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
+            ${x.mediaPlayer ? `<span class="tag tag-amber">プレーヤー内蔵</span>` : ""}
+            ${x.displayWall ? `<span class="tag tag-gray">ディスプレイウォール対応</span>` : ""}
+            ${statusBadge(x.status)}
+          </div>
+        </button>
+        ${prodLink(x.url)}
+      </div>`;
+    }).join("")
     : `<div class="empty">${f.outdoor ? "屋外に対応した商品は現在ありません。防塵（IP5X）モデルも屋内専用で、防水ではありません。" : "条件に合うディスプレイがありません。条件を減らしてみてください。"}</div>`;
 
-  const portrait = state.mount === "floor" || f.portrait;
-  const fits = d ? mountCandidates().map((m) => {
-    const e = evalMount(d, m.sku, f.portrait);
-    return `
-      <div class="card mount-card tone-${e.tone}">
-        <div class="mount-head">
-          <span class="mount-name">${TOOL_IMG}<strong>${esc(m.sku)}</strong></span>
-          <span class="verdict v-${e.tone}">${e.verdict}</span>
-        </div>
-        <div class="mount-body">
-          <a href="${esc(m.url)}" target="_blank" rel="noopener" class="mount-photo"><img src="${esc(m.image)}" alt="${esc(m.name)}" loading="lazy"></a>
-          ${e.over ? `<div class="alert alert-bad">収納ユニットを取り付けたままだと、横からはみ出す場合があります</div>` : ""}
-        </div>
-        <div class="pills">
-          ${e.floor ? "" : `<span class="pill ${e.okLand ? "is-yes" : "is-no"}"><i class="o-land"></i>横 ${e.okLand ? "✓" : "✗"}</span>`}
-          <span class="pill ${e.okPort ? "is-yes" : "is-no"}"><i class="o-port"></i>縦 ${e.okPort ? "✓" : "✗"}</span>
-          <span class="pill">${angleIcon(e.angle)} ${esc(e.angle)}</span>
-          <span class="pill">耐荷重 ${m.loadKg}kg</span>
-          ${e.t.screw ? `<span class="pill">ネジ ${esc(e.t.screw)}</span>` : ""}
-        </div>
-        <ul class="notes">${e.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
+  // 金具
+  let mountHtml = "", chosenMount = null;
+  if (d) {
+    const { list: ranked, best } = rankMounts(d);
+    if (!ranked.find((x) => x.m.sku === state.mountSel && x.e.ok)) state.mountSel = best?.m.sku || null;
+    chosenMount = ranked.find((x) => x.m.sku === state.mountSel) || null;
+    mountHtml = ranked.map((x) => {
+      const { m, e } = x;
+      const on = m.sku === state.mountSel;
+      return `
+      <div class="card mount-card tone-${x.tone} ${on ? "is-on" : ""}">
+        <button type="button" class="card-hit" data-mountsel="${esc(m.sku)}" ${e.ok ? "" : "disabled"} aria-pressed="${on}">
+          <div class="mount-head">
+            <span class="mount-name">${TOOL_IMG}<strong>${esc(m.sku)}</strong></span>
+            <span class="verdict v-${x.tone}">${x.verdict}</span>
+          </div>
+          <div class="mount-body">
+            <span class="mount-photo"><img src="${esc(m.image)}" alt="${esc(m.name)}" loading="lazy"></span>
+            <div class="mount-spec">
+              <span>目安：${esc(m.guideSize)}</span>
+              <span>横幅：${m.totalWidthMm}mm${m.unitWidthMm ? `（金具本体${m.bodyWidthMm}mm＋STB収納ユニット${m.unitWidthMm}mm）` : ""}</span>
+              <span>耐荷重：${m.loadKg}kg${e.t.screw ? `　ネジ：${esc(e.t.screw)}` : ""}</span>
+            </div>
+          </div>
+          ${e.over ? `<div class="alert alert-bad">STB収納ユニットを取り付けたままだと、横からはみ出す場合があります</div>` : ""}
+          <div class="pills">
+            ${e.floor ? "" : `<span class="pill ${e.okLand ? "is-yes" : "is-no"}"><i class="o-land"></i>横 ${e.okLand ? "✓" : "✗"}</span>`}
+            <span class="pill ${e.okPort ? "is-yes" : "is-no"}"><i class="o-port"></i>縦 ${e.okPort ? "✓" : "✗"}</span>
+            <span class="pill">${esc(e.angle)}</span>
+          </div>
+          ${e.floor ? "" : `<p class="unit-note">STB収納ユニットは左右どちらにも付け替えられます。</p>`}
+          <ul class="notes">${e.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
+        </button>
+        ${prodLink(m.url)}
       </div>`;
-  }).join("") : "";
+    }).join("");
+  }
 
+  // 再生
+  if (state.play === "builtin" && d && !d.mediaPlayer) state.play = "stb";
   const players = S.players.map((p) => {
     const disabled = p.id === "builtin" && d && !d.mediaPlayer;
     return `<button type="button" class="choice ${state.play === p.id ? "is-on" : ""}" data-play="${p.id}" ${disabled ? "disabled" : ""}>${ICON[p.id]}<span><strong>${esc(p.name)}</strong><small>${disabled ? "このディスプレイは内蔵していません" : esc(p.sub)}</small></span></button>`;
   }).join("");
-  if (state.play === "builtin" && d && !d.mediaPlayer) state.play = "stb";
   const P = S.players.find((p) => p.id === state.play);
+  const devs = (P.devices || []).filter((x) => state.showEol || x.status !== "eol");
+  if (devs.length && !devs.find((x) => x.sku === state.device[P.id])) state.device[P.id] = devs[0].sku;
+  const dev = devs.find((x) => x.sku === state.device[P.id]);
+  const devHtml = devs.length ? `
+    <strong class="sub-h">再生機を選ぶ</strong>
+    <div class="grid-cards">${devs.map((x) => `
+      <div class="card dev-card ${x.sku === state.device[P.id] ? "is-on" : ""}">
+        <button type="button" class="card-hit" data-device="${esc(x.sku)}" aria-pressed="${x.sku === state.device[P.id]}">
+          <div class="disp-head"><div class="icon-slot small">${ICON[x.icon]}</div>
+          <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">${esc(x.desc)}</small></div></div>
+          ${statusBadge(x.status)}
+        </button>
+        ${prodLink(x.url)}
+      </div>`).join("")}</div>` : "";
   const needs = P.needs.map((n) => `<div class="need"><span class="check">✔</span><span><strong>${n.url ? `<a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.item)}</a>` : esc(n.item)}</strong> <span class="muted">${esc(n.note)}</span></span></div>`).join("");
   const manualUrl = P.manualUrl || (d ? d.url : S.links.stand);
 
-  const fitNames = d ? mountCandidates().filter((m) => evalMount(d, m.sku, f.portrait).ok).map((m) => m.sku).join(" または ") : "";
   const iss = d ? (d.sizeInch && d.sizeInch <= 55
     ? "訪問安心保守（オンサイト）と交換品お届け保守（デリバリィ）から選べます。"
     : "65型以上のため、訪問安心保守（オンサイト）のみ選べます（デリバリィは55型以下が対象）。") : "";
 
+  // 選んだセット（次のアクションにつなげる）
+  const setItems = d ? [
+    { role: "映す", icon: screenIcon(d, portraitView), name: d.sku, sub: `${d.sizeInch ?? "?"}型ディスプレイ`, url: d.url },
+    chosenMount ? { role: "取り付ける", icon: `<img src="${esc(chosenMount.m.image)}" alt="" class="set-photo">`, name: chosenMount.m.sku, sub: chosenMount.m.type === "wall" ? "壁掛け金具" : "イーゼルスタンド", url: chosenMount.m.url } : null,
+    dev ? { role: "再生させる", icon: ICON[dev.icon], name: dev.sku, sub: "再生機", url: dev.url } : { role: "再生させる", icon: ICON.builtin, name: "内蔵メディアプレーヤー", sub: "ディスプレイに搭載", url: d.url },
+    P.app ? { role: "再生アプリ", icon: ICON.app, name: P.app.name, sub: "必ず必要です", url: P.app.url } : null,
+    { role: "保存用", icon: ICON.usb, name: P.id === "stb" ? "USBメモリー／microSDカード" : "USBメモリー", sub: "市販品をご用意ください", url: null, hide: P.id === "win" },
+    { role: "保守", icon: ICON.iss, name: "ISS 保守サービス", sub: "購入から60日以内にお申込み", url: S.links.issLcd },
+  ].filter((x) => x && !x.hide) : [];
+  state._copyText = setItems.map((x) => `${x.role}：${x.name}`).join("\n");
+
+  const done = { place: true, disp: !!d, mount: !!chosenMount, play: true, iss: !!d, set: !!d };
+  const steps = [["s-place", "設置場所"], ["s-disp", "映す"], ["s-mount", "取り付ける"], ["s-play", "再生させる"], ["s-iss", "保守"], ["s-set", "選んだセット"]];
+  const stepKeys = ["place", "disp", "mount", "play", "iss", "set"];
+
   $("#view-main").innerHTML = `
-    <section class="panel">
+    <nav class="stepper" aria-label="進み具合">
+      ${steps.map(([id, l], i) => `<button type="button" class="step-btn ${done[stepKeys[i]] ? "is-done" : ""}" data-scroll="${id}"><span class="step-no">${i + 1}</span>${l}</button>`).join(`<span class="step-sep">›</span>`)}
+    </nav>
+
+    <section class="panel" id="s-place">
       <h2>① どこに設置しますか？</h2>
       <div class="choices">${mountBtns}</div>
+      ${nextBtn("s-disp", "② 映す")}
     </section>
 
-    <section class="split">
+    <section class="split" id="s-disp">
       <aside class="panel sidebar">
         <h2 class="h-sm">ディスプレイの条件</h2>
         <div class="fgroup"><strong>画面サイズ</strong>
@@ -190,28 +276,32 @@ function renderMain() {
       <div class="main-col">
         <h2>② 映す：ディスプレイを選ぶ <small class="muted">${list.length}機種</small></h2>
         <div class="grid-cards">${cards}</div>
+        ${d ? nextBtn("s-mount", "③ 取り付ける") : ""}
       </div>
     </section>
 
     ${d ? `
-    <section class="panel">
-      <h2>③ 取り付ける：${state.mount === "wall" ? "壁掛け金具" : "イーゼルスタンド"}</h2>
+    <section class="panel" id="s-mount">
+      <h2>③ 取り付ける：${state.mount === "wall" ? "壁掛け金具を選ぶ" : "イーゼルスタンド"}</h2>
       ${state.mount === "floor" ? `<p class="muted">イーゼルスタンドは、ディスプレイを縦向きにして設置する前提でご案内しています。</p>` : ""}
-      <div class="grid-mounts">${fits}</div>
+      <div class="grid-mounts">${mountHtml}</div>
+      ${nextBtn("s-play", "④ 再生させる")}
     </section>
 
-    <section class="panel">
+    <section class="panel" id="s-play">
       <h2>④ 再生させる：再生のしかたを選ぶ</h2>
       <div class="choices">${players}</div>
+      ${devHtml}
       <div class="needs">
-        <strong>この方法で必要なもの</strong>
+        <strong>あわせて必要なもの</strong>
         ${needs}
         <div class="alert alert-bad">⚠ ${esc(P.warn)}</div>
         <a href="${esc(manualUrl)}" target="_blank" rel="noopener" class="small-link">${esc(P.manualLabel)}</a>
       </div>
+      ${nextBtn("s-iss", "⑤ 保守")}
     </section>
 
-    <section class="panel">
+    <section class="panel" id="s-iss">
       <h2>⑤ 保守サービス（ISS）</h2>
       <div class="alert alert-warn"><strong>お申込みは商品ご購入から60日以内（サービス購入と利用登録まで）</strong></div>
       <ul class="list">
@@ -220,23 +310,32 @@ function renderMain() {
         <li>液晶パネル破損にも対応する「破損対応タイプ」もあります。</li>
       </ul>
       <a href="${esc(S.links.issLcd)}" target="_blank" rel="noopener" class="small-link">液晶ディスプレイの保守サービス（アイ・オー・データ公式）を見る →</a>
+      ${nextBtn("s-set", "選んだセットを確認")}
     </section>
 
-    <section class="panel summary">
-      <h2>選んだセット</h2>
-      <div class="sum-row"><span>映す</span><strong><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.sku)}</a></strong></div>
-      <div class="sum-row"><span>取り付ける</span><strong>${esc(fitNames || "対応する金具がありません")}</strong></div>
-      <div class="sum-row"><span>再生させる</span><strong>${esc(P.name)}</strong></div>
-      <div class="sum-row"><span>保守</span><strong>ISS（60日以内にお申込み）</strong></div>
+    <section class="panel set-panel" id="s-set">
+      <div class="set-head">
+        <h2>選んだセット</h2>
+        <button type="button" class="btn-copy" id="copy-set">型番をコピー</button>
+      </div>
+      <p class="muted small">各商品の「商品ページへ」から、仕様の確認やお見積り・ご購入にお進みください。</p>
+      <div class="set-grid">
+        ${setItems.map((x) => `
+          <div class="set-card">
+            <span class="set-role">${esc(x.role)}</span>
+            <div class="set-icon">${x.icon}</div>
+            <strong class="sku">${esc(x.name)}</strong>
+            <small class="muted">${esc(x.sub)}</small>
+            ${prodLink(x.url, x.role === "保守" ? "保守サービスを見る" : "商品ページへ")}
+          </div>`).join("")}
+      </div>
+      <p id="copy-msg" class="muted small" hidden>コピーしました</p>
     </section>` : ""}
 
     <section class="footnotes">
       <p>※ Android STBは表示を回転できるため、縦に設置する場合も、横向きのコンテンツを倒して作る必要はなく、9:16の縦コンテンツをそのまま使えます。</p>
       <p>※ I-O DATA Device Management（IDM）で、離れた場所から機器の状態確認や再起動の指示ができます。<a href="${esc(S.links.idm)}" target="_blank" rel="noopener">詳しくはこちら</a></p>
     </section>`;
-}
-function angleIcon(label) {
-  return /固定|約18/.test(label) ? "∠" : /0°のみ|なし/.test(label) ? "⊥" : "∠";
 }
 
 /* ---------- やりたいことで選ぶ ---------- */
@@ -414,6 +513,19 @@ function renderWall() {
     </section>`;
 }
 
+function copySet() {
+  const text = state._copyText || "";
+  const done = () => { const m = $("#copy-msg"); if (m) { m.hidden = false; setTimeout(() => (m.hidden = true), 2000); } };
+  if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+  else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text; document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch {}
+  ta.remove();
+}
+
 /* ---------- 画面切り替え・イベント ---------- */
 function go(view) {
   state.view = view;
@@ -434,11 +546,15 @@ function refresh() { // スクロール位置を保ったまま描き直す
 }
 
 document.addEventListener("click", (ev) => {
-  const t = ev.target.closest("[data-nav],[data-mount],[data-disp],[data-play],[data-want],[data-preset],[data-cell],#apply-wants");
+  const t = ev.target.closest("[data-nav],[data-mount],[data-disp],[data-mountsel],[data-device],[data-play],[data-want],[data-preset],[data-cell],[data-scroll],#apply-wants,#copy-set");
   if (!t) return;
   if (t.dataset.nav) { ev.preventDefault(); go(t.dataset.nav); return; }
-  if (t.dataset.mount) { state.mount = t.dataset.mount; if (state.mount === "floor") state.f.portrait = false; }
-  else if (t.dataset.disp) state.sel = t.dataset.disp;
+  if (t.dataset.scroll) { document.getElementById(t.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+  if (t.id === "copy-set") { copySet(); return; }
+  if (t.dataset.mount) { state.mount = t.dataset.mount; state.mountSel = null; if (state.mount === "floor") state.f.portrait = false; }
+  else if (t.dataset.disp) { state.sel = t.dataset.disp; state.mountSel = null; }
+  else if (t.dataset.mountsel) state.mountSel = t.dataset.mountsel;
+  else if (t.dataset.device) state.device[state.play] = t.dataset.device;
   else if (t.dataset.play) state.play = t.dataset.play;
   else if (t.dataset.want) { const w = t.dataset.want; state.wants.has(w) ? state.wants.delete(w) : state.wants.add(w); }
   else if (t.dataset.preset) { const [c, r] = t.dataset.preset.split(",").map(Number); state.wallCols = c; state.wallRows = r; }

@@ -34,9 +34,15 @@ async function fetchText(url) {
 }
 
 // ---------- HTMLの小さな道具 ----------
+// 公式サイトは「×」を &times; と書いているので、名前付きの記号も元の文字に戻す
+// （以前はこれが無く、寸法「約124×6×71cm」が読めず幅が空になっていた）
+const ENT = { nbsp: " ", lt: "<", gt: ">", quot: '"', apos: "'", times: "×", divide: "÷", yen: "¥", minus: "−",
+  ndash: "–", mdash: "—", hellip: "…", deg: "°", plusmn: "±", middot: "·", laquo: "«", raquo: "»", copy: "©", reg: "®", trade: "™" };
 const decode = (s) =>
-  s.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
-   .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
+  s.replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+   .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+   .replace(/&([a-z]+);/gi, (m, name) => (name.toLowerCase() === "amp" ? m : ENT[name.toLowerCase()] ?? m))
+   .replace(/&amp;/g, "&");
 
 function stripTags(html) {
   return decode(

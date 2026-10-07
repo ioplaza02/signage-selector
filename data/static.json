@@ -14,7 +14,9 @@
       "loadKg": 45,
       "tilt": "0～12°（3°刻み）",
       "vesa": "100×100～400×400",
-      "manual": "https://www.iodata.jp/lib/manual/pdf2/da-wm2_manu.pdf"
+      "manual": "https://www.iodata.jp/lib/manual/pdf2/da-wm2_manu.pdf",
+      "guideMin": 43,
+      "guideMax": 60
     },
     {
       "sku": "DA-WML2",
@@ -29,7 +31,9 @@
       "loadKg": 80,
       "tilt": null,
       "vesa": "200×200～800×600",
-      "manual": "https://www.iodata.jp/lib/manual/pdf2/da-wml2_manu.pdf"
+      "manual": "https://www.iodata.jp/lib/manual/pdf2/da-wml2_manu.pdf",
+      "guideMin": 65,
+      "guideMax": 85
     },
     {
       "sku": "DA-ES1",
@@ -44,7 +48,9 @@
       "loadKg": 20,
       "tilt": "約18°（固定）",
       "vesa": "200～400×200～400",
-      "storage": "STB収納パネル付き（最大5kg）"
+      "storage": "STB収納パネル付き（最大5kg）",
+      "guideMin": 40,
+      "guideMax": 50
     }
   ],
   "players": [
@@ -53,66 +59,224 @@
       "name": "ディスプレイ内蔵プレーヤー",
       "sub": "追加の機器なし（USBメモリーのみ）",
       "needs": [
-        { "item": "USBメモリー（市販品）", "note": "内蔵プレーヤーには保存領域がないため、動画や画像はUSBメモリーに入れて挿したまま再生します。" }
+        {
+          "item": "USBメモリー（市販品）",
+          "note": "内蔵プレーヤーには保存領域がないため、動画や画像はUSBメモリーに入れて挿したまま再生します。"
+        }
       ],
       "warn": "内蔵プレーヤーは動画と静止画を混ぜて連続再生できません。",
-      "manualLabel": "メディアプレーヤー機能の対応ファイル・USBメモリーの条件（各ディスプレイの仕様ページ）"
+      "manualLabel": "メディアプレーヤー機能の対応ファイル・USBメモリーの条件（各ディスプレイの仕様ページ）",
+      "devices": [],
+      "app": null
     },
     {
       "id": "stb",
       "name": "Android STB＋デジタルポスター",
       "sub": "DS-ASTBX5 ＋ 無料アプリ",
       "needs": [
-        { "item": "DS-ASTBX5（Android STB）", "note": "", "url": "https://www.iodata.jp/product/pc/pc/ds-astbx5/" },
-        { "item": "デジタルポスター（無料）", "note": "プリインストールされていません。パソコンでダウンロードし、USBメモリー等でSTBにインストールします。", "url": "https://www.iodata.jp/lib/product/etc/7028.htm" },
-        { "item": "USBメモリーまたはmicroSDカード（市販品）", "note": "再生する動画・画像を入れてSTBに挿して使います。" }
+        {
+          "item": "デジタルポスター（無料）",
+          "note": "プリインストールされていません。パソコンでダウンロードし、USBメモリー等でSTBにインストールします。",
+          "url": "https://www.iodata.jp/lib/product/etc/7028.htm"
+        },
+        {
+          "item": "USBメモリーまたはmicroSDカード（市販品）",
+          "note": "再生する動画・画像を入れてSTBに挿して使います。"
+        }
       ],
       "warn": "Google Playの「時間割看板2」はスマホ用の操作アプリで、STBの再生アプリとしては使えません。",
       "manualLabel": "デジタルポスター ウェブマニュアル",
-      "manualUrl": "https://www.iodata.jp/lib/manual/digitalposter/index.html"
+      "manualUrl": "https://www.iodata.jp/lib/manual/digitalposter/index.html",
+      "devices": [
+        {
+          "sku": "DS-ASTBX5",
+          "desc": "Android 14・4K・縦表示対応",
+          "url": "https://www.iodata.jp/product/pc/pc/ds-astbx5/",
+          "icon": "stb",
+          "status": "current"
+        },
+        {
+          "sku": "DS-ASTB2",
+          "desc": "4K動画の縦再生に対応",
+          "url": "https://www.iodata.jp/product/pc/pc/ds-astb2/",
+          "icon": "stb",
+          "status": "limited"
+        }
+      ],
+      "app": {
+        "name": "デジタルポスター（無料）",
+        "url": "https://www.iodata.jp/lib/product/etc/7028.htm"
+      }
     },
     {
       "id": "win",
       "name": "Windows miniPC＋時間割看板2",
-      "sub": "MPC-NCI3W2 など ＋ 有料アプリ",
+      "sub": "Windows miniPC ＋ 有料アプリ",
       "needs": [
-        { "item": "Windows miniPC（MPC-NCI3W2 など）", "note": "", "url": "https://www.iodata.jp/product/pc/pc/mpc-nci3w2/" },
-        { "item": "時間割看板2（有料）", "note": "再生する端末1台につき1ライセンス必要です。無償版の「時間割看板」もあります。", "url": "https://www.iodata.jp/product/pc/signage/jikanwari2/" }
+        {
+          "item": "時間割看板2（有料）",
+          "note": "再生する端末1台につき1ライセンス必要です。無償版の「時間割看板」もあります。",
+          "url": "https://www.iodata.jp/product/pc/signage/jikanwari2/"
+        }
       ],
       "warn": "パソコンだけではサイネージとして再生できません。時間割看板2が必要です。",
       "manualLabel": "時間割看板2 ヘルプ／無償版との違い",
-      "manualUrl": "https://www.iodata.jp/support/qanda/answer/s33087.htm"
+      "manualUrl": "https://www.iodata.jp/support/qanda/answer/s33087.htm",
+      "devices": [
+        {
+          "sku": "MPC-NCI3W2",
+          "desc": "Windows 11 IoT Enterprise搭載",
+          "url": "https://www.iodata.jp/product/pc/pc/mpc-nci3w2/",
+          "icon": "win",
+          "status": "current"
+        },
+        {
+          "sku": "MPC-NCI3W2/PRO",
+          "desc": "Windows 11 Pro搭載（受注生産）",
+          "url": "https://www.iodata.jp/product/pc/pc/mpc-nci3w2pro/",
+          "icon": "win",
+          "status": "current"
+        },
+        {
+          "sku": "MPC-N150W1FL/WG",
+          "desc": "Windows 11 IoT Enterprise・ファンレス",
+          "url": "https://www.iodata.jp/product/pc/pc/mpc-n150w1flwg/",
+          "icon": "win",
+          "status": "current"
+        },
+        {
+          "sku": "MPC-NCI3W1",
+          "desc": "Windows 10 IoT Enterprise搭載",
+          "url": "https://www.iodata.jp/product/pc/pc/mpc-nci3w1/",
+          "icon": "win",
+          "status": "limited"
+        }
+      ],
+      "app": {
+        "name": "時間割看板2（有料・1台1ライセンス）",
+        "url": "https://www.iodata.jp/product/pc/signage/jikanwari2/"
+      }
     }
   ],
   "wants": {
     "play": [
-      { "id": "power", "label": "自動で電源ON/OFFしたい",
-        "builtin": ["o", "ディスプレイのスケジュール機能だけで完結"],
-        "stb": ["o", "ディスプレイとSTBの電源が連動"],
-        "win": ["p", "シャットダウンは可能。起動はPC側の設定が必要"] },
-      { "id": "loop", "label": "くり返し再生したい",
-        "builtin": ["o", "連続再生"], "stb": ["o", "ファイル名順に自動で再生"], "win": ["o", "スケジュールで再生"] },
-      { "id": "mixed", "label": "動画と静止画を混ぜて流したい",
-        "builtin": ["x", "動画のみ・静止画のみの連続再生"],
-        "stb": ["o", "ファイル名順に再生（先頭に番号を付けると便利）"],
-        "win": ["o", "同じスケジュール内で混在可（無償版は不可）"] },
-      { "id": "sched", "label": "時間帯で内容を切り替えたい",
-        "builtin": ["p", "スケジュール再生のみ（条件はマニュアル参照）"],
-        "stb": ["x", "この機能はありません"],
-        "win": ["o", "曜日・時間で設定"] },
-      { "id": "telop", "label": "テロップや割り込み表示をしたい",
-        "builtin": ["x", "この機能はありません"], "stb": ["x", "この機能はありません"], "win": ["o", "時間割看板2のみ（無償版は不可）"] }
+      {
+        "id": "power",
+        "label": "自動で電源ON/OFFしたい",
+        "builtin": [
+          "o",
+          "ディスプレイのスケジュール機能だけで完結"
+        ],
+        "stb": [
+          "o",
+          "ディスプレイとSTBの電源が連動"
+        ],
+        "win": [
+          "p",
+          "シャットダウンは可能。起動はPC側の設定が必要"
+        ]
+      },
+      {
+        "id": "loop",
+        "label": "くり返し再生したい",
+        "builtin": [
+          "o",
+          "連続再生"
+        ],
+        "stb": [
+          "o",
+          "ファイル名順に自動で再生"
+        ],
+        "win": [
+          "o",
+          "スケジュールで再生"
+        ]
+      },
+      {
+        "id": "mixed",
+        "label": "動画と静止画を混ぜて流したい",
+        "builtin": [
+          "x",
+          "動画のみ・静止画のみの連続再生"
+        ],
+        "stb": [
+          "o",
+          "ファイル名順に再生（先頭に番号を付けると便利）"
+        ],
+        "win": [
+          "o",
+          "同じスケジュール内で混在可（無償版は不可）"
+        ]
+      },
+      {
+        "id": "sched",
+        "label": "時間帯で内容を切り替えたい",
+        "builtin": [
+          "p",
+          "スケジュール再生のみ（条件はマニュアル参照）"
+        ],
+        "stb": [
+          "x",
+          "この機能はありません"
+        ],
+        "win": [
+          "o",
+          "曜日・時間で設定"
+        ]
+      },
+      {
+        "id": "telop",
+        "label": "テロップや割り込み表示をしたい",
+        "builtin": [
+          "x",
+          "この機能はありません"
+        ],
+        "stb": [
+          "x",
+          "この機能はありません"
+        ],
+        "win": [
+          "o",
+          "時間割看板2のみ（無償版は不可）"
+        ]
+      }
     ],
     "display": [
-      { "id": "h24", "label": "一日中つけっぱなしにしたい", "effect": "24時間連続稼働モデルに絞ります（18時間モデルは18時間を超えて使うと保証が1年になります）" },
-      { "id": "portrait", "label": "縦向きで設置したい", "effect": "縦設置に対応したディスプレイと金具の組み合わせに絞ります" },
-      { "id": "dust", "label": "ほこりの多い場所・人通りの多い場所", "effect": "防塵（IP5X）・強化ガラスのモデルに絞ります（屋内専用・防水ではありません）" },
-      { "id": "outdoor", "label": "屋外に置きたい", "effect": "屋外に対応した商品は現在ありません" }
+      {
+        "id": "h24",
+        "label": "一日中つけっぱなしにしたい",
+        "effect": "24時間連続稼働モデルに絞ります（18時間モデルは18時間を超えて使うと保証が1年になります）"
+      },
+      {
+        "id": "portrait",
+        "label": "縦向きで設置したい",
+        "effect": "縦設置に対応したディスプレイと金具の組み合わせに絞ります"
+      },
+      {
+        "id": "dust",
+        "label": "ほこりの多い場所・人通りの多い場所",
+        "effect": "防塵（IP5X）・強化ガラスのモデルに絞ります（屋内専用・防水ではありません）"
+      },
+      {
+        "id": "outdoor",
+        "label": "屋外に置きたい",
+        "effect": "屋外に対応した商品は現在ありません"
+      }
     ]
   },
   "wallSmall": [
-    { "sku": "LCD-CU321D-F", "size": "31.5型", "max": 4, "url": "https://www.iodata.jp/product/lcd/bizwide/lcd-cu321d-f/" },
-    { "sku": "LCD-CU272D-F", "size": "27型", "max": 4, "url": "https://www.iodata.jp/product/lcd/bizwide/lcd-cu272d-f/" }
+    {
+      "sku": "LCD-CU321D-F",
+      "size": "31.5型",
+      "max": 4,
+      "url": "https://www.iodata.jp/product/lcd/bizwide/lcd-cu321d-f/"
+    },
+    {
+      "sku": "LCD-CU272D-F",
+      "size": "27型",
+      "max": 4,
+      "url": "https://www.iodata.jp/product/lcd/bizwide/lcd-cu272d-f/"
+    }
   ],
   "links": {
     "stand": "https://www.iodata.jp/pio/io/lcd/stand.htm",
