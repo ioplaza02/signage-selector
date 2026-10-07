@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-07T05:07:23.436Z",
+  "updatedAt": "2026-10-07T18:15:08.100Z",
   "source": "https://www.iodata.jp/pio/io/lcd/stand.htm",
   "displays": [
     {
@@ -1572,6 +1572,13 @@
       "price": null,
       "priceExTax": null,
       "openPrice": true,
+      "status": "current"
+    },
+    "JIKANWARI2": {
+      "jan": "4957180134116",
+      "price": 18150,
+      "priceExTax": 16500,
+      "openPrice": false,
       "status": "current"
     }
   }
