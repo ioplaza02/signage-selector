@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>サイネージセレクター</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- パスワード（簡易的な鍵。本物のセキュリティではありません） -->
+<div id="gate" class="gate">
+  <form id="gate-form" class="gate-box">
+    <h1>サイネージセレクター</h1>
+    <label for="gate-input">パスワード</label>
+    <input id="gate-input" type="password" autocomplete="current-password">
+    <button type="submit">ひらく</button>
+    <p id="gate-error" class="gate-error" hidden>パスワードが違います</p>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <header class="site-header">
+    <a href="#" class="brand" data-nav="main">
+      <span class="brand-title">サイネージセレクター</span>
+      <span class="brand-sub">映す・再生させる・取り付ける、をまとめて選べます</span>
+    </a>
+    <nav class="header-nav">
+      <a href="#wants" class="btn-wants" data-nav="wants">やりたいことで選ぶ</a>
+      <a href="#wall" class="btn-ghost" data-nav="wall">複数画面をつなげたい（ディスプレイウォール）</a>
+    </nav>
+  </header>
+
+  <div id="data-banner" class="data-banner" hidden></div>
+
+  <main id="view-main" class="view"></main>
+  <main id="view-wants" class="view" hidden></main>
+  <main id="view-wall" class="view" hidden></main>
+
+  <footer class="site-footer">
+    <p id="updated-at"></p>
+    <p>掲載内容はアイ・オー・データ機器の公開情報をもとにしています。最新の対応情報は <a href="https://www.iodata.jp/pio/io/lcd/stand.htm" target="_blank" rel="noopener">液晶ディスプレイオプション（スタンド／金具）対応表</a> をご確認ください。</p>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

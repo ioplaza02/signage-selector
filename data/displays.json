@@ -1,0 +1,270 @@
+{
+  "updatedAt": "2026-10-07T01:49:07.361Z",
+  "sample": true,
+  "displays": [
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u751d-p/",
+      "widthMm": null,
+      "heightMm": null,
+      "weightKg": null,
+      "dustproof": true,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": true,
+      "status": "current",
+      "sku": "LCD-U751D-P",
+      "sizeInch": 75,
+      "hours": 24,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        }
+      }
+    },
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u651d/",
+      "widthMm": null,
+      "heightMm": null,
+      "weightKg": null,
+      "dustproof": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "status": "current",
+      "sku": "LCD-U651D",
+      "sizeInch": 65,
+      "hours": 18,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        }
+      }
+    },
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u551d/",
+      "widthMm": 1240,
+      "heightMm": 710,
+      "weightKg": 15,
+      "dustproof": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "status": "paused",
+      "sku": "LCD-U551D",
+      "sizeInch": 55,
+      "hours": 18,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6×15",
+          "notes": []
+        }
+      }
+    },
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u551d-p/",
+      "widthMm": 1250,
+      "heightMm": 730,
+      "weightKg": 22.2,
+      "dustproof": true,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": true,
+      "status": "paused",
+      "sku": "LCD-U551D-P",
+      "sizeInch": 55,
+      "hours": 24,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        }
+      }
+    },
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u501v/",
+      "widthMm": null,
+      "heightMm": null,
+      "weightKg": null,
+      "dustproof": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "wallMax": null,
+      "tiltNG": false,
+      "status": "current",
+      "sku": "LCD-U501V",
+      "sizeInch": 50,
+      "hours": 18,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6×15",
+          "notes": []
+        }
+      }
+    },
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u501vx/",
+      "widthMm": null,
+      "heightMm": null,
+      "weightKg": null,
+      "dustproof": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "wallMax": null,
+      "tiltNG": false,
+      "status": "current",
+      "sku": "LCD-U501VX",
+      "sizeInch": 50,
+      "hours": 18,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "h",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        }
+      }
+    },
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-hu431db/",
+      "widthMm": null,
+      "heightMm": null,
+      "weightKg": null,
+      "dustproof": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "wallMax": null,
+      "tiltNG": false,
+      "status": "current",
+      "sku": "LCD-HU431DB",
+      "sizeInch": 43,
+      "hours": 24,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "o",
+          "screw": "M6×15",
+          "notes": []
+        }
+      }
+    },
+    {
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u431d/",
+      "widthMm": null,
+      "heightMm": null,
+      "weightKg": null,
+      "dustproof": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "wallMax": null,
+      "tiltNG": false,
+      "status": "current",
+      "sku": "LCD-U431D",
+      "sizeInch": 43,
+      "hours": 18,
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6×25",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "v",
+          "screw": "M6×15",
+          "notes": []
+        }
+      }
+    }
+  ]
+}
