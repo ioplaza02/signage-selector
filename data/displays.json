@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-07T02:31:16.229Z",
+  "updatedAt": "2026-10-07T04:47:18.082Z",
   "source": "https://www.iodata.jp/pio/io/lcd/stand.htm",
   "displays": [
     {
@@ -9,26 +9,29 @@
       "section": "液晶ディスプレイ（65型以上）",
       "mounts": {
         "DA-WM2": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
       "portraitPowerButton": "下背面部",
       "sizeInch": 75,
+      "widthMm": 1710,
+      "depthMm": 100,
+      "heightMm": 980,
       "weightKg": 50.1,
       "hours": 24,
       "dustproof": true,
@@ -37,6 +40,9 @@
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": true,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": null,
       "status": "current"
     },
@@ -48,7 +54,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "h",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
@@ -57,28 +63,34 @@
         },
         "DA-WML2": {
           "sym": "h",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
-      "portraitPowerButton": "&times;",
+      "portraitPowerButton": null,
       "sizeInch": 75,
+      "widthMm": 1670,
+      "depthMm": 90,
+      "heightMm": 960,
       "weightKg": 21.8,
       "hours": 18,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": true,
-      "displayWall": true,
+      "displayWall": false,
       "wallMax": null,
-      "tiltNG": false,
+      "tiltNG": true,
+      "portraitNG": true,
+      "ceilingNG": true,
+      "tiltRange": null,
       "vesa": null,
       "status": "current"
     },
@@ -90,7 +102,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "h",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
@@ -98,19 +110,19 @@
         },
         "DA-WML2": {
           "sym": "h",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
-      "portraitPowerButton": "&times;",
+      "portraitPowerButton": null,
       "sizeInch": 75,
       "weightKg": 40,
       "hours": null,
@@ -120,6 +132,9 @@
       "displayWall": true,
       "wallMax": 2,
       "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": null,
       "status": "eol"
     },
@@ -133,7 +148,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
@@ -142,20 +157,23 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 65,
+      "widthMm": 1470,
+      "depthMm": 60,
+      "heightMm": 850,
       "weightKg": 31,
       "hours": 24,
       "dustproof": true,
@@ -164,7 +182,10 @@
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": true,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "400×400",
       "status": "current"
     },
     {
@@ -177,7 +198,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
@@ -185,20 +206,23 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 65,
+      "widthMm": 1450,
+      "depthMm": 60,
+      "heightMm": 830,
       "weightKg": 21.9,
       "hours": 18,
       "dustproof": false,
@@ -207,7 +231,10 @@
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": 20,
+      "vesa": "400×400",
       "status": "current"
     },
     {
@@ -221,7 +248,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "h",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
@@ -230,28 +257,34 @@
         },
         "DA-WML2": {
           "sym": "h",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
-      "portraitPowerButton": "&times;",
+      "portraitPowerButton": null,
       "sizeInch": 65,
+      "widthMm": 1450,
+      "depthMm": 90,
+      "heightMm": 840,
       "weightKg": 16.7,
       "hours": 18,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": true,
-      "displayWall": true,
+      "displayWall": false,
       "wallMax": null,
-      "tiltNG": false,
+      "tiltNG": true,
+      "portraitNG": true,
+      "ceilingNG": true,
+      "tiltRange": null,
       "vesa": null,
       "status": "current"
     },
@@ -265,7 +298,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -274,14 +307,14 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M8&times;20",
+          "screw": "M8×20",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
@@ -296,6 +329,9 @@
       "displayWall": true,
       "wallMax": 2,
       "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": null,
       "status": "eol"
     },
@@ -309,7 +345,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -318,14 +354,14 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
@@ -338,8 +374,12 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "400×200",
       "status": "eol"
     },
     {
@@ -352,7 +392,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
@@ -361,20 +401,23 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 55,
+      "widthMm": 1250,
+      "depthMm": 60,
+      "heightMm": 730,
       "weightKg": 22.2,
       "hours": 24,
       "dustproof": true,
@@ -383,7 +426,10 @@
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": true,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "300×300",
       "status": "current"
     },
     {
@@ -396,7 +442,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -404,7 +450,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -412,7 +458,7 @@
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
           ]
@@ -420,6 +466,9 @@
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 55,
+      "widthMm": 1240,
+      "depthMm": 60,
+      "heightMm": 710,
       "weightKg": 15,
       "hours": 18,
       "dustproof": false,
@@ -428,7 +477,10 @@
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": 20,
+      "vesa": "300×300",
       "status": "current"
     },
     {
@@ -442,7 +494,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "h",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
@@ -451,28 +503,34 @@
         },
         "DA-WML2": {
           "sym": "h",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
-      "portraitPowerButton": "&times;",
+      "portraitPowerButton": null,
       "sizeInch": 55,
+      "widthMm": 1230,
+      "depthMm": 90,
+      "heightMm": 710,
       "weightKg": 10.5,
       "hours": 18,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": true,
-      "displayWall": true,
+      "displayWall": false,
       "wallMax": null,
-      "tiltNG": false,
+      "tiltNG": true,
+      "portraitNG": true,
+      "ceilingNG": true,
+      "tiltRange": null,
       "vesa": null,
       "status": "current"
     },
@@ -486,7 +544,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -495,7 +553,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -503,7 +561,7 @@
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -520,7 +578,10 @@
       "displayWall": true,
       "wallMax": 2,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "400×200",
       "status": "eol"
     },
     {
@@ -531,7 +592,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -540,7 +601,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -548,7 +609,7 @@
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。",
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
@@ -563,7 +624,11 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": null,
       "status": "eol"
     },
@@ -575,7 +640,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -584,7 +649,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -592,7 +657,7 @@
         },
         "DA-ES1": {
           "sym": "h",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
           ]
@@ -600,13 +665,20 @@
       },
       "portraitPowerButton": "上面",
       "sizeInch": 55,
+      "widthMm": 1242,
+      "depthMm": 68,
+      "heightMm": 727,
       "weightKg": 17.2,
       "hours": null,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": null,
       "status": "eol"
     },
@@ -620,7 +692,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -629,7 +701,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -637,7 +709,7 @@
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -652,8 +724,12 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "400×200",
       "status": "eol"
     },
     {
@@ -664,7 +740,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -673,7 +749,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -681,7 +757,7 @@
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -695,8 +771,12 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "200×400",
       "status": "eol",
       "weightKg": 14.2
     },
@@ -708,7 +788,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取付時は、液晶パネルは傾けないで、垂直に設置してください。",
             "金具本体の中心とディスプレイの中心は異なります。",
@@ -717,7 +797,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -725,7 +805,7 @@
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "縦方向で取り付ける際は（別売） DA-VESA/EXT が必要です。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -739,8 +819,12 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "200×400",
       "status": "eol",
       "weightKg": 14.2
     },
@@ -754,7 +838,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -762,7 +846,7 @@
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
@@ -770,7 +854,7 @@
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
           ]
@@ -778,6 +862,9 @@
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 50,
+      "widthMm": 1120,
+      "depthMm": 60,
+      "heightMm": 640,
       "weightKg": 13,
       "hours": 18,
       "dustproof": false,
@@ -786,7 +873,10 @@
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": 20,
+      "vesa": "200×200",
       "status": "current"
     },
     {
@@ -800,7 +890,7 @@
       "mounts": {
         "DA-WM2": {
           "sym": "h",
-          "screw": "M6&times;25",
+          "screw": "M6×25",
           "notes": [
             "金具本体の中心とディスプレイの中心は異なります。",
             "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
@@ -808,27 +898,33 @@
           ]
         },
         "DA-WML2": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
-      "portraitPowerButton": "&times;",
+      "portraitPowerButton": null,
       "sizeInch": 50,
+      "widthMm": 1110,
+      "depthMm": 90,
+      "heightMm": 650,
       "weightKg": 11.1,
       "hours": 18,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": true,
-      "displayWall": true,
+      "displayWall": false,
       "wallMax": null,
-      "tiltNG": false,
-      "vesa": null,
+      "tiltNG": true,
+      "portraitNG": true,
+      "ceilingNG": true,
+      "tiltRange": null,
+      "vesa": "100×200",
       "status": "current"
     },
     {
@@ -839,21 +935,21 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
@@ -867,8 +963,12 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "400×200",
       "status": "eol"
     },
     {
@@ -881,21 +981,21 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
@@ -909,8 +1009,12 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "400×200",
       "status": "eol"
     },
     {
@@ -923,21 +1027,21 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "スタンドに添付のワッシャーをネジと取付金具の間に入れて取り付けてください。"
           ]
@@ -951,8 +1055,12 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "400×200",
       "status": "eol"
     },
     {
@@ -965,22 +1073,25 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-WML2": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         },
         "DA-ES1": {
           "sym": "v",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         }
       },
       "portraitPowerButton": "上背面部",
       "sizeInch": 43,
+      "widthMm": 970,
+      "depthMm": 60,
+      "heightMm": 550,
       "weightKg": 9.2,
       "hours": 18,
       "dustproof": false,
@@ -989,7 +1100,10 @@
       "displayWall": true,
       "wallMax": 25,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": 20,
+      "vesa": "100×200",
       "status": "current"
     },
     {
@@ -1003,33 +1117,39 @@
       "mounts": {
         "DA-WM2": {
           "sym": "h",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": [
             "取付時は、液晶パネルは傾けないで、垂直に設置してください。"
           ]
         },
         "DA-WML2": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         },
         "DA-ES1": {
-          "sym": null,
+          "sym": "x",
           "screw": null,
           "notes": []
         }
       },
-      "portraitPowerButton": "&times;",
+      "portraitPowerButton": null,
       "sizeInch": 43,
+      "widthMm": 960,
+      "depthMm": 80,
+      "heightMm": 560,
       "weightKg": 7.2,
       "hours": 18,
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": true,
-      "displayWall": true,
+      "displayWall": false,
       "wallMax": null,
-      "tiltNG": false,
-      "vesa": null,
+      "tiltNG": true,
+      "portraitNG": true,
+      "ceilingNG": true,
+      "tiltRange": null,
+      "vesa": "100×200",
       "status": "current"
     },
     {
@@ -1040,17 +1160,17 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         }
       },
@@ -1061,10 +1181,13 @@
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": false,
-      "displayWall": true,
-      "wallMax": 25,
+      "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "200×200",
       "status": "current"
     },
     {
@@ -1077,17 +1200,17 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         }
       },
@@ -1098,10 +1221,13 @@
       "dustproof": false,
       "temperedGlass": false,
       "mediaPlayer": false,
-      "displayWall": true,
-      "wallMax": 25,
+      "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
-      "vesa": null,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": "200×200",
       "status": "eol"
     },
     {
@@ -1114,17 +1240,17 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         }
       },
@@ -1136,7 +1262,11 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": "200x200",
       "status": "eol"
     },
@@ -1150,17 +1280,17 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         }
       },
@@ -1172,7 +1302,11 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": null,
       "status": "eol"
     },
@@ -1184,17 +1318,17 @@
       "mounts": {
         "DA-WM2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-WML2": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         },
         "DA-ES1": {
           "sym": "o",
-          "screw": "M6&times;15",
+          "screw": "M6×15",
           "notes": []
         }
       },
@@ -1205,7 +1339,11 @@
       "temperedGlass": false,
       "mediaPlayer": false,
       "displayWall": false,
+      "wallMax": null,
       "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
       "vesa": null,
       "status": "eol",
       "weightKg": 12.1
