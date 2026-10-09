@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-08T18:14:19.632Z",
+  "updatedAt": "2026-10-09T18:14:04.578Z",
   "source": "https://www.iodata.jp/pio/io/lcd/stand.htm",
   "displays": [
     {
@@ -130,7 +130,28 @@
           "notes": []
         }
       },
-      "portraitPowerButton": null
+      "portraitPowerButton": null,
+      "sizeInch": 75,
+      "widthMm": 1672,
+      "depthMm": 82,
+      "heightMm": 955,
+      "weightKg": 40,
+      "hours": null,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": false,
+      "displayWall": false,
+      "wallMax": null,
+      "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": null,
+      "vesa": null,
+      "status": "eol",
+      "jan": "4957180148731",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
     },
     {
       "sku": "LCD-U651D-P",
