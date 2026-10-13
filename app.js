@@ -9,7 +9,7 @@ const STALE_DAYS = 40;
 const state = {
   view: "main",
   mount: "wall",            // wall | floor
-  f: { size: new Set(), hours: new Set(), portrait: false, ceiling: false, dust: false, outdoor: false, player: false, wall: false },
+  f: { size: new Set(), hours: new Set(), bright: new Set(), portrait: false, ceiling: false, dust: false, outdoor: false, player: false, wall: false },
   showEol: false,
   sel: null,                // 選択中ディスプレイの型番
   mountSel: null,           // 選択中の金具
@@ -17,6 +17,7 @@ const state = {
   device: { stb: null, win: null }, // 選択中の再生機
   wants: new Set(),
   wallCols: 2, wallRows: 2,
+  combo: "restaurant",
 };
 let D = [];      // ディスプレイ
 let S = null;    // 固定データ
@@ -39,6 +40,7 @@ const ICON = {
 ICON.app = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="6" width="44" height="34" rx="3"/><line x1="6" y1="14" x2="50" y2="14"/><rect x="12" y="20" width="14" height="14" fill="#0F5E57" stroke="none"/><line x1="30" y1="22" x2="44" y2="22"/><line x1="30" y1="28" x2="40" y2="28"/></svg>`;
 ICON.usb = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="14" y="16" width="30" height="16" rx="3"/><rect x="44" y="19" width="8" height="10" rx="1"/><line x1="20" y1="24" x2="34" y2="24"/></svg>`;
 ICON.iss = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M28 4 L46 10 V24 C46 34 38 41 28 44 C18 41 10 34 10 24 V10 Z"/><path d="M20 24 L26 30 L37 18" stroke="#0F5E57" stroke-width="3"/></svg>`;
+ICON.nas = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="16" y="4" width="24" height="40" rx="3"/><line x1="21" y1="12" x2="35" y2="12"/><line x1="21" y1="18" x2="35" y2="18"/><line x1="21" y1="24" x2="35" y2="24"/><circle cx="28" cy="36" r="2"/></svg>`;
 // 工具アイコン（images/tool.png を置くと表示。無ければ何も出さない）
 const TOOL_IMG = `<img src="images/tool.png" alt="" class="tool-icon" onerror="this.remove()">`;
 
@@ -149,6 +151,8 @@ function filteredDisplays() {
     }
     // 稼働時間は「必要な時間以上に対応しているか」で絞る（24時間対応機は18時間以内の運用にも使える）
     if (f.hours.size) { const need = Math.min(...[...f.hours].map(Number)); if (!(d.hours >= need)) return false; }
+    // 明るさも「指定した輝度以上」で絞る（明るい機種は暗めの条件も満たす）
+    if (f.bright.size) { const need = Math.min(...[...f.bright].map(Number)); if (!(d.brightness >= need)) return false; }
     if (f.dust && !d.dustproof) return false;
     if (f.ceiling && (d.ceilingNG || !d.tiltRange)) return false;
     if (f.player && !d.mediaPlayer) return false;
@@ -183,7 +187,7 @@ function renderMain() {
         <button type="button" class="card-hit" data-disp="${esc(x.sku)}" aria-pressed="${x.sku === state.sel}">
           <div class="disp-head">
             <div class="icon-slot">${screenIcon(x, portraitView)}</div>
-            <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">${portraitView ? `設置幅 ${fmtCm(x.heightMm)}（縦置き）` : `幅 ${fmtCm(x.widthMm)}`} ・ ${fmtKg(x.weightKg)}</small></div>
+            <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">${portraitView ? `設置幅 ${fmtCm(x.heightMm)}` : `幅 ${fmtCm(x.widthMm)}`} ・ ${fmtKg(x.weightKg)}</small></div>
           </div>
           ${priceLine(x)}
           <div class="tags">
@@ -191,6 +195,7 @@ function renderMain() {
             <span class="tag ${tr.noTilt ? "tag-no" : "tag-teal"}">${tr.noTilt ? "傾けて設置できない" : tr.tiltRange ? `上下${tr.tiltRange}°まで傾けOK` : "傾けて設置OK"}</span>
             ${tr.noCeiling ? `<span class="tag tag-no">天吊り不可</span>` : tr.tiltRange && !tr.noTilt ? `<span class="tag tag-teal">天吊り可※</span>` : ""}
             ${x.hours ? `<span class="tag tag-teal">${x.hours}時間連続稼働</span>` : ""}
+            ${x.brightness ? `<span class="tag ${x.brightness >= 500 ? "tag-sun" : "tag-sun-soft"}">輝度${x.brightness}cd/㎡</span>` : ""}
             ${x.dustproof ? `<span class="tag tag-blue">防塵IP5X</span>` : ""}
             ${x.mediaPlayer ? `<span class="tag tag-amber">プレーヤー内蔵</span>` : ""}
             ${x.displayWall ? `<span class="tag tag-gray">ディスプレイウォール対応</span>` : ""}
@@ -304,6 +309,8 @@ function renderMain() {
           ${chk("size", "40", "40〜49型", f.size.has("40"))}${chk("size", "50", "50〜55型", f.size.has("50"))}${chk("size", "65", "65型以上", f.size.has("65"))}</div>
         <div class="fgroup"><strong>連続稼働時間</strong>
           ${chk("hours", "18", "1日18時間以内で使う", f.hours.has("18"))}${chk("hours", "24", "24時間つけっぱなしで使う", f.hours.has("24"))}<small class="muted">24時間対応の機種は、18時間以内の運用でも表示します。</small></div>
+        <div class="fgroup"><strong>明るさ（最大輝度）</strong>
+          ${chk("bright", "500", "500cd/㎡以上（窓際・店頭）", f.bright.has("500"))}${chk("bright", "450", "450cd/㎡以上", f.bright.has("450"))}<small class="muted">明るい機種は、低い条件を選んだときも表示します。</small></div>
         ${state.mount === "wall" ? `<div class="fgroup"><strong>設置向き</strong>${chk("portrait", "1", "縦に設置したい", f.portrait)}${chk("ceiling", "1", "天吊りで設置したい", f.ceiling)}${f.ceiling ? `<small class="muted">天吊り金具は市販品です。取り付けは工事専門業者へご依頼ください。</small>` : ""}</div>` : ""}
         <div class="fgroup"><strong>設置環境</strong>
           ${chk("dust", "1", "防塵（IP5X）・強化ガラス", f.dust)}${chk("outdoor", "1", "屋外で使いたい", f.outdoor)}
@@ -381,6 +388,94 @@ function renderMain() {
 }
 
 /* ---------- やりたいことで選ぶ ---------- */
+
+/* ---------- 組み合わせ例（このまままとめて買えるセット） ---------- */
+// 型番から、価格・JAN・商品ページを集める（ディスプレイ → 金具 → 再生機 → アプリの順に探す）
+function comboItem(it) {
+  const disp = it.sku ? D.find((d) => d.sku === it.sku) : null;
+  const acc = it.sku ? accOf(it.sku) : null;
+  const mount = it.sku ? S.mounts.find((m) => m.sku === it.sku) : null;
+  const dev = it.sku ? S.players.flatMap((p) => p.devices || []).find((x) => x.sku === it.sku) : null;
+  const p = disp || acc || null;
+  const url = it.url || disp?.url || mount?.url || dev?.url || acc?.url || null;
+  const icon = disp ? screenIcon(disp, false) : mount ? `<img src="${esc(mount.image)}" alt="" class="set-photo">`
+    : dev ? ICON[dev.icon] : /アプリ/.test(it.role) ? ICON.app : /NAS/.test(it.name || "") ? ICON.nas : ICON.usb;
+  return { ...it, p, url, icon, status: disp?.status || dev?.status || acc?.status };
+}
+function comboCopyText(c, items) {
+  const lines = items.map((x) => `・${x.role}：${x.sku ? `${x.sku}${x.p?.jan ? `（JAN ${x.p.jan}）` : ""}` : x.name}${x.sku ? " ×1" : ""}`);
+  return `【${c.title}】\n${lines.join("\n")}`;
+}
+function renderCombos() {
+  const C = S.combos || [];
+  if (!C.length) return "";
+  const c = C.find((x) => x.id === state.combo) || C[0];
+  const items = c.items.map(comboItem);
+  const priced = items.filter((x) => x.p && !x.p.openPrice && x.p.price);
+  const sum = priced.reduce((a, x) => a + x.p.price, 0);
+  const sumEx = priced.reduce((a, x) => a + (x.p.priceExTax || 0), 0);
+  const openN = items.filter((x) => x.p?.openPrice).length;
+  state._comboCopy = comboCopyText(c, items);
+  const tabs = C.map((x) => `<button type="button" class="combo-tab ${x.id === c.id ? "is-on" : ""}" aria-pressed="${x.id === c.id}" data-combo-tab="${x.id}"><small>${esc(x.scene)}</small>${esc(x.title)}</button>`).join("");
+  const rows = items.map((x) => `
+      <div class="combo-item">
+        <div class="combo-icon">${x.icon}</div>
+        <div class="combo-body">
+          <small class="muted">${esc(x.role)}</small>
+          <strong class="sku">${esc(x.sku || x.name)}</strong>${x.sku && x.name ? `<small class="muted"> ${esc(x.name)}</small>` : ""} ${statusBadge(x.status)}
+          <div class="muted small">${esc(x.note || "")}</div>
+          ${x.p ? priceLine(x.p) : x.priceNote ? `<div class="price-line"><strong class="small">${esc(x.priceNote)}</strong></div>` : ""}
+        </div>
+        <div class="combo-link">${prodLink(x.url)}</div>
+      </div>`).join("");
+  return `
+    <section class="panel combo-panel">
+      <h2>組み合わせ例：このまま導入できるセット</h2>
+      <p class="muted">よくある使い方を、今ある商品だけで組みました。型番とJANをまとめてコピーして、そのまま見積もり・ご注文にお使いいただけます。</p>
+      <div class="combo-tabs">${tabs}</div>
+      <div class="combo-card">
+        <div class="combo-ops">
+          <h3>${esc(c.title)}</h3>
+          <p class="combo-lead">${esc(c.lead)}</p>
+          <strong class="small">こんな運用ができます</strong>
+          <ul class="combo-list">${c.ops.map((o) => `<li>${esc(o)}</li>`).join("")}</ul>
+        </div>
+        <div class="combo-items">
+          <strong class="small">このセットに必要なもの</strong>
+          ${rows}
+          <div class="combo-total">
+            ${priced.length ? `<div>価格表示のある商品の合計 <strong>￥${sum.toLocaleString()}</strong>${sumEx ? `<small>（税抜￥${sumEx.toLocaleString()}）</small>` : ""}</div>` : ""}
+            ${openN ? `<div class="muted small">ほかにオープン価格の商品が${openN}点あります。価格は販売店にお問い合わせください。</div>` : ""}
+          </div>
+          <div class="combo-actions">
+            <button type="button" class="btn-primary" id="copy-combo">型番・JANをまとめてコピー</button>
+            <button type="button" class="go-btn" data-combo-go="${c.id}">このセットで詳しく見る →</button>
+            <span id="copy-combo-msg" class="copy-msg" hidden>コピーしました</span>
+          </div>
+        </div>
+      </div>
+    </section>`;
+}
+// 組み合わせ例をメインの流れに読み込む（絞り込みはいったん外して、そのセットが必ず表示されるようにする）
+function applyCombo(id) {
+  const c = (S.combos || []).find((x) => x.id === id);
+  if (!c) return;
+  const f = state.f;
+  f.size.clear(); f.hours.clear(); f.bright.clear();
+  Object.assign(f, { dust: false, outdoor: false, player: false, wall: false, ceiling: false });
+  state.mount = c.mount;
+  f.portrait = c.mount === "wall" && !!c.portrait;
+  const disp = c.items.find((x) => x.sku && D.some((d) => d.sku === x.sku));
+  const mount = c.items.find((x) => x.sku && S.mounts.some((m) => m.sku === x.sku));
+  const dev = c.items.find((x) => x.sku && S.players.some((p) => (p.devices || []).some((d) => d.sku === x.sku)));
+  state.sel = disp?.sku || null;
+  state.mountSel = mount?.sku || null;
+  state.play = c.play;
+  if (dev) state.device[c.play] = dev.sku;
+  go("main");
+  setTimeout(() => document.getElementById("s-set")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+}
+
 function renderWants() {
   const W = S.wants;
   const chip = (c) => `<button type="button" class="chip ${state.wants.has(c.id) ? "is-on" : ""}" aria-pressed="${state.wants.has(c.id)}" data-want="${c.id}">${esc(c.label)}</button>`;
@@ -403,6 +498,7 @@ function renderWants() {
 
   $("#view-wants").innerHTML = `
     <div class="back-bar"><button type="button" class="back-btn" data-nav="main">← セットで選ぶ（1台で設置）に戻る</button></div>
+    ${renderCombos()}
     <section class="panel">
       <h1 class="h-page">サイネージでやりたいことを選んでください（いくつでも）</h1>
       <div class="fgroup"><strong class="muted">再生のしかた</strong><div class="chips">${W.play.map(chip).join("")}</div></div>
@@ -617,9 +713,8 @@ function renderWall() {
     </section>`;
 }
 
-function copySet() {
-  const text = state._copyText || "";
-  const done = () => { const m = $("#copy-msg"); if (m) { m.hidden = false; setTimeout(() => (m.hidden = true), 2000); } };
+function copySet(text = state._copyText || "", msgId = "#copy-msg") {
+  const done = () => { const m = $(msgId); if (m) { m.hidden = false; setTimeout(() => (m.hidden = true), 2000); } };
   if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
   else fallbackCopy(text, done);
 }
@@ -655,9 +750,12 @@ function refresh() { // スクロール位置を保ったまま描き直す
 }
 
 document.addEventListener("click", (ev) => {
-  const t = ev.target.closest("[data-wallgo],[data-nav],[data-mount],[data-disp],[data-mountsel],[data-device],[data-play],[data-want],[data-preset],[data-cell],[data-scroll],#apply-wants,#copy-set");
+  const t = ev.target.closest("[data-combo-tab],[data-combo-go],#copy-combo,[data-wallgo],[data-nav],[data-mount],[data-disp],[data-mountsel],[data-device],[data-play],[data-want],[data-preset],[data-cell],[data-scroll],#apply-wants,#copy-set");
   if (!t) return;
   if (t.dataset.nav) { ev.preventDefault(); go(t.dataset.nav); return; }
+  if (t.id === "copy-combo") { copySet(state._comboCopy || "", "#copy-combo-msg"); return; }
+  if (t.dataset.comboGo) { applyCombo(t.dataset.comboGo); return; }
+  if (t.dataset.comboTab) { state.combo = t.dataset.comboTab; refresh(); return; }
   if (t.dataset.wallgo) { const [c, r] = t.dataset.wallgo.split(",").map(Number); state.wallCols = c; state.wallRows = r; go("wall"); return; }
   if (t.dataset.scroll) { document.getElementById(t.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
   if (t.id === "copy-set") { copySet(); return; }
@@ -677,7 +775,7 @@ document.addEventListener("change", (ev) => {
   if (t.id === "show-eol") { state.showEol = t.checked; refresh(); return; }
   const k = t.dataset.filter;
   if (!k) return;
-  if (k === "size" || k === "hours") t.checked ? state.f[k].add(t.value) : state.f[k].delete(t.value);
+  if (k === "size" || k === "hours" || k === "bright") t.checked ? state.f[k].add(t.value) : state.f[k].delete(t.value);
   else state.f[k] = t.checked;
   refresh();
 });

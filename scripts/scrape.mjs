@@ -227,6 +227,9 @@ export function parseProductPage(html, sku) {
     const km = area.match(/スタンドなし\s*約?\s*([\d.]+)\s*kg/) || area.match(/約?\s*([\d.]+)\s*kg/);
     if (km) out.weightKg = Number(km[1]);
   }
+  // 最大輝度（標準値）：「500cd/㎡」「450cd/㎡ ※パネル輝度520cd/㎡」→ 先頭の数値を使う
+  const bm = flat.match(/最大輝度\s*[（(]?\s*標準値?\s*[）)]?\s*([\d,]+)\s*cd/) || flat.match(/(?<!パネル)輝度\s*[（(]?[^）)\d]{0,8}[）)]?\s*([\d,]+)\s*cd/);
+  if (bm) out.brightness = Number(bm[1].replace(/,/g, ""));
   out.hours = /24時間連続稼働/.test(flat) ? 24 : /18時間連続稼働/.test(flat) ? 18 : null;
   out.dustproof = /IP5X/.test(flat);
   out.temperedGlass = /強化ガラス/.test(flat);
@@ -304,7 +307,7 @@ async function main() {
     let info = {};
     try {
       info = parseProductPage(await fetchText(d.url), d.sku);
-      if (!info.widthMm || !info.weightKg) {
+      if (!info.widthMm || !info.weightKg || info.brightness == null) {
         try {
           const base = /\.htm$/.test(d.url) ? d.url : (d.url.endsWith("/") ? d.url : d.url + "/");
           const spec = parseProductPage(await fetchText(new URL("spec.htm", base).href), d.sku);
@@ -318,7 +321,7 @@ async function main() {
     Object.assign(d, info);
     const lack = ["sizeInch", "widthMm", "weightKg", "hours"].filter((k) => d[k] == null);
     if (lack.length) missing.push(`${d.sku}: ${lack.join(", ")}`);
-    console.log(`  ${d.sku}  ${d.sizeInch ?? "?"}型 幅${d.widthMm ?? "?"}mm ${d.weightKg ?? "?"}kg ${d.hours ?? "?"}h  WM2:${d.mounts["DA-WM2"].sym} WML2:${d.mounts["DA-WML2"].sym} ES1:${d.mounts["DA-ES1"].sym}  ${d.status ?? ""}`);
+    console.log(`  ${d.sku}  ${d.sizeInch ?? "?"}型 幅${d.widthMm ?? "?"}mm ${d.weightKg ?? "?"}kg ${d.hours ?? "?"}h ${d.brightness ?? "?"}cd  WM2:${d.mounts["DA-WM2"].sym} WML2:${d.mounts["DA-WML2"].sym} ES1:${d.mounts["DA-ES1"].sym}  ${d.status ?? ""}`);
   }
 
   console.log("\n金具・再生機・アプリの JAN と価格を取得");
