@@ -285,5 +285,6 @@ section[id] { scroll-margin-top: 70px; }
 .copy-msg { color: var(--teal); font-weight: 700; font-size: 14px; }
 @media (max-width: 640px) { .combo-item { grid-template-columns: 48px 1fr; } .combo-link { grid-column: 2; } }
 /* 組み合わせ例のイラスト（images/combo-○○.png が無いときは何も表示しない） */
-.combo-figure { margin: 0 0 12px; border-radius: 10px; overflow: hidden; background: var(--bg); }
-.combo-figure img { width: 100%; height: auto; display: block; }
+.combo-figure { margin: 0 0 12px; }
+.combo-figure img { width: 100%; height: auto; display: block; border-radius: 10px; background: var(--bg); }
+.combo-figure figcaption { margin-top: 4px; font-size: 12px; color: var(--muted); }

@@ -435,7 +435,7 @@ function renderCombos() {
       <div class="combo-tabs">${tabs}</div>
       <div class="combo-card">
         <div class="combo-ops">
-          ${c.image ? `<figure class="combo-figure"><img src="${esc(c.image)}" alt="${esc(c.title)}のイメージ" onerror="this.parentNode.remove()"></figure>` : ""}
+          ${c.image ? `<figure class="combo-figure"><img src="${esc(c.image)}" alt="${esc(c.title)}のイメージ" onerror="this.parentNode.remove()"><figcaption>※イメージです</figcaption></figure>` : ""}
           <h3>${esc(c.title)}</h3>
           <p class="combo-lead">${esc(c.lead)}</p>
           <strong class="small">こんな運用ができます</strong>
