@@ -383,7 +383,8 @@
           "note": "再生する写真・動画を入れてSTBに挿します",
           "priceNote": "市販品をご用意ください"
         }
-      ]
+      ],
+      "image": "images/combo-restaurant.jpg"
     },
     {
       "id": "lobby",
@@ -417,7 +418,8 @@
           "note": "再生する動画を入れてディスプレイに挿したまま使います",
           "priceNote": "市販品をご用意ください"
         }
-      ]
+      ],
+      "image": "images/combo-lobby.jpg"
     },
     {
       "id": "office",
@@ -462,7 +464,8 @@
           "note": "お手持ちのNASの共有フォルダーを使います",
           "priceNote": "お手持ちのものを使用"
         }
-      ]
+      ],
+      "image": "images/combo-office.jpg"
     }
   ]
 }

@@ -284,3 +284,6 @@ section[id] { scroll-margin-top: 70px; }
 .combo-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; }
 .copy-msg { color: var(--teal); font-weight: 700; font-size: 14px; }
 @media (max-width: 640px) { .combo-item { grid-template-columns: 48px 1fr; } .combo-link { grid-column: 2; } }
+/* 組み合わせ例のイラスト（images/combo-○○.png が無いときは何も表示しない） */
+.combo-figure { margin: 0 0 12px; border-radius: 10px; overflow: hidden; background: var(--bg); }
+.combo-figure img { width: 100%; height: auto; display: block; }
