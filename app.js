@@ -587,6 +587,9 @@ function applyWants() {
 /* ---------- ディスプレイウォール ---------- */
 function renderWall() {
   const cols = state.wallCols, rows = state.wallRows, total = cols * rows;
+  // 4分配の分配器をカスケード接続する場合の台数：全ディスプレイが同じ段数になるように組む
+  // 例）4台→1台、9台→1＋3台（2段）、16台→1＋4台（2段）、25台→1＋2＋7台（3段）
+  const sp = (() => { const stages = []; let need = total; for (;;) { const u = Math.ceil(need / 4); stages.unshift(u); if (u <= 1) break; need = u; } return { stages, units: stages.reduce((a, b) => a + b, 0), depth: stages.length }; })();
   const quad = (big) => `<div class="quad ${big ? "big" : ""}"><div class="q1">1</div><div class="q2">2</div><div class="q3">3</div><div class="q4">4</div></div>`;
   const presets = [[2, 2, "田の字（2×2）"], [4, 1, "横一列（4台）"], [3, 1, "横一列（3台）"], [1, 3, "縦一列（3台）"], [3, 3, "3×3（9台）"], [4, 4, "4×4（16台）"], [5, 5, "5×5（25台）"]]
     .map(([c, r, l]) => `<button type="button" class="preset ${c === cols && r === rows ? "is-on" : ""}" data-preset="${c},${r}">
@@ -678,14 +681,14 @@ function renderWall() {
         <div class="kv"><span>対応ディスプレイ（同じ型番）</span><strong>${total} 台</strong></div>
         <div class="kv"><span>壁掛け金具</span><strong>${total} 台</strong></div>
         <div class="kv"><span>再生機（STB・PCなど）</span><strong>1 台</strong></div>
-        <div class="kv"><span>HDMI分配器（4ポート）</span><strong>${total <= 4 ? "1 台" : "要相談"}</strong></div>
-        <div class="kv"><span>HDMIケーブル</span><strong>${total + 1} 本</strong></div>
-        <div class="kv"><span>電源コンセント（目安）</span><strong>${total + 2} 口</strong></div>
-        <p class="small muted">コンセントの内訳：ディスプレイ${total}台＋再生機1台＋分配器1台。設置場所に十分な数のコンセントがあるかご確認ください。</p>
-        <p class="small muted">HDMIケーブルは、ディスプレイや再生機に同梱されている本数・長さで足りるかご確認ください。並べ方によっては長いケーブルが必要です。</p>
+        <div class="kv"><span>HDMI分配器（4分配）</span><strong>${sp.units} 台${sp.depth > 1 ? `（${sp.depth}段）` : ""}</strong></div>
+        ${sp.depth > 1 ? `<div class="cascade small"><strong>つなぎ方（カスケード接続）：</strong>再生機 → ${sp.stages.map((u, i) => `${i + 1}段目 ${u}台`).join(" → ")} → ディスプレイ ${total}台<br><span class="muted">分配器の出力に、次の分配器をつないで出力数を増やします。ここでは、全台のディスプレイが同じ段数の先につながる組み方で計算しています。</span></div>` : ""}
+        <div class="kv"><span>HDMIケーブル</span><strong>${total + sp.units} 本</strong></div>
+        <div class="kv"><span>電源コンセント（目安）</span><strong>${total + 1 + sp.units} 口</strong></div>
+        <p class="small muted">コンセントの内訳：ディスプレイ${total}台＋再生機1台＋分配器${sp.units}台。設置場所に十分な数のコンセントがあるかご確認ください。</p>
+        <p class="small muted">HDMIケーブルの内訳：再生機→分配器 1本${sp.units > 1 ? `＋分配器どうし ${sp.units - 1}本` : ""}＋分配器→ディスプレイ ${total}本。ディスプレイや再生機に同梱されている本数・長さで足りるかご確認ください。並べ方によっては長いケーブルが必要です。</p>
         <p class="small">※再生機にAndroid STB（デジタルポスター）を使う場合は、動画・画像を入れる<strong>USBメモリーまたはmicroSDカード</strong>も必要です。</p>
-        ${total > 4 ? `<div class="alert alert-warn small">5画面以上は分配器を複数組み合わせる構成になります。販売店・当社へご相談ください。</div>` : ""}
-        <p class="muted small">おすすめ分配器：<a href="${esc(S.links.splitter1)}" target="_blank" rel="noopener">GP-HDSP14H460</a>、<a href="${esc(S.links.splitter2)}" target="_blank" rel="noopener">DA-4HD/4K</a>　※ディスプレイ1台ごとに保守サービス（ISS）の対象です。</p>
+        <p class="muted small">おすすめ分配器：<a href="${esc(S.links.splitter1)}" target="_blank" rel="noopener">GP-HDSP14H460</a>（最大8段までカスケード接続可）${sp.depth <= 2 ? `、<a href="${esc(S.links.splitter2)}" target="_blank" rel="noopener">DA-4HD/4K</a>（2段・最大16画面まで、在庫限り）` : `<br>※ DA-4HD/4Kは2段（最大16画面）までのため、この並べ方ではGP-HDSP14H460をお使いください。`}<br>※ディスプレイ1台ごとに保守サービス（ISS）の対象です。</p>
       </div>
     </section>
 
