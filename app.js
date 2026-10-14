@@ -588,7 +588,7 @@ function applyWants() {
 function renderWall() {
   const cols = state.wallCols, rows = state.wallRows, total = cols * rows;
   const quad = (big) => `<div class="quad ${big ? "big" : ""}"><div class="q1">1</div><div class="q2">2</div><div class="q3">3</div><div class="q4">4</div></div>`;
-  const presets = [[2, 2, "田の字（2×2）"], [4, 1, "横一列（4台）"], [3, 1, "横一列（3台）"], [1, 3, "縦一列（3台）"], [3, 3, "3×3"]]
+  const presets = [[2, 2, "田の字（2×2）"], [4, 1, "横一列（4台）"], [3, 1, "横一列（3台）"], [1, 3, "縦一列（3台）"], [3, 3, "3×3（9台）"], [4, 4, "4×4（16台）"], [5, 5, "5×5（25台）"]]
     .map(([c, r, l]) => `<button type="button" class="preset ${c === cols && r === rows ? "is-on" : ""}" data-preset="${c},${r}">
         <span class="mini" style="grid-template-columns:repeat(${c},1fr);width:${Math.min(84, c * 21)}px">${"<i></i>".repeat(c * r)}</span><small>${l}</small></button>`).join("");
   let cells = "";
@@ -599,6 +599,8 @@ function renderWall() {
   const wd = D.filter((d) => d.displayWall && (state.showEol || d.status !== "eol"));
   const sizes = [...new Set(wd.map((d) => d.sizeInch))].sort((a, b) => b - a);
   const hoursCols = [18, 24];
+  // 全体の対角の長さから「何型相当か」を出す（ベゼル込みの外形寸法で計算）
+  const wallInch = (fs) => fs ? Math.round(Math.hypot(fs.w * cols, fs.h * rows) / 25.4) : null;
   const wallChip = (d) => {
     const over = d.wallMax && total > d.wallMax;
     const fs = faceSize(d);
@@ -614,7 +616,8 @@ function renderWall() {
       </div>
       <div class="wc-side">
         <small class="muted">全体サイズ</small>
-        <span class="wc-size">${size}</span>
+        ${wallInch(fs) ? `<span class="wc-inch">約${wallInch(fs)}型相当</span>` : ""}
+        <span class="wc-size-sub">${size}</span>
         ${prodLink(d.url)}
       </div>
     </div>`;
@@ -660,6 +663,15 @@ function renderWall() {
         <p class="muted small">ほかの並べ方は、マス目の右下にしたい位置をクリック（横 × 縦）</p>
         <div class="cells">${cells}</div>
         <div class="big-label">横${cols} × 縦${rows}（${total}画面）</div>
+        <div class="inch-eq">
+          <strong class="small">この並べ方で、何型相当になる？</strong>
+          <div class="inch-row">${[...sizes].reverse().map((sz) => {
+            const d = wd.find((x) => x.sizeInch === sz && faceSize(x) && !faceSize(x).est) || wd.find((x) => x.sizeInch === sz);
+            const n = d ? wallInch(faceSize(d)) : null;
+            return n ? `<div class="inch-cell"><span class="inch-tag screen-icon s${sz >= 75 ? 75 : sz >= 65 ? 65 : sz >= 55 ? 55 : sz >= 50 ? 50 : 43}">${sz}型</span><span>×${total}台</span><strong>約${n}型</strong></div>` : "";
+          }).join("")}</div>
+          <small class="muted">ディスプレイの外形寸法（枠を含む）から、全体の対角の長さで計算した目安です。</small>
+        </div>
       </div>
       <div class="panel grow">
         <h2>② 必要なもの（自動計算）</h2>
