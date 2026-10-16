@@ -291,9 +291,14 @@ function renderMain() {
   const steps = [["s-place", "設置場所"], ["s-disp", "映す"], ["s-mount", "取り付ける"], ["s-play", "再生させる"], ["s-iss", "保守"], ["s-set", "選んだセット"]];
   const stepKeys = ["place", "disp", "mount", "play", "iss", "set"];
 
+  // セット完成度：お客様が実際に操作した項目だけを数える（自動で選ばれたものは数えない）
+  const T = state;
+  const acted = [T._tPlace || T._tDisp, T._tDisp, T._tMount || T._tPlay, T._tPlay, T._tDisp && T._tPlay, T._copied].map(Boolean);
+  const gaugePct = Math.round(acted.filter(Boolean).length / acted.length * 100);
   $("#view-main").innerHTML = `
     <nav class="stepper" aria-label="進み具合">
       ${steps.map(([id, l], i) => `<button type="button" class="step-btn ${done[stepKeys[i]] ? "is-done" : ""}" data-scroll="${id}"><span class="step-no">${i + 1}</span>${l}</button>`).join(`<span class="step-sep">›</span>`)}
+    <div class="set-gauge"><span class="g-label">セット完成度</span><div class="g-bar"><i data-bar="gauge" data-w="${gaugePct}"></i></div><b class="g-num">${gaugePct}<small>%</small></b></div>
     </nav>
 
     <section class="panel" id="s-place">
@@ -471,6 +476,7 @@ function applyCombo(id) {
   const dev = c.items.find((x) => x.sku && S.players.some((p) => (p.devices || []).some((d) => d.sku === x.sku)));
   state.sel = disp?.sku || null;
   state.mountSel = mount?.sku || null;
+  Object.assign(state, { _tPlace: true, _tDisp: true, _tMount: true, _tPlay: true }); // セットを丸ごと選んだので、ゲージも進める
   state.play = c.play;
   if (dev) state.device[c.play] = dev.sku;
   go("main");
@@ -671,7 +677,7 @@ function renderWall() {
           <div class="inch-row">${[...sizes].reverse().map((sz) => {
             const d = wd.find((x) => x.sizeInch === sz && faceSize(x) && !faceSize(x).est) || wd.find((x) => x.sizeInch === sz);
             const n = d ? wallInch(faceSize(d)) : null;
-            return n ? `<div class="inch-cell"><span class="inch-tag screen-icon s${sz >= 75 ? 75 : sz >= 65 ? 65 : sz >= 55 ? 55 : sz >= 50 ? 50 : 43}">${sz}型</span><span>×${total}台</span><strong>約${n}型</strong></div>` : "";
+            return n ? `<div class="inch-cell"><span class="inch-tag screen-icon s${sz >= 75 ? 75 : sz >= 65 ? 65 : sz >= 55 ? 55 : sz >= 50 ? 50 : 43}">${sz}型</span><span>×${total}台</span><strong>約${n}型</strong><span class="inch-meter"><i data-bar="inch-${sz}" data-w="${Math.min(100, n / 4)}"></i></span></div>` : "";
           }).join("")}</div>
           <small class="muted">ディスプレイの外形寸法（枠を含む）から、全体の対角の長さで計算した目安です。</small>
         </div>
@@ -742,6 +748,19 @@ function fallbackCopy(text, done) {
 }
 
 /* ---------- 画面切り替え・イベント ---------- */
+/* ゲージ：前回の長さから新しい長さへ、なめらかに伸び縮みさせる */
+state._bars = {};
+function animateBars() {
+  const els = document.querySelectorAll("[data-bar]");
+  els.forEach((el) => { el.style.width = (state._bars[el.dataset.bar] ?? 0) + "%"; });
+  void document.body.offsetWidth; // いったん前回の長さで描いてから
+  requestAnimationFrame(() => els.forEach((el) => {
+    const w = Number(el.dataset.w) || 0;
+    el.style.width = w + "%";
+    state._bars[el.dataset.bar] = w;
+  }));
+}
+
 function go(view) {
   state.view = view;
   for (const v of ["main", "wants", "wall"]) $(`#view-${v}`).hidden = v !== view;
@@ -753,6 +772,7 @@ function go(view) {
   if (view === "main") renderMain();
   if (view === "wants") renderWants();
   if (view === "wall") renderWall();
+  animateBars();
   const hash = view === "main" ? "" : "#" + view;
   if (location.hash !== hash) history.replaceState(null, "", hash || location.pathname);
   window.scrollTo(0, 0);
@@ -763,6 +783,7 @@ function refresh() { // スクロール位置を保ったまま描き直す
   if (state.view === "wants") renderWants();
   if (state.view === "wall") renderWall();
   window.scrollTo(0, y);
+  animateBars();
 }
 
 document.addEventListener("click", (ev) => {
@@ -774,12 +795,12 @@ document.addEventListener("click", (ev) => {
   if (t.dataset.comboTab) { state.combo = t.dataset.comboTab; refresh(); return; }
   if (t.dataset.wallgo) { const [c, r] = t.dataset.wallgo.split(",").map(Number); state.wallCols = c; state.wallRows = r; go("wall"); return; }
   if (t.dataset.scroll) { document.getElementById(t.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
-  if (t.id === "copy-set") { copySet(); return; }
-  if (t.dataset.mount) { state.mount = t.dataset.mount; state.mountSel = null; if (state.mount === "floor") state.f.portrait = false; }
-  else if (t.dataset.disp) { state.sel = t.dataset.disp; state.mountSel = null; }
-  else if (t.dataset.mountsel) state.mountSel = t.dataset.mountsel;
-  else if (t.dataset.device) state.device[state.play] = t.dataset.device;
-  else if (t.dataset.play) state.play = t.dataset.play;
+  if (t.id === "copy-set") { copySet(); state._copied = true; refresh(); return; }
+  if (t.dataset.mount) { state._tPlace = true; state.mount = t.dataset.mount; state.mountSel = null; if (state.mount === "floor") state.f.portrait = false; }
+  else if (t.dataset.disp) { state._tDisp = true; state.sel = t.dataset.disp; state.mountSel = null; }
+  else if (t.dataset.mountsel) { state._tMount = true; state.mountSel = t.dataset.mountsel; }
+  else if (t.dataset.device) { state._tPlay = true; state.device[state.play] = t.dataset.device; }
+  else if (t.dataset.play) { state._tPlay = true; state.play = t.dataset.play; }
   else if (t.dataset.want) { const w = t.dataset.want; state.wants.has(w) ? state.wants.delete(w) : state.wants.add(w); }
   else if (t.dataset.preset) { const [c, r] = t.dataset.preset.split(",").map(Number); state.wallCols = c; state.wallRows = r; }
   else if (t.dataset.cell) { const [c, r] = t.dataset.cell.split(",").map(Number); if (c * r < 2) return; state.wallCols = c; state.wallRows = r; }

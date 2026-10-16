@@ -298,3 +298,176 @@ section[id] { scroll-margin-top: 70px; }
 .inch-cell strong { font-size: 20px; color: var(--teal); line-height: 1.2; }
 .inch-tag { width: auto; height: auto; padding: 1px 6px; border-width: 2px; font-size: 11px; }
 .cascade { background: var(--teal-soft); border-radius: 8px; padding: 8px 12px; margin: 4px 0 6px; line-height: 1.7; }
+
+/* =========================================================
+   リッチ化（試作）：浮き上がるカード・ホバーで動く・ゲージ・立体感
+   既存の style.css の後に読み込んで上書きする
+   ========================================================= */
+:root {
+  --lift-1: 0 1px 2px rgba(20, 32, 46, .06), 0 4px 12px rgba(20, 32, 46, .06);
+  --lift-2: 0 2px 4px rgba(20, 32, 46, .06), 0 12px 28px rgba(20, 32, 46, .10);
+  --lift-3: 0 6px 12px rgba(20, 32, 46, .08), 0 22px 44px rgba(20, 32, 46, .16);
+  --teal-glow: 0 0 0 3px rgba(15, 94, 87, .18), 0 14px 32px rgba(15, 94, 87, .22);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* 背景：ほんのり奥行きのあるグラデーション */
+body {
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(15, 94, 87, .08), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(30, 42, 56, .07), transparent 60%),
+    linear-gradient(180deg, #EEF2F6 0%, #F6F8FA 100%);
+  background-attachment: fixed;
+}
+
+/* ヘッダー：濃紺のグラデーション＋下にティールのライン */
+.site-header {
+  background: linear-gradient(135deg, #1E2A38 0%, #233448 55%, #17414A 100%);
+  box-shadow: 0 6px 20px rgba(20, 32, 46, .25);
+  border-bottom: 3px solid #0F5E57;
+}
+.nav-tab { transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s; }
+.nav-tab:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0, 0, 0, .25); }
+.nav-tab.is-active { box-shadow: inset 0 -4px 0 var(--teal), 0 6px 16px rgba(0, 0, 0, .25); }
+
+/* パネル：白いカードが浮いて見える */
+.panel {
+  border-radius: 16px;
+  box-shadow: var(--lift-1);
+  border: 1px solid rgba(255, 255, 255, .9);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FCFDFE 100%);
+}
+
+/* カード共通：浮き上がり＋ホバーで持ち上がる */
+.card, .choice, .preset, .combo-tab, .wall-chip, .soft, .inch-cell, .combo-item {
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .2s, background .2s;
+}
+.card {
+  border: 1px solid #E1E7EE;
+  border-radius: 14px;
+  box-shadow: var(--lift-1);
+  position: relative;
+  overflow: hidden;
+}
+.card::before { /* 上辺のハイライト（立体感） */
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+  background: linear-gradient(90deg, #D5DCE4, #E9EEF3);
+  transition: background .25s;
+}
+.card:hover { transform: translateY(-5px); box-shadow: var(--lift-3); border-color: #CBD5E0; }
+.card.is-on {
+  border: 1px solid var(--teal);
+  background: linear-gradient(180deg, #F2FAF8 0%, #FFFFFF 70%);
+  box-shadow: var(--teal-glow);
+  transform: translateY(-3px);
+}
+.card.is-on::before { background: linear-gradient(90deg, #0F5E57, #2BA597); }
+.card.is-on::after { /* 選択中のチェックバッジ */
+  content: "✓"; position: absolute; top: 10px; right: 10px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: linear-gradient(180deg, #17867B, #0F5E57); color: #fff;
+  font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 8px rgba(15, 94, 87, .4);
+}
+
+/* 設置場所・再生方法の選択肢 */
+.choice { border: 1px solid #E1E7EE; border-radius: 14px; box-shadow: var(--lift-1); }
+.choice:hover:not(:disabled) { transform: translateY(-4px); box-shadow: var(--lift-2); }
+.choice.is-on { border-color: var(--teal); box-shadow: var(--teal-glow); background: linear-gradient(180deg, #EAF5F3, #FFFFFF); }
+
+/* 画面サイズのアイコン：ベゼル付きの立体的な画面に */
+.screen-icon {
+  border-width: 3px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .55), 0 4px 8px rgba(20, 32, 46, .18);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, 0) 45%);
+  transition: transform .3s var(--ease);
+}
+.card:hover .screen-icon { transform: translateY(-2px) scale(1.06) rotate(-2deg); }
+
+/* タグ：少しふくらみを持たせる */
+.tag { box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .06), 0 1px 0 rgba(255, 255, 255, .8); border-radius: 6px; }
+
+/* ボタン：押せる立体ボタン */
+.btn-primary {
+  background: linear-gradient(180deg, #17867B 0%, #0F5E57 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #0A403B, 0 10px 18px rgba(15, 94, 87, .3);
+  transition: transform .12s, box-shadow .12s, filter .2s;
+}
+.btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 #0A403B, 0 4px 8px rgba(15, 94, 87, .3); }
+.next-btn, .go-btn {
+  background: #fff; border-radius: 999px;
+  box-shadow: 0 3px 0 #0F5E57, 0 8px 16px rgba(15, 94, 87, .15);
+  transition: transform .12s, box-shadow .12s, background .2s, color .2s;
+}
+.next-btn:hover, .go-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #0F5E57, 0 12px 20px rgba(15, 94, 87, .2); }
+.next-btn:active, .go-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #0F5E57; }
+.chip { box-shadow: var(--lift-1); transition: transform .2s var(--ease), box-shadow .2s, background .2s; }
+.chip:hover { transform: translateY(-2px); box-shadow: var(--lift-2); }
+.chip.is-on { background: linear-gradient(180deg, #17867B, #0F5E57); box-shadow: 0 3px 0 #0A403B, 0 8px 16px rgba(15, 94, 87, .3); }
+
+/* ステッパー：すりガラス＋「セット完成度」ゲージ */
+.stepper {
+  background: rgba(255, 255, 255, .82);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 16px;
+  box-shadow: var(--lift-2);
+  padding: 10px 14px;
+}
+.step-btn.is-done .step-no { background: linear-gradient(180deg, #17867B, #0F5E57); box-shadow: 0 2px 6px rgba(15, 94, 87, .35); }
+.set-gauge { margin-left: auto; display: flex; align-items: center; gap: 10px; min-width: 260px; }
+.g-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.g-bar {
+  flex: 1; height: 12px; border-radius: 999px; background: #E6EBF0; overflow: hidden;
+  box-shadow: inset 0 2px 3px rgba(20, 32, 46, .15);
+}
+.g-bar i {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, #0F5E57, #22A090 60%, #5FD3C2);
+  box-shadow: 0 0 10px rgba(34, 160, 144, .6), inset 0 1px 0 rgba(255, 255, 255, .5);
+  transition: width .6s var(--ease);
+  position: relative; overflow: hidden;
+}
+.g-bar i::after { /* 光が走るアニメーション */
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
+  transform: translateX(-100%); animation: shine 2.4s ease-in-out infinite;
+}
+@keyframes shine { to { transform: translateX(100%); } }
+.g-num { font-size: 20px; color: var(--teal); min-width: 56px; text-align: right; }
+.g-num small { font-size: 12px; margin-left: 1px; }
+
+/* 組み合わせ例 */
+.combo-panel { border: 0; box-shadow: var(--lift-2), inset 0 4px 0 #0F5E57; }
+.combo-tab { border: 1px solid #E1E7EE; box-shadow: var(--lift-1); }
+.combo-tab:hover { transform: translateY(-3px); box-shadow: var(--lift-2); }
+.combo-tab.is-on { box-shadow: var(--teal-glow); }
+.combo-figure img { box-shadow: var(--lift-2); }
+.combo-item { background: #fff; border: 1px solid #E8EDF2; box-shadow: var(--lift-1); }
+.combo-item:hover { transform: translateX(4px); box-shadow: var(--lift-2); }
+
+/* ディスプレイウォール */
+.preset { border: 1px solid #E1E7EE; border-radius: 12px; box-shadow: var(--lift-1); }
+.preset:hover { transform: translateY(-4px); box-shadow: var(--lift-2); }
+.preset.is-on { box-shadow: var(--teal-glow); }
+.cell { transition: transform .15s, background .2s; }
+.cell.is-on { box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .18), 0 2px 4px rgba(15, 94, 87, .35); }
+.cell:hover { transform: scale(1.08); }
+.wall-chip { border: 1px solid #E1E7EE; border-radius: 12px; box-shadow: var(--lift-1); }
+.wall-chip:hover { transform: translateY(-3px); box-shadow: var(--lift-2); }
+.inch-cell { box-shadow: var(--lift-1); }
+.inch-cell:hover { transform: translateY(-3px); box-shadow: var(--lift-2); }
+.inch-meter { display: block; width: 100%; height: 8px; border-radius: 999px; background: #E6EBF0; overflow: hidden; margin-top: 4px; box-shadow: inset 0 1px 2px rgba(20, 32, 46, .15); }
+.inch-meter i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #0F5E57, #5FD3C2); transition: width .6s var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* スマホ幅：ゲージは進み具合の下に1行で */
+@media (max-width: 760px) {
+  .set-gauge { margin-left: 0; flex: 1 1 100%; min-width: 0; }
+}
