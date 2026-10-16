@@ -471,3 +471,16 @@ body {
 @media (max-width: 760px) {
   .set-gauge { margin-left: 0; flex: 1 1 100%; min-width: 0; }
 }
+
+/* 再生機の商品写真（読み込めないときはアイコンを表示） */
+.dev-pic { display: inline-flex; align-items: center; justify-content: center; }
+.dev-pic > svg { display: none; }
+.dev-pic img { display: block; object-fit: contain; background: #fff; border-radius: 8px; }
+.dev-pic.noimg img { display: none; }
+.dev-pic.noimg > svg { display: block; }
+.icon-slot.dev-slot { width: 96px; height: 72px; }
+.dev-photo img { width: 96px; height: 72px; box-shadow: 0 2px 6px rgba(20, 32, 46, .12); }
+.card:hover .dev-photo img { transform: translateY(-2px) scale(1.04); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+.set-pic img { max-width: 140px; height: 76px; }
+.combo-pic img { width: 60px; height: 44px; }
+.card.is-on .disp-head { padding-right: 26px; } /* 右上の✓と型番が重ならないように */

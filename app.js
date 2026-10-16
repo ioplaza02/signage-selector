@@ -44,6 +44,11 @@ ICON.nas = `<svg width="56" height="48" viewBox="0 0 56 48" fill="none" stroke="
 // 工具アイコン（images/tool.png を置くと表示。無ければ何も出さない）
 const TOOL_IMG = `<img src="images/tool.png" alt="" class="tool-icon" onerror="this.remove()">`;
 
+// 再生機の商品写真（公式画像）。読み込めないときはイラストのアイコンに切り替える
+const devPhoto = (x, cls = "dev-photo") => x.image
+  ? `<span class="dev-pic ${cls}"><img src="${esc(x.image)}" alt="${esc(x.sku)}" loading="lazy" onerror="this.parentNode.classList.add('noimg')">${ICON[x.icon] || ""}</span>`
+  : ICON[x.icon] || "";
+
 function screenIcon(d, portrait) {
   const size = d.sizeInch || 50;
   let w = Math.round(size * 1.35), h = Math.round((w * 9) / 16);
@@ -262,7 +267,7 @@ function renderMain() {
     <div class="grid-cards">${devs.map((x) => `
       <div class="card dev-card ${x.sku === state.device[P.id] ? "is-on" : ""}">
         <button type="button" class="card-hit" data-device="${esc(x.sku)}" aria-pressed="${x.sku === state.device[P.id]}">
-          <div class="disp-head"><div class="icon-slot small">${ICON[x.icon]}</div>
+          <div class="disp-head"><div class="icon-slot dev-slot">${devPhoto(x)}</div>
           <div><strong class="sku">${esc(x.sku)}</strong><small class="muted">${esc(x.desc)}</small></div></div>
           ${priceLine(accOf(x.sku))}
           ${statusBadge(x.status)}
@@ -280,7 +285,7 @@ function renderMain() {
   const setItems = d ? [
     { role: "映す", icon: screenIcon(d, portraitView), name: d.sku, sub: `${d.sizeInch ?? "?"}型ディスプレイ`, url: d.url, p: d },
     chosenMount ? { role: "取り付ける", icon: `<img src="${esc(chosenMount.m.image)}" alt="" class="set-photo">`, name: chosenMount.m.sku, sub: chosenMount.m.type === "wall" ? "壁掛け金具" : "イーゼルスタンド", url: chosenMount.m.url, p: accOf(chosenMount.m.sku) } : null,
-    dev ? { role: "再生させる", icon: ICON[dev.icon], name: dev.sku, sub: "再生機", url: dev.url, p: accOf(dev.sku) } : { role: "再生させる", icon: ICON.builtin, name: "内蔵メディアプレーヤー", sub: "ディスプレイに搭載", url: d.url },
+    dev ? { role: "再生させる", icon: devPhoto(dev, "set-pic"), name: dev.sku, sub: "再生機", url: dev.url, p: accOf(dev.sku) } : { role: "再生させる", icon: ICON.builtin, name: "内蔵メディアプレーヤー", sub: "ディスプレイに搭載", url: d.url },
     P.app ? { role: "再生アプリ", icon: ICON.app, name: P.app.name, sub: P.app.sku ? `型番 ${P.app.sku}（パッケージ版）` : "必ず必要です", url: P.app.url, p: P.app.sku ? accOf(P.app.sku) : null } : null,
     { role: "保存用", icon: ICON.usb, name: P.id === "stb" ? "USBメモリー／microSDカード" : "USBメモリー", sub: "市販品をご用意ください", url: null, hide: P.id === "win" },
     { role: "保守", icon: ICON.iss, name: "ISS 保守サービス", sub: "購入から60日以内にお申込み", url: S.links.issLcd },
@@ -291,14 +296,10 @@ function renderMain() {
   const steps = [["s-place", "設置場所"], ["s-disp", "映す"], ["s-mount", "取り付ける"], ["s-play", "再生させる"], ["s-iss", "保守"], ["s-set", "選んだセット"]];
   const stepKeys = ["place", "disp", "mount", "play", "iss", "set"];
 
-  // セット完成度：お客様が実際に操作した項目だけを数える（自動で選ばれたものは数えない）
-  const T = state;
-  const acted = [T._tPlace || T._tDisp, T._tDisp, T._tMount || T._tPlay, T._tPlay, T._tDisp && T._tPlay, T._copied].map(Boolean);
-  const gaugePct = Math.round(acted.filter(Boolean).length / acted.length * 100);
   $("#view-main").innerHTML = `
     <nav class="stepper" aria-label="進み具合">
       ${steps.map(([id, l], i) => `<button type="button" class="step-btn ${done[stepKeys[i]] ? "is-done" : ""}" data-scroll="${id}"><span class="step-no">${i + 1}</span>${l}</button>`).join(`<span class="step-sep">›</span>`)}
-    <div class="set-gauge"><span class="g-label">セット完成度</span><div class="g-bar"><i data-bar="gauge" data-w="${gaugePct}"></i></div><b class="g-num">${gaugePct}<small>%</small></b></div>
+    
     </nav>
 
     <section class="panel" id="s-place">
@@ -404,7 +405,7 @@ function comboItem(it) {
   const p = disp || acc || null;
   const url = it.url || disp?.url || mount?.url || dev?.url || acc?.url || null;
   const icon = disp ? screenIcon(disp, false) : mount ? `<img src="${esc(mount.image)}" alt="" class="set-photo">`
-    : dev ? ICON[dev.icon] : /アプリ/.test(it.role) ? ICON.app : /NAS/.test(it.name || "") ? ICON.nas : ICON.usb;
+      : dev ? devPhoto(dev, "combo-pic") : /アプリ/.test(it.role) ? ICON.app : /NAS/.test(it.name || "") ? ICON.nas : ICON.usb;
   return { ...it, p, url, icon, status: disp?.status || dev?.status || acc?.status };
 }
 function comboCopyText(c, items) {
@@ -476,7 +477,6 @@ function applyCombo(id) {
   const dev = c.items.find((x) => x.sku && S.players.some((p) => (p.devices || []).some((d) => d.sku === x.sku)));
   state.sel = disp?.sku || null;
   state.mountSel = mount?.sku || null;
-  Object.assign(state, { _tPlace: true, _tDisp: true, _tMount: true, _tPlay: true }); // セットを丸ごと選んだので、ゲージも進める
   state.play = c.play;
   if (dev) state.device[c.play] = dev.sku;
   go("main");
@@ -795,12 +795,12 @@ document.addEventListener("click", (ev) => {
   if (t.dataset.comboTab) { state.combo = t.dataset.comboTab; refresh(); return; }
   if (t.dataset.wallgo) { const [c, r] = t.dataset.wallgo.split(",").map(Number); state.wallCols = c; state.wallRows = r; go("wall"); return; }
   if (t.dataset.scroll) { document.getElementById(t.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
-  if (t.id === "copy-set") { copySet(); state._copied = true; refresh(); return; }
-  if (t.dataset.mount) { state._tPlace = true; state.mount = t.dataset.mount; state.mountSel = null; if (state.mount === "floor") state.f.portrait = false; }
-  else if (t.dataset.disp) { state._tDisp = true; state.sel = t.dataset.disp; state.mountSel = null; }
-  else if (t.dataset.mountsel) { state._tMount = true; state.mountSel = t.dataset.mountsel; }
-  else if (t.dataset.device) { state._tPlay = true; state.device[state.play] = t.dataset.device; }
-  else if (t.dataset.play) { state._tPlay = true; state.play = t.dataset.play; }
+  if (t.id === "copy-set") { copySet(); return; }
+  if (t.dataset.mount) { state.mount = t.dataset.mount; state.mountSel = null; if (state.mount === "floor") state.f.portrait = false; }
+  else if (t.dataset.disp) { state.sel = t.dataset.disp; state.mountSel = null; }
+  else if (t.dataset.mountsel) state.mountSel = t.dataset.mountsel;
+  else if (t.dataset.device) state.device[state.play] = t.dataset.device;
+  else if (t.dataset.play) state.play = t.dataset.play;
   else if (t.dataset.want) { const w = t.dataset.want; state.wants.has(w) ? state.wants.delete(w) : state.wants.add(w); }
   else if (t.dataset.preset) { const [c, r] = t.dataset.preset.split(",").map(Number); state.wallCols = c; state.wallRows = r; }
   else if (t.dataset.cell) { const [c, r] = t.dataset.cell.split(",").map(Number); if (c * r < 2) return; state.wallCols = c; state.wallRows = r; }

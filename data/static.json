@@ -93,14 +93,16 @@
           "desc": "Android 14・4K・縦表示対応",
           "url": "https://www.iodata.jp/product/pc/pc/ds-astbx5/",
           "icon": "stb",
-          "status": "current"
+          "status": "current",
+          "image": "https://www.iodata.jp/image/ds-astbx5_l.jpg"
         },
         {
           "sku": "DS-ASTB2",
           "desc": "4K動画の縦再生に対応",
           "url": "https://www.iodata.jp/product/pc/pc/ds-astb2/",
           "icon": "stb",
-          "status": "limited"
+          "status": "limited",
+          "image": "https://www.iodata.jp/image/ds-astb2_l.jpg"
         }
       ],
       "app": {
@@ -128,28 +130,32 @@
           "desc": "Windows 11 IoT Enterprise搭載",
           "url": "https://www.iodata.jp/product/pc/pc/mpc-nci3w2/",
           "icon": "win",
-          "status": "current"
+          "status": "current",
+          "image": "https://www.iodata.jp/image/mpc-nci3w2_l.jpg"
         },
         {
           "sku": "MPC-NCI3W2/PRO",
           "desc": "Windows 11 Pro搭載（受注生産）",
           "url": "https://www.iodata.jp/product/pc/pc/mpc-nci3w2pro/",
           "icon": "win",
-          "status": "current"
+          "status": "current",
+          "image": "https://www.iodata.jp/image/mpc-nci3w2pro_l.jpg"
         },
         {
           "sku": "MPC-N150W1FL/WG",
           "desc": "Windows 11 IoT Enterprise・ファンレス",
           "url": "https://www.iodata.jp/product/pc/pc/mpc-n150w1flwg/",
           "icon": "win",
-          "status": "current"
+          "status": "current",
+          "image": "https://www.iodata.jp/image/mpc-n150w1flwg_l.jpg"
         },
         {
           "sku": "MPC-NCI3W1",
           "desc": "Windows 10 IoT Enterprise搭載",
           "url": "https://www.iodata.jp/product/pc/pc/mpc-nci3w1/",
           "icon": "win",
-          "status": "limited"
+          "status": "limited",
+          "image": "https://www.iodata.jp/image/mpc-nci3w1_l.jpg"
         }
       ],
       "app": {
