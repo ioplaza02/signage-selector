@@ -484,3 +484,18 @@ body {
 .set-pic img { max-width: 140px; height: 76px; }
 .combo-pic img { width: 60px; height: 44px; }
 .card.is-on .disp-head { padding-right: 26px; } /* 右上の✓と型番が重ならないように */
+
+/* ヘッダー：ほかのセレクターと同じ【社内限定】とお問い合わせ先 */
+.internal-badge { color: #F2C14E; font-weight: 700; margin-right: 10px; letter-spacing: .02em; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.contact-pill {
+  display: inline-flex; align-items: center; min-height: 34px; padding: 4px 16px;
+  border-radius: 999px; font-size: 14px; font-weight: 700; color: #fff;
+  background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .45);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .18); white-space: nowrap;
+}
+@media (max-width: 760px) {
+  .header-right { align-items: stretch; width: 100%; }
+  .contact-pill { align-self: flex-start; }
+}
+@media (max-width: 760px) { .internal-badge { display: block; margin: 0 0 2px; font-size: 16px; } }
