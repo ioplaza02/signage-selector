@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-10T22:54:47.016Z",
+  "updatedAt": "2026-11-12T00:08:14.534Z",
   "source": "https://www.iodata.jp/pio/io/lcd/stand.htm",
   "displays": [
     {
@@ -991,6 +991,56 @@
       "openPrice": true
     },
     {
+      "sku": "LCD-U501VX2",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u501vx2/",
+      "section": "液晶ディスプレイ（55～50型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "h",
+          "screw": "M6×25",
+          "notes": [
+            "金具本体の中心とディスプレイの中心は異なります。",
+            "取付時は、液晶パネルは傾けないで、垂直に設置してください。",
+            "スタンドに添付のスペーサーをディスプレイと取付金具の間に入れて取り付けてください。"
+          ]
+        },
+        "DA-WML2": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        }
+      },
+      "portraitPowerButton": null,
+      "sizeInch": 50,
+      "widthMm": 1110,
+      "depthMm": 90,
+      "heightMm": 650,
+      "weightKg": 11.1,
+      "brightness": 350,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": false,
+      "wallMax": null,
+      "tiltNG": true,
+      "portraitNG": true,
+      "ceilingNG": true,
+      "tiltRange": null,
+      "vesa": null,
+      "status": "current",
+      "jan": "4957180189727",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
+    },
+    {
       "sku": "LCD-U501VX",
       "aliases": [
         "EX-U501VX",
@@ -1199,6 +1249,52 @@
       "vesa": "400×200",
       "status": "eol",
       "jan": "4957180126678",
+      "price": null,
+      "priceExTax": null,
+      "openPrice": true
+    },
+    {
+      "sku": "LCD-U431D2",
+      "aliases": [],
+      "url": "https://www.iodata.jp/product/lcd/4k/lcd-u431d2/",
+      "section": "液晶ディスプレイ（49～40型）",
+      "mounts": {
+        "DA-WM2": {
+          "sym": "o",
+          "screw": "M6×15",
+          "notes": []
+        },
+        "DA-WML2": {
+          "sym": "x",
+          "screw": null,
+          "notes": []
+        },
+        "DA-ES1": {
+          "sym": "v",
+          "screw": "M6×15",
+          "notes": []
+        }
+      },
+      "portraitPowerButton": "上背面部",
+      "sizeInch": 43,
+      "widthMm": 970,
+      "depthMm": 60,
+      "heightMm": 550,
+      "weightKg": 9.2,
+      "brightness": 500,
+      "hours": 18,
+      "dustproof": false,
+      "temperedGlass": false,
+      "mediaPlayer": true,
+      "displayWall": true,
+      "wallMax": 25,
+      "tiltNG": false,
+      "portraitNG": false,
+      "ceilingNG": false,
+      "tiltRange": 20,
+      "vesa": null,
+      "status": "current",
+      "jan": "4957180191089",
       "price": null,
       "priceExTax": null,
       "openPrice": true
