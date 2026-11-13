@@ -387,7 +387,7 @@ function renderMain() {
     </section>` : ""}
 
     <section class="footnotes">
-      <p>※「天吊り可」：仕様に天吊り不可の記載がなく、傾斜角度の範囲（例：上下20°）が示されている機種です。天吊りには、ディスプレイのVESA規格と質量に適合した市販の天吊り金具が必要です（このセレクターでご案内している金具は壁掛け・床置き用です）。傾斜角度の範囲内で、専門業者が安全に配慮して設置してください。</p>
+      <p>※「天吊り可」：仕様に天吊り不可の記載がなく、傾斜角度の範囲（例：上下20°）が示されている機種です。天吊りには、ディスプレイの取付ネジ穴の間隔（VESAマウントインターフェイス／ウォールマウントインターフェイス）と質量に適合した市販の天吊り金具が必要です（このセレクターでご案内している金具は壁掛け・床置き用です）。傾斜角度の範囲内で、専門業者が安全に配慮して設置してください。</p>
       <p>※ Android STBは表示を回転できるため、縦に設置する場合も、横向きのコンテンツを倒して作る必要はなく、9:16の縦コンテンツをそのまま使えます。</p>
       <p>※ I-O DATA Device Management（IDM）で、離れた場所から機器の状態確認や再起動の指示ができます。<a href="${esc(S.links.idm)}" target="_blank" rel="noopener">詳しくはこちら</a></p>
     </section>`;
@@ -713,6 +713,25 @@ function renderWall() {
         <li>すべての画面が同じ映像から出ているので、切り替わりのタイミングは自動でそろいます。</li>
       </ul>
     </section>
+
+    ${(S.wallIdeas || []).length ? `
+    <section class="panel">
+      <h2>こんなこともできる？</h2>
+      <p class="muted">よくあるご要望と、その実現方法の例です。「かんたん」は今の構成のまま、「手間あり」は機器の追加や切り替え操作が必要な方法です。</p>
+      <div class="idea-list">${S.wallIdeas.map((x, i) => `
+        <details class="idea" ${i === 0 ? "open" : ""}>
+          <summary><span class="idea-q">Q</span><span class="idea-title">${esc(x.q)}</span></summary>
+          <div class="idea-body">
+            ${x.base ? `<p class="muted small idea-base">${esc(x.base)}</p>` : ""}
+            ${x.ways.map((w, j) => `
+              <div class="idea-way">
+                <div class="idea-way-head"><span class="idea-no">方法${j + 1}</span><span class="idea-level lv-${w.level}">${w.level === "easy" ? "かんたん" : "手間あり・できなくはない"}</span><strong>${esc(w.title)}</strong></div>
+                <p>${esc(w.body)}</p>
+                ${w.note ? `<p class="small muted">※ ${esc(w.note)}</p>` : ""}
+              </div>`).join("")}
+          </div>
+        </details>`).join("")}</div>
+    </section>` : ""}
 
     <section class="panel">
       <h2>③ 対応ディスプレイ</h2>

@@ -249,7 +249,16 @@ export function parseProductPage(html, sku) {
   out.ceilingNG = ngClause("天吊り");
   const tr = flat.match(/傾斜角度可能範囲\s*[：:]?\s*上下\s*(\d+)\s*°/);
   out.tiltRange = tr ? Number(tr[1]) : null;
-  out.vesa = (flat.match(/VESAマウントインターフェイス\s*○?\s*[（(]\s*(\d+\s*[×x]\s*\d+)\s*mm/) || [])[1]?.replace(/\s/g, "") || null;
+  // 取付ネジ穴の間隔：従来は「VESAマウントインターフェイス」、2026年の新商品から
+  // 「ウォールマウントインターフェイス」（VESA欄は「-」）と表記が変わったため、両方を読む
+  // 例）ウォールマウントインターフェイス ○（100×200mm） / VESAマウントインターフェイス ○（300×300mm）
+  const MOUNT_IF = (label) => new RegExp(`${label}マウントインターフェ[イー]ス\\s*○?\\s*[（(]\\s*(\\d+\\s*[×xX]\\s*\\d+)\\s*mm`);
+  const vesaM = flat.match(MOUNT_IF("VESA"));
+  const wallM = flat.match(MOUNT_IF("ウォール"));
+  const pitch = (m) => m ? m[1].replace(/\s/g, "").replace(/[xX]/, "×") : null;
+  out.mountPitch = pitch(vesaM) || pitch(wallM);              // 取付ネジ穴の間隔（どちらの表記でも入る）
+  out.mountInterface = vesaM ? "VESA" : wallM ? "ウォールマウント" : null; // どちらの表記だったか
+  out.vesa = out.mountPitch;                                  // 旧データとの互換用（同じ値）
   // 販売状況：型番・JANコードの表の中から、この型番の行だけを見る（-AG 等の別行に引っ張られないように）
   const priceTable = (html.match(/<table[\s\S]*?JANコード[\s\S]*?<\/table>/i) || [""])[0];
   const rowHtml = sku
